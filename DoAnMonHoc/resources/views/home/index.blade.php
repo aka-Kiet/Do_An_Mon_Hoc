@@ -1,5 +1,7 @@
-@extends('layouts.app')
+{{-- sử dụng layout người dùng --}}
+@extends('layouts.app') 
 
+{{-- bắt đầu nội dung --}}
 @section('content')
 
 <main class="pt-24 pb-12 px-4 container mx-auto">
@@ -595,3 +597,4 @@
 </main>
 
 @endsection
+{{-- kết thúc nội dung --}}

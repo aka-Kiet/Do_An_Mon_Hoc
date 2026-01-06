@@ -1,0 +1,61 @@
+
+body {
+    /* Mặc định là Light Mode */
+    background: linear-gradient(135deg, #fdfbf7 0%, #eefeef 100%);
+    background-attachment: fixed; /* Giữ nền cố định khi cuộn */
+    background-size: cover;
+    transition: background 0.5s ease, color 0.3s ease;
+}
+
+/* Khi thẻ html có class 'dark' (Dark Mode được bật) */
+html.dark body {
+    /* Chuyển sang màu tối Slate/Cyberpunk */
+    background: radial-gradient(circle at top left, #1e293b, #020617); 
+}
+
+/* Giữ nguyên các hiệu ứng Glass cũ */
+.glass {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dark .neon-hover:hover {
+    box-shadow: 0 0 15px var(--neon-glow), inset 0 0 10px rgba(255, 23, 68, 0.1);
+    border-color: #FF1744;
+}
+
+    /* Animation cho nội dung bên trong slide */
+.slide-content {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease-out;
+}
+
+/* Khi slide đang active thì hiện nội dung */
+.slide.active .slide-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Màu Dot Active */
+.active-dot {
+    background-color: white !important;
+    transform: scale(1.2);
+}
+/* Animation nhịp tim khi bấm like */
+@keyframes heart-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1); }
+}
+.animate-pop {
+    animation: heart-pop 0.3s ease-in-out;
+}
