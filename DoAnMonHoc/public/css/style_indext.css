@@ -59,3 +59,80 @@ html.dark body {
 .animate-pop {
     animation: heart-pop 0.3s ease-in-out;
 }
+
+
+
+
+
+
+/* 1. Style mặc định cho link (trạng thái bình thường) */
+.nav-item {
+    font-size: 16px;
+    font-weight: 500; /* font-medium */
+    color: #78716c;   /* text-stone-500 */
+    transition: color 0.2s;
+    position: relative;
+}
+
+/* 2. Hiệu ứng khi di chuột (Hover) */
+.nav-item:hover {
+    color: #8D6E63; /* text-brown-primary */
+}
+
+/* 3. Trạng thái ACTIVE (Đang ở trang đó) */
+.nav-item.active {
+    color: #8D6E63; /* text-brown-primary */
+    font-weight: 700; /* font-bold */
+}
+
+/* --- HỖ TRỢ DARK MODE (Nếu web bạn có) --- */
+.dark .nav-item {
+    color: #94a3b8; /* text-slate-400 */
+}
+
+.dark .nav-item:hover {
+    color: #FF1744; /* text-neon-red */
+}
+
+.dark .nav-item.active {
+    color: #FF1744; /* text-neon-red */
+}
+
+
+
+
+
+/* --- BUTTON GIỎ HÀNG --- */
+.cart-btn {
+    position: relative;
+    padding: 0.5rem;       /* p-2 */
+    margin-right: 0.5rem;  /* mr-2 */
+    transition: color 0.3s ease;
+    cursor: pointer;
+    
+    /* Màu mặc định (Light Mode) */
+    color: #57534e;        /* text-stone-600 */
+}
+
+/* Hiệu ứng Hover (Light Mode) */
+.cart-btn:hover {
+    color: #8D6E63;        /* text-brown-primary */
+}
+
+/* Trạng thái ACTIVE (Đang ở trang giỏ hàng - Light Mode) */
+.cart-btn.active {
+    color: #8D6E63;        /* text-brown-primary */
+}
+
+/* --- DARK MODE --- */
+.dark .cart-btn {
+    color: #cbd5e1;        /* text-slate-300 */
+}
+
+.dark .cart-btn:hover {
+    color: #FF1744;        /* text-neon-red */
+}
+
+.dark .cart-btn.active {
+    color: #FF1744;        /* text-neon-red */
+}
