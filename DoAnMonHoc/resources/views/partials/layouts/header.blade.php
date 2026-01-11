@@ -12,26 +12,37 @@
 
             <!-- NAVIGATION MENU - DESKTOP (ẩn trên mobile) -->
             <nav class="hidden lg:flex items-center space-x-8">
-                <a href="index.html" class="relative font-bold text-brown-primary dark:text-neon-red transition-all group">
-                    Trang Chủ
-                    <span class="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-brown-primary dark:bg-neon-red shadow-[0_0_8px_currentColor]"></span>
-                </a>
 
-                <a href="product.html" class="font-medium text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red dark:hover:drop-shadow-[0_0_5px_rgba(255,23,68,0.8)] transition-all">
+                {{-- 1. TRANG CHỦ --}}
+                <a href="{{ route('home.index') }}" 
+                   class="nav-item {{ request()->routeIs('home.index') ? 'active' : '' }}">
+                    Trang Chủ
+                </a>
+            
+                {{-- 2. SẢN PHẨM --}}
+                <a href="{{ route('product.index') }}" 
+                   class="nav-item {{ request()->routeIs('product.*') ? 'active' : '' }}">
                     Sản Phẩm
                 </a>
-                
-                <a href="about.html" class="font-medium text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red dark:hover:drop-shadow-[0_0_5px_rgba(255,23,68,0.8)] transition-all">
+            
+                {{-- 3. GIỚI THIỆU --}}
+                <a href="{{ route('home.about') }}" 
+                   class="nav-item {{ request()->routeIs('home.about') ? 'active' : '' }}">
                     Giới Thiệu
                 </a>
-                
-                <a href="contact.html" class="font-medium text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red dark:hover:drop-shadow-[0_0_5px_rgba(255,23,68,0.8)] transition-all">
+            
+                {{-- 4. LIÊN HỆ --}}
+                <a href="{{ route('home.contact') }}" 
+                   class="nav-item {{ request()->routeIs('home.contact') ? 'active' : '' }}">
                     Liên Hệ
                 </a>
-
-                <a href="policy.html" class="font-medium text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red dark:hover:drop-shadow-[0_0_5px_rgba(255,23,68,0.8)] transition-all">
+            
+                {{-- 5. CHÍNH SÁCH --}}
+                <a href="{{ route('home.policy') }}" 
+                   class="nav-item {{ request()->routeIs('home.policy') ? 'active' : '' }}">
                     Chính Sách
                 </a>
+            
             </nav>
 
             <!-- CÁC NÚT HÀNH ĐỘNG BÊN PHẢI (Tìm kiếm, Dark mode, Giỏ hàng, Đăng nhập/Đăng ký, Menu mobile) -->
@@ -48,9 +59,13 @@
                 </button>
 
                 <!-- Giỏ hàng với badge số lượng sản phẩm -->
-                <a href="#" class="relative p-2 hover:text-brown-primary dark:hover:text-neon-red transition mr-2">
+                <a href="{{ route('cart.index') }}" class="cart-btn group {{ request()->routeIs('cart.index') ? 'active' : '' }}">
+                    
+                    {{-- Icon Giỏ hàng --}}
                     <i class="fas fa-shopping-bag text-lg"></i>
-                    <span class="absolute top-0 right-0 bg-brown-primary dark:bg-neon-red text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">3</span>
+
+
+                    <span class="absolute top-0 right-0 bg-brown-primary dark:bg-neon-red text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">4</span>
                 </a>
 
                 <!-- Nút Đăng nhập / Đăng ký (hiển thị từ md trở lên) -->
