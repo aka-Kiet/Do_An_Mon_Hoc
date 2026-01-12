@@ -16,30 +16,30 @@ return new class extends Migration
 
             // 1. Thông tin cơ bản
             $table->string('name');              // Tên sách
-            $table->string('slug')->unique();    // URL (VD: tam-ly-hoc-toi-pham)
-            $table->string('image')->nullable(); // Ảnh bìa
-            $table->text('description')->nullable(); // Mô tả chi tiết
+            $table->string('slug')->unique();    // URL thân thiện (VD: nha-gia-kim)
+            $table->string('image')->nullable(); // Ảnh bìa chính
+            $table->text('short_description')->nullable(); // Mô tả ngắn (Hiện ở trang chủ)
+            $table->text('description')->nullable();       // Mô tả chi tiết (Hiện ở trang chi tiết)
 
-            // 2. Giá bán & Kho
-            $table->decimal('price', 12, 0);     // Giá gốc (150000)
-            $table->integer('quantity')->default(0); // Số lượng trong kho
+            // 2. Giá bán & Kho (Đơn giản hóa)
+            $table->decimal('price', 12, 0);               // Giá gốc (VD: 100000)
+            $table->decimal('sale_price', 12, 0)->nullable(); // Giá giảm (VD: 80000) -> Nếu null thì không giảm
+            $table->integer('quantity')->default(0);       // Số lượng đơn giản (Chỉ cần nhập số)
 
-            // 3. Chỉ số (Dùng để hiển thị các cột New, Hot, Rating)
-            $table->integer('sold_quantity')->default(0);   // Đã bán (Dùng xếp hạng "Bán chạy nhất")
-            $table->float('avg_rating', 3, 2)->default(0);  // Điểm đánh giá (Dùng xếp hạng "Đánh giá cao")
-            $table->integer('total_reviews')->default(0);   // Tổng số lượt đánh giá
+            // 3. Thống kê & Xếp hạng (Tự động cập nhật khi có đơn hàng/review)
+            $table->integer('sold_quantity')->default(0);  // Đã bán -> Xếp hạng "BÁN CHẠY"
+            $table->float('avg_rating', 3, 2)->default(0); // Điểm trung bình (VD: 4.5) -> Xếp hạng "ĐÁNH GIÁ CAO"
+            $table->integer('total_reviews')->default(0);  // Tổng số người đánh giá
 
-            // 4. Trạng thái
-            $table->boolean('is_active')->default(true);    // Còn kinh doanh không
-            $table->boolean('is_featured')->default(false); // Sách nổi bật (Gắn nhãn HOT thủ công)
+            // 4. Trạng thái & Nổi bật
+            $table->boolean('is_active')->default(true);    // Ẩn/Hiện sản phẩm
+            $table->boolean('is_featured')->default(false); // Gắn nhãn "HOT" thủ công
 
-            // 5. KHÓA NGOẠI (Liên kết bảng Cha)
-            // Liên kết Danh mục
+            // 5. Khóa ngoại (An toàn: Xóa danh mục thì sách không mất, chỉ mất danh mục)
             $table->foreignId('category_id')->nullable()->constrained('categories')->onDelete('set null');
-            // Liên kết Tác giả
             $table->foreignId('author_id')->nullable()->constrained('authors')->onDelete('set null');
 
-            $table->timestamps();
+            $table->timestamps(); // created_at dùng để xếp hạng "SẢN PHẨM MỚI"
         });
     }
 
