@@ -24,7 +24,7 @@ class BookSeeder extends Seeder
             'sale_price' => 69000, // Có giảm giá
             'quantity' => 100,     // <--- Khớp với cột 'quantity' trong migration mới
             'sold_quantity' => 15000, 
-            'avg_rating' => 5.0,   // <--- Khớp với cột 'avg_rating'
+            'avg_rating' => 1,   // <--- Khớp với cột 'avg_rating'
             'total_reviews' => 200,
             'category_id' => 1, // Văn Học
             'author_id' => 4,   // Paulo Coelho
@@ -100,12 +100,15 @@ class BookSeeder extends Seeder
             'sale_price' => 49000, // Giảm giá nhẹ
             'quantity' => 300,
             'sold_quantity' => 5000,
-            'avg_rating' => 4.7,
+            'avg_rating' => 3.5,
             'total_reviews' => 850,
             'category_id' => 3, // Thiếu Nhi
             'author_id' => 1,   // Nguyễn Nhật Ánh
             'is_active' => true,
             'is_featured' => false,
         ]);
+
+        
+        
     }
 }
