@@ -13,6 +13,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         
         <!-- SẢN PHẨM SÁCH (Card) - Mẫu lặp lại 4 lần -->
+         @foreach ($highlightBooks as $book)
         <div class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300">
 
             <!-- PHẦN HÌNH ẢNH + NÚT YÊU THÍCH + NÚT THÊM GIỎ (overlay hover) -->
@@ -24,8 +25,8 @@
                 </button>
         
                 <!-- Ảnh bìa sách với hiệu ứng zoom khi hover -->
-                <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                     alt="Book" class="w-full h-full object-cover rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
+                <img src="{{ asset($book->image) }}" 
+                     alt="{{ $book->name }}" class="w-full h-full object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
                 
                 <!-- Overlay khi hover: nút "Thêm vào giỏ" hiện lên -->
                 <div class="absolute inset-0 bg-stone-900/20 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px]">
@@ -38,19 +39,20 @@
             <!-- PHẦN THÔNG TIN SÁCH (tên, tác giả, giá, đánh giá) -->
             <div class="px-5 pb-5 pt-2">
                 <h3 class="font-bold text-lg truncate text-stone-800 dark:text-slate-100 group-hover:text-brown-primary dark:group-hover:text-neon-red transition-colors">
-                    Cà Phê Cùng Tony
+                    {{ $book->name }}
                 </h3>
-                <p class="text-xs font-medium text-stone-500 dark:text-slate-400 mb-3">Tony Buổi Sáng</p>
+                <p class="text-xs font-medium text-stone-500 dark:text-slate-400 mb-3">{{ $book->author->name }}</p>
                 <div class="flex justify-between items-center">
-                    <span class="text-xl font-extrabold text-brown-primary dark:text-neon-red dark:drop-shadow-[0_0_5px_rgba(255,23,68,0.5)]">120.000đ</span>
+                    <span class="text-xl font-extrabold text-brown-primary dark:text-neon-red dark:drop-shadow-[0_0_5px_rgba(255,23,68,0.5)]">{{ number_format($book->price) }}đ</span>
                     <div class="flex text-yellow-500 text-xs">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
                     </div>
                 </div>
             </div>
         </div>
+        @endforeach
 
-        <!-- Các card tiếp theo giống hệt (chỉ khác nội dung nếu bạn thay đổi sau này) -->
+        {{-- <!-- Các card tiếp theo giống hệt (chỉ khác nội dung nếu bạn thay đổi sau này) -->
         <div class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300">
 
             <div class="h-64 overflow-hidden relative p-4">
@@ -147,7 +149,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 </section>

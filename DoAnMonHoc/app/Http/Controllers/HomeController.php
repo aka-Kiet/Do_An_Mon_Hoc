@@ -45,7 +45,12 @@ class HomeController extends Controller
     }
     private function getHighlightBooks() {
          // Vương viết logic ở đây
-       
+         return Book::with('author')
+            ->where('is_active', true)
+            ->orderByDesc('sold_quantity')
+            ->orderByDesc('created_at')
+            ->take(4) // Lấy 4 cuốn nổi bật mới nhất và được đánh giá cao
+            ->get();   
 }
 
     public function about() {
