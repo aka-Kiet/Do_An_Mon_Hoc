@@ -52,6 +52,8 @@
 
     @include('partials.layouts.register')
 
+    @include('partials.layouts.chat')
+
     <script src="js/script.js"></script>
     <script src="js/script_popup.js"></script>
 

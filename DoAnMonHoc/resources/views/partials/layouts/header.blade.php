@@ -59,13 +59,18 @@
                 </button>
 
                 <!-- Giỏ hàng với badge số lượng sản phẩm -->
-                <a href="{{ route('cart.index') }}" class="cart-btn group {{ request()->routeIs('cart.index') ? 'active' : '' }}">
+                <a href="{{ route('cart.index') }}" 
+                    class="cart-btn group flex items-center gap-1 {{ request()->routeIs('cart.index') ? 'active' : '' }}">
                     
-                    {{-- Icon Giỏ hàng --}}
-                    <i class="fas fa-shopping-bag text-lg"></i>
-
-
-                    <span class="absolute top-0 right-0 bg-brown-primary dark:bg-neon-red text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">4</span>
+                    <div class="relative p-2 transition text-inherit"> <i class="fas fa-shopping-bag text-xl"></i>
+                        
+                        <span class="absolute top-0 right-0 bg-brown-primary dark:bg-neon-red text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">
+                            4
+                        </span>
+                    </div>
+                
+                    <span class="hidden md:block font-bold text-sm transition text-inherit"> 1.250.000đ
+                    </span>
                 </a>
 
                 <!-- Nút Đăng nhập / Đăng ký (hiển thị từ md trở lên) -->

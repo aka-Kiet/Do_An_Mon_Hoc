@@ -44,27 +44,55 @@
         
         <aside class="w-full lg:w-1/4 h-fit lg:sticky lg:top-28 space-y-8">
             
+
             <div class="glass rounded-3xl p-6 bg-white/50 dark:bg-slate-900/60">
-                <h3 class="font-bold text-lg mb-4 text-brown-dark dark:text-white border-b border-stone-200 dark:border-slate-700 pb-2">Danh Mục</h3>
+                <h3 class="font-bold text-lg mb-4 text-brown-dark dark:text-white border-b border-stone-200 dark:border-slate-700 pb-2">
+                    Danh Mục
+                </h3>
+
                 <ul class="space-y-3">
+                    @foreach($viewData["categories"] as $category)
                     <li class="flex items-center">
-                        <input type="checkbox" id="cat1" class="custom-checkbox w-4 h-4 rounded border-gray-300 dark:border-slate-600 focus:ring-brown-primary dark:focus:ring-neon-red">
-                        <label for="cat1" class="ml-3 text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red cursor-pointer transition">Văn học kinh điển <span class="text-xs text-stone-400 ml-1">(120)</span></label>
+                        <input 
+                            type="checkbox" 
+                            id="cat1" 
+                            class="custom-checkbox w-4 h-4 rounded border-gray-300 dark:border-slate-600 focus:ring-brown-primary dark:focus:ring-neon-red"
+                        >
+
+                        <label for="cat1" class="ml-3 text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red cursor-pointer transition">
+                            {{ $category->name }}
+
+                            {{-- Hiển thị số lượng sách (products_count lấy từ controller) --}}
+                            <span class="text-xs text-stone-400 ml-1">({{ $category->products_count }})</span>
+                        </label>
                     </li>
-                    <li class="flex items-center">
+                    @endforeach
+                    {{-- <li class="flex items-center">
                         <input type="checkbox" id="cat2" class="custom-checkbox w-4 h-4 rounded border-gray-300 dark:border-slate-600">
-                        <label for="cat2" class="ml-3 text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red cursor-pointer transition">Kinh tế & Start-up <span class="text-xs text-stone-400 ml-1">(85)</span></label>
+                        <label for="cat2" class="ml-3 text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red cursor-pointer transition">
+                            Kinh tế & Start-up 
+                            <span class="text-xs text-stone-400 ml-1">(85)</span>
+                        </label>
                     </li>
                     <li class="flex items-center">
                         <input type="checkbox" id="cat3" class="custom-checkbox w-4 h-4 rounded border-gray-300 dark:border-slate-600">
-                        <label for="cat3" class="ml-3 text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red cursor-pointer transition">Kỹ năng sống <span class="text-xs text-stone-400 ml-1">(240)</span></label>
+                        <label for="cat3" class="ml-3 text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red cursor-pointer transition">
+                            Kỹ năng sống 
+                            <span class="text-xs text-stone-400 ml-1">(240)</span>
+                        </label>
                     </li>
                     <li class="flex items-center">
                         <input type="checkbox" id="cat4" class="custom-checkbox w-4 h-4 rounded border-gray-300 dark:border-slate-600">
-                        <label for="cat4" class="ml-3 text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red cursor-pointer transition">Công nghệ (IT) <span class="text-xs text-stone-400 ml-1">(50)</span></label>
-                    </li>
+                        <label for="cat4" class="ml-3 text-stone-600 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red cursor-pointer transition">
+                            Công nghệ (IT) 
+                            <span class="text-xs text-stone-400 ml-1">(50)</span>
+                        </label>
+                    </li> --}}
                 </ul>
+
+
             </div>
+            
 
             <div class="glass rounded-3xl p-6 bg-white/50 dark:bg-slate-900/60">
                 <h3 class="font-bold text-lg mb-4 text-brown-dark dark:text-white border-b border-stone-200 dark:border-slate-700 pb-2">Khoảng Giá</h3>
@@ -99,10 +127,11 @@
 
         <div class="w-full lg:w-3/4">
             
+            {{-- Thanh công cụ tìm kiếm với lọc --}}
             <div class="flex flex-col md:flex-row justify-between items-center mb-6 glass p-4 rounded-2xl bg-white/40 dark:bg-slate-900/40">
-                <p class="text-stone-600 dark:text-slate-400 text-sm mb-4 md:mb-0">
+                {{-- <p class="text-stone-600 dark:text-slate-400 text-sm mb-4 md:mb-0">
                     Hiển thị <span class="font-bold text-brown-dark dark:text-white">1 - 9</span> trên <span class="font-bold text-brown-dark dark:text-white">45</span> kết quả
-                </p>
+                </p> --}}
 
                 <div class="hidden xl:flex relative group w-48 transition-all focus-within:w-64">
                     <input type="text" placeholder="Tìm kiếm..." 
@@ -121,14 +150,17 @@
                 </div>
             </div>
 
+            {{-- Thẻ sản phẩm --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 @foreach($viewData["products"] as $product)
                 <div class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300">
                     <div class="h-64 overflow-hidden relative p-4">
-                        
+
                         {{-- Logic hiển thị nhãn Giảm giá hoặc Mới (Ví dụ) --}}
-                        <span class="absolute top-4 left-4 z-20 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-md">-20%</span>
+                        @if($product->created_at->diffInDays(now()) < 7)
+                        <span class="absolute top-4 left-4 z-20 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-md">NEW</span>
+                        @endif
                         
                         <button class="favorite-btn absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 dark:hover:text-neon-red dark:hover:bg-slate-900 transition-all duration-300 shadow-sm hover:scale-110"><i class="far fa-heart text-lg"></i></button>
                         
@@ -322,13 +354,9 @@
 
             </div>
 
+            {{-- Phần phân trang --}}
             <div class="mt-12 flex justify-center space-x-2">
-                <button class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all"><i class="fas fa-chevron-left"></i></button>
-                <button class="w-10 h-10 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold shadow-lg">1</button>
-                <button class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all">2</button>
-                <button class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all">3</button>
-                <span class="w-10 h-10 flex items-center justify-center text-stone-500 dark:text-slate-400">...</span>
-                <button class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all"><i class="fas fa-chevron-right"></i></button>
+                {{ $viewData["products"]->links() }}
             </div>
 
         </div>
