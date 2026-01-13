@@ -13,32 +13,39 @@ class AuthorSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Tác giả Việt Nam
+        // 1. Nguyễn Nhật Ánh
         Author::create([
             'name' => 'Nguyễn Nhật Ánh',
             'slug' => 'nguyen-nhat-anh',
-            'bio' => 'Nhà văn chuyên viết cho thanh thiếu niên với các tác phẩm như Mắt Biếc, Kính Vạn Hoa...',
+            'bio'  => 'Nhà văn nổi tiếng chuyên viết cho thanh thiếu niên. Tác giả của "Mắt Biếc", "Kính Vạn Hoa".',
         ]);
 
-        // 2. Tác giả Quốc Tế - Kinh Tế/Kỹ Năng
-        Author::create([
-            'name' => 'Dale Carnegie',
-            'slug' => 'dale-carnegie',
-            'bio' => 'Tác giả của cuốn sách Đắc Nhân Tâm nổi tiếng toàn cầu.',
-        ]);
-
-        // 3. Tác giả Quốc Tế - Văn Học
+        // 2. J.K. Rowling
         Author::create([
             'name' => 'J.K. Rowling',
             'slug' => 'j-k-rowling',
-            'bio' => 'Tác giả của bộ truyện Harry Potter huyền thoại.',
+            'bio'  => 'Nữ văn sĩ người Anh, mẹ đẻ của bộ truyện Harry Potter huyền thoại và thế giới phù thủy.',
         ]);
-        
-        // 4. Tác giả khác
+
+        // 3. Rosie Nguyễn
+        Author::create([
+            'name' => 'Rosie Nguyễn',
+            'slug' => 'rosie-nguyen',
+            'bio'  => 'Tác giả, blogger du lịch nổi tiếng với cuốn sách "Tuổi trẻ đáng giá bao nhiêu".',
+        ]);
+
+        // 4. Paulo Coelho
         Author::create([
             'name' => 'Paulo Coelho',
             'slug' => 'paulo-coelho',
-            'bio' => 'Tiểu thuyết gia nổi tiếng với tác phẩm Nhà Giả Kim.',
+            'bio'  => 'Tiểu thuyết gia người Brazil. Tác giả của "Nhà Giả Kim" - sách bán chạy mọi thời đại.',
+        ]);
+
+        // 5. Philip Kotler
+        Author::create([
+            'name' => 'Philip Kotler',
+            'slug' => 'philip-kotler',
+            'bio'  => 'Giáo sư marketing nổi tiếng thế giới, cha đẻ của Marketing hiện đại.',
         ]);
     }
 }

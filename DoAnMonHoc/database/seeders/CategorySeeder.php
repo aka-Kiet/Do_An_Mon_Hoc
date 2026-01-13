@@ -44,5 +44,14 @@ class CategorySeeder extends Seeder
             'icon' => 'fas fa-palette', // Icon bảng vẽ
             'is_featured' => true,
         ]);
+
+        // 5. Tâm Lý & Kỹ Năng (Màu Vàng Cam)
+        Category::create([
+            'name' => 'Tâm Lý & Kỹ Năng',
+            'slug' => 'tam-ly-ky-nang',
+            'icon' => 'fas fa-lightbulb', // Icon bóng đèn
+            'is_featured' => true,
+            'is_active' => true,
+        ]);
     }
 }

@@ -10,11 +10,11 @@ class HomeController extends Controller
         $viewData = [];
         $viewData["title"] = "Trang chủ";
 
-        // Gọi hàm logic riêng của từng bạn
-        $banners        = $this->getBanners();          // Thiện Nhân làm hàm này
-        $categories     = $this->getCategories();       // Công Vương làm hàm này
-        $latestBooks    = $this->getLatestBooks();      // Như Huỳnh làm hàm này
-        $highlightBooks = $this->getHighlightBooks();   // Leader Kiệt làm hàm này
+        // Gọi hàm logic riêng 
+        $banners        = $this->getBanners();          
+        $categories     = $this->getCategories();       
+        $latestBooks    = $this->getLatestBooks();      
+        $highlightBooks = $this->getHighlightBooks();   
 
         // Truyền biến sang View (dùng compact cho gọn, tương đương mảng viewData)
         return view('home.index', compact('viewData', 'banners', 'categories', 'latestBooks', 'highlightBooks'));
@@ -25,22 +25,21 @@ class HomeController extends Controller
         // Nhân viết logic lấy banner ở đây
         // Ví dụ: return \App\Models\Banner::where('is_active', true)->get();
     }
-
-    // --- KHU VỰC CỦA CÔNG VƯƠNG ---
     private function getCategories() {
-        // Vương viết logic ở đây
+        // Nhân viết logic lấy banner ở đây
         // Ví dụ: return \App\Models\Category::where('is_active', true)->take(4)->get();
     }
 
-    // --- KHU VỰC CỦA NHƯ HUỲNH ---
+
+
+
+    // --- KHU VỰC CỦA CÔNG VƯƠNG ---
     private function getLatestBooks() {
-        // Huỳnh viết logic ở đây
+        // Vương viết logic ở đây
         // Ví dụ: return \App\Models\Book::orderBy('created_at', 'desc')->take(8)->get();
     }
-
-    // --- KHU VỰC CỦA LEADER KIỆT ---
     private function getHighlightBooks() {
-        // Kiệt viết logic ở đây 
+         // Vương viết logic ở đây
         return \App\Models\Book::with('author')
                            ->where('is_active', true) 
                            ->orderBy('created_at', 'desc')
