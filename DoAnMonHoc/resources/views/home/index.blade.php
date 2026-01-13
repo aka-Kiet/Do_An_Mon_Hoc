@@ -12,8 +12,8 @@
     <!-- Phần Danh Mục Sách (Categories) -->
     @include('partials.home._category')
 
-    <!-- Phần Sách Mới Nhất (Product Grid) -->
-    @include('partials.home._latestbooks')
+    <!-- Phần Sách Nổi Bật (Product Grid) -->
+    @include('partials.home._bookhighlights')
 
     <!-- Phần Banner Quảng Cáo (Exclusive Collection) -->
     <section class="mt-24 mb-16 relative w-full h-[500px] rounded-[40px] overflow-hidden group shadow-2xl mx-auto">
@@ -72,7 +72,7 @@
     </section>
 
     <!-- Phần Danh Sách Top Sản Phẩm (3 Columns) -->
-    @include('partials.home._bookhighlights')
+    @include('partials.home._latestbooks')
 
     <!-- Phần Thư Viện Ảnh (Masonry Gallery) -->
     <section class="mb-8">
