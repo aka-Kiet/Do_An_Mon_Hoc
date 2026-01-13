@@ -17,9 +17,10 @@ class HomeController extends Controller
         $latestBooks    = $this->getLatestBooks();      
         $highlightBooks = $this->getHighlightBooks();   
         $bestSellerBooks = $this->getBestSellerBooks();
+        $topRatedBooks = $this->getTopRatedBooks();
 
         // Truyền biến sang View (dùng compact cho gọn, tương đương mảng viewData)
-        return view('home.index', compact('viewData', 'banners', 'categories', 'latestBooks', 'highlightBooks', 'bestSellerBooks'));
+        return view('home.index', compact('viewData', 'banners', 'categories', 'latestBooks', 'highlightBooks', 'bestSellerBooks', 'topRatedBooks'));
     }
 
     // --- KHU VỰC CỦA THIỆN NHÂN ---
@@ -59,6 +60,14 @@ class HomeController extends Controller
             ->where('is_active', true)
             ->orderByDesc('sold_quantity')
             ->take(3) // Lấy 3 cuốn bán chạy nhất
+            ->get();
+    }
+    private function getTopRatedBooks() {
+        // Vương viết logic ở đây
+        return Book::with('author')
+            ->where('is_active', true)
+            ->orderByDesc('avg_rating')
+            ->take(3) // Lấy 3 cuốn đánh giá cao nhất
             ->get();
     }
     public function about() {
