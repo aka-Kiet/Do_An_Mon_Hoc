@@ -18,21 +18,21 @@ class BookImageSeeder extends Seeder
         // Ảnh phụ 1: Mặt sau sách
         BookImage::create([
             'book_id' => 1,
-            'image_path' => 'books/nha-gia-kim-back.jpg',
+            'image_path' => 'images/books/nha-gia-kim-back.jpg',
             'sort_order' => 1,
         ]);
 
         // Ảnh phụ 2: Chụp các trang bên trong
         BookImage::create([
             'book_id' => 1,
-            'image_path' => 'books/nha-gia-kim-inside.jpg',
+            'image_path' => 'images/books/nha-gia-kim-inside.jpg',
             'sort_order' => 2,
         ]);
 
         // Ảnh phụ 3: Chụp cùng phụ kiện decor
         BookImage::create([
             'book_id' => 1,
-            'image_path' => 'books/nha-gia-kim-decor.jpg',
+            'image_path' => 'images/books/nha-gia-kim-decor.jpg',
             'sort_order' => 3,
         ]);
     }

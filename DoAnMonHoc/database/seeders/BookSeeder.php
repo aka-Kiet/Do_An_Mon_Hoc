@@ -17,7 +17,7 @@ class BookSeeder extends Seeder
         Book::create([
             'name' => 'Nhà Giả Kim',
             'slug' => 'nha-gia-kim',
-            'image' => 'books/nha-gia-kim.jpg',
+            'image' => 'images/books/nha-gia-kim-back.jpg',
             'short_description' => 'Cuốn sách bán chạy chỉ sau Kinh Thánh.',
             'description' => 'Hành trình đi tìm kho báu của chàng chăn cừu Santiago, dạy chúng ta về ước mơ và định mệnh.',
             'price' => 79000,
@@ -36,7 +36,7 @@ class BookSeeder extends Seeder
         Book::create([
             'name' => 'Marketing 5.0: Công nghệ vị nhân sinh',
             'slug' => 'marketing-5-0',
-            'image' => 'books/marketing.jpg',
+            'image' => 'images/books/marketing-back.jpg',
             'short_description' => 'Cập nhật xu hướng Marketing trong kỷ nguyên AI.',
             'description' => 'Philip Kotler mang đến góc nhìn mới về sự kết hợp giữa công nghệ và yếu tố con người.',
             'price' => 199000,
@@ -55,7 +55,7 @@ class BookSeeder extends Seeder
         Book::create([
             'name' => 'Harry Potter và Hòn Đá Phù Thủy',
             'slug' => 'harry-potter-1',
-            'image' => 'books/harry-potter.jpg',
+            'image' => 'images/books/harry-potter-back.jpg',
             'short_description' => 'Khởi đầu huyền thoại cậu bé phù thủy.',
             'description' => 'Cuốn sách đưa người đọc vào thế giới phép thuật đầy màu sắc tại Hogwarts.',
             'price' => 150000,
@@ -74,7 +74,7 @@ class BookSeeder extends Seeder
         Book::create([
             'name' => 'Tuổi Trẻ Đáng Giá Bao Nhiêu',
             'slug' => 'tuoi-tre-dang-gia-bao-nhieu',
-            'image' => 'books/tuoi-tre.jpg',
+            'image' => 'images/books/tuoi-tre-back.jpg',
             'short_description' => 'Cuốn sách gối đầu giường của người trẻ Việt.',
             'description' => 'Bạn hối tiếc vì không nắm bắt lấy một cơ hội nào đó, chẳng có ai phải mất ngủ. Bạn trải qua những ngày tháng nhạt nhẽo với công việc bạn căm ghét, người ta chẳng hề bận lòng.',
             'price' => 89000,
@@ -93,7 +93,7 @@ class BookSeeder extends Seeder
         Book::create([
             'name' => 'Kính Vạn Hoa - Tập 1',
             'slug' => 'kinh-van-hoa-1',
-            'image' => 'books/kinh-van-hoa.jpg',
+            'image' => 'images/books/kinh-van-hoa-back.jpg',
             'short_description' => 'Tuổi thơ dữ dội của Quý Ròm, Tiểu Long và nhỏ Hạnh.',
             'description' => 'Những câu chuyện học trò tinh nghịch, hài hước và đầy ý nghĩa về tình bạn.',
             'price' => 55000,

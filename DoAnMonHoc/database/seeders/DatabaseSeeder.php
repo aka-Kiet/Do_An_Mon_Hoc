@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,  
             AuthorSeeder::class, 
             BookSeeder::class,
+            BookImageSeeder::class,
             ReviewSeeder::class,
-            BookImageSeeder::class
         ]);
 
         User::factory()->create([

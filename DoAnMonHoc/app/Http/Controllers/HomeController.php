@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Book;
 
 class HomeController extends Controller
 {
@@ -36,18 +37,16 @@ class HomeController extends Controller
     // --- KHU VỰC CỦA CÔNG VƯƠNG ---
     private function getLatestBooks() {
         // Vương viết logic ở đây
-        // Ví dụ: return \App\Models\Book::orderBy('created_at', 'desc')->take(8)->get();
+        return Book::with('author')
+            ->where('is_active', true)
+            ->latest()
+            ->take(3) // lấy 3 cuốn mới nhất
+            ->get();
     }
     private function getHighlightBooks() {
          // Vương viết logic ở đây
-        return \App\Models\Book::with('author')
-                           ->where('is_active', true) 
-                           ->orderBy('created_at', 'desc')
-                           ->take(3) // Chỉ lấy 3 cuốn theo yêu cầu
-                           ->get();
-    }
-
-
+       
+}
 
     public function about() {
         $viewData = [];
