@@ -44,9 +44,20 @@
                 <p class="text-xs font-medium text-stone-500 dark:text-slate-400 mb-3">{{ $book->author->name }}</p>
                 <div class="flex justify-between items-center">
                     <span class="text-xl font-extrabold text-brown-primary dark:text-neon-red dark:drop-shadow-[0_0_5px_rgba(255,23,68,0.5)]">{{ number_format($book->price) }}đ</span>
-                    <div class="flex text-yellow-500 text-xs">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-                    </div>
+                    <div class="flex text-yellow-400 text-[10px] mb-1 items-center">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($book->avg_rating >= $i)
+                                    <i class="fas fa-star"></i>
+                                @elseif ($book->avg_rating >= $i - 0.5)
+                                    <i class="fas fa-star-half-alt"></i>
+                                @else
+                                    <i class="far fa-star"></i>
+                                @endif
+                            @endfor
+                            <p class="text-stone-600 dark:text-slate-300 ml-2">
+                                ({{ number_format($book->avg_rating, 1) }})
+                            </p>
+                        </div>
                 </div>
             </div>
         </div>
