@@ -383,14 +383,15 @@
         </div>
     
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-    
+            @foreach ($viewData["products"] as $book)
             <div class="relative group rounded-3xl glass p-4 bg-gradient-to-b from-yellow-50/50 to-white/30 dark:from-yellow-900/10 dark:to-slate-900/40 border border-yellow-200/50 dark:border-yellow-500/30 hover:-translate-y-2 transition-all duration-300">
                 <div class="absolute -top-4 -left-2 z-20">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2583/2583344.png" class="w-12 h-12 drop-shadow-md" alt="Rank 1"> <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] font-extrabold text-white text-sm">1</span>
+                    <img src="https://cdn-icons-png.flaticon.com/512/2583/2583344.png" class="w-12 h-12 drop-shadow-md" alt="Rank 1"> 
+                        <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[60%] font-extrabold text-white text-sm">{{ $book->rank }}</span>    
                 </div>
                 
                 <div class="relative overflow-hidden rounded-xl mb-3">
-                    <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" class="w-full aspect-[3/4] object-cover transition-transform duration-500 group-hover:scale-110">
+                    <img src="{{ $book->image ? asset($book->image) : asset('images/no-image.png') }}" class="w-full aspect-[3/4] object-cover transition-transform duration-500 group-hover:scale-110">
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <button class="w-10 h-10 rounded-full bg-white text-brown-dark dark:bg-neon-red dark:text-white hover:scale-110 transition shadow-lg flex items-center justify-center">
                             <i class="fas fa-plus"></i>
@@ -399,15 +400,22 @@
                 </div>
     
                 <div class="text-center">
-                    <h3 class="font-bold text-stone-800 dark:text-white truncate px-2">Cà Phê Cùng Tony</h3>
+                    <h3 class="font-bold text-stone-800 dark:text-white truncate px-2">{{ $book->author->name }}</h3>
                     <div class="flex justify-center items-center gap-1 text-xs text-stone-500 dark:text-slate-400 my-1">
-                        <i class="fas fa-fire text-red-500"></i> Đã bán: <span class="font-bold text-stone-700 dark:text-slate-200">25.4k</span>
+                        <i class="fas fa-fire text-red-500"></i> Đã bán: 
+                            <span class="font-bold text-stone-700 dark:text-slate-200">
+                                @if($book->sold_quantity >= 1000)
+                                    {{ number_format($book->sold_quantity / 1000, 1) }}K
+                                @else
+                                    {{ $book->sold_quantity }}
+                                @endif
+                            </span>
                     </div>
-                    <span class="text-lg font-extrabold text-brown-primary dark:text-yellow-400">120.000đ</span>
+                    <span class="text-lg font-extrabold text-brown-primary dark:text-yellow-400">{{ number_format($book->price, 0, ',', '.') }}đ</span>
                 </div>
             </div>
-    
-            <div class="relative group rounded-3xl glass p-4 bg-white/40 dark:bg-slate-900/40 border border-stone-200/50 dark:border-slate-700 hover:-translate-y-2 transition-all duration-300">
+            @endforeach
+            {{-- <div class="relative group rounded-3xl glass p-4 bg-white/40 dark:bg-slate-900/40 border border-stone-200/50 dark:border-slate-700 hover:-translate-y-2 transition-all duration-300">
                 <div class="absolute -top-3 -left-1 z-20 w-10 h-10 rounded-full bg-stone-300 dark:bg-slate-500 flex items-center justify-center font-extrabold text-white shadow-lg border-2 border-white dark:border-slate-800">
                     2
                 </div>
@@ -429,7 +437,7 @@
                     <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">85.000đ</span>
                 </div>
             </div>
-    
+            
             <div class="relative group rounded-3xl glass p-4 bg-white/40 dark:bg-slate-900/40 border border-stone-200/50 dark:border-slate-700 hover:-translate-y-2 transition-all duration-300">
                 <div class="absolute -top-3 -left-1 z-20 w-10 h-10 rounded-full bg-orange-300 dark:bg-orange-700 flex items-center justify-center font-extrabold text-white shadow-lg border-2 border-white dark:border-slate-800">
                     3
@@ -474,7 +482,7 @@
                     </div>
                     <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">80.000đ</span>
                 </div>
-            </div>
+            </div> --}}
     
         </div>
     </section>
