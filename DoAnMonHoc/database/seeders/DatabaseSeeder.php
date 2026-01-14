@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +14,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Đây là tài khoản để bạn đăng nhập test
+        \App\Models\User::factory()->create([
+            'name' => 'Admin Kiệt',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('123456'), // Mật khẩu là 123456
+            'email_verified_at' => now(),
+        ]);
 
         User::factory(10)->create();
         $this->call([

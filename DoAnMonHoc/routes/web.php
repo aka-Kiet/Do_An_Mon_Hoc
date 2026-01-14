@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController; //Sử dụng HomeController
 use App\Http\Controllers\ProductController; //Sử dụng ProductController
 use App\Http\Controllers\CheckoutController; //Sử dụng CheckoutController
 use App\Http\Controllers\CartController; //Sử dụng CheckoutController
+use App\Http\Controllers\AuthController; //Sử dụng AuthController
 
 // HomeController
 // Định tuyến của trang chủ
@@ -34,6 +35,18 @@ Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.
 // CartController
 // Định tuyến trang thanh toán
 Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
+
+
+// 1. Đăng nhập
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login'); // Hiện trang login
+Route::post('/login', [AuthController::class, 'login']); // Xử lý đăng nhập
+
+// 2. Đăng ký
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register'); // Hiện trang đăng ký
+Route::post('/register', [AuthController::class, 'register']); // Xử lý đăng ký
+
+// 3. Đăng xuất
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
