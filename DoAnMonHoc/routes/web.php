@@ -50,3 +50,14 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    
+    // Trang chủ Admin (Thống kê)
+    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // Quản lý Sách (Tự động tạo 7 route CRUD)
+
+});
+
+
+

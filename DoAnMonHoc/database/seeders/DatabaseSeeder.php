@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => Hash::make('123456'), // Mật khẩu là 123456
             'email_verified_at' => now(),
+            'role' => 'admin',
         ]);
 
         User::factory(10)->create();
