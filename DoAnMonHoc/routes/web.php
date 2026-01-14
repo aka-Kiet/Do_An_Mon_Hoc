@@ -22,7 +22,8 @@ Route::get('/chinh-sach', [HomeController::class, 'policy'])->name('home.policy'
 // Định tuyến trang sản phẩm
 Route::get('/san-pham', [ProductController::class, 'index'])->name('product.index');
 //Định tuyến trang chi tiết sản phẩm
-Route::get('/san-pham/{id}', [ProductController::class, 'show'])->name('product.show');
+// Sửa 'show' thành 'detail' cho khớp với code giao diện
+Route::get('/san-pham/{id}', [ProductController::class, 'show'])->name('product.detail');
 
 
 // CheckoutController
