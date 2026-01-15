@@ -59,30 +59,97 @@
                 </button>
 
                 <!-- Giỏ hàng với badge số lượng sản phẩm -->
-                <a href="{{ route('cart.index') }}" class="cart-btn group {{ request()->routeIs('cart.index') ? 'active' : '' }}">
+                <a href="{{ route('cart.index') }}" 
+                    class="cart-btn group flex items-center gap-1 {{ request()->routeIs('cart.index') ? 'active' : '' }}">
                     
-                    {{-- Icon Giỏ hàng --}}
-                    <i class="fas fa-shopping-bag text-lg"></i>
-
-
-                    <span class="absolute top-0 right-0 bg-brown-primary dark:bg-neon-red text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">4</span>
+                    <div class="relative p-2 transition text-inherit"> <i class="fas fa-shopping-bag text-xl"></i>
+                        
+                        <span class="absolute top-0 right-0 bg-brown-primary dark:bg-neon-red text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">
+                            4
+                        </span>
+                    </div>
+                
+                    <span class="hidden md:block font-bold text-sm transition text-inherit"> 1.250.000đ
+                    </span>
                 </a>
 
                 <!-- Nút Đăng nhập / Đăng ký (hiển thị từ md trở lên) -->
-                <div class="hidden md:flex items-center space-x-2">
-                    <button onclick="openLoginModal()" class="px-4 py-1.5 rounded-full font-bold text-sm text-stone-600 hover:text-brown-primary hover:bg-stone-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-all duration-300">
-                        Đăng nhập
-                    </button>
+                <div class="relative group z-50">
 
-                    <button onclick="openRegisterModal()" class="px-5 py-1.5 rounded-full font-bold text-sm bg-brown-primary text-white hover:bg-brown-dark dark:bg-transparent dark:border dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white dark:shadow-[0_0_10px_rgba(255,23,68,0.4)] transition-all duration-300">
-                        Đăng ký
-                    </button>
+                    {{-- 1. TRƯỜNG HỢP ĐÃ ĐĂNG NHẬP --}}
+                    @auth
+                        <button class="flex items-center gap-3 py-1.5 px-3 rounded-full border border-transparent hover:border-stone-200 hover:bg-stone-50 dark:hover:bg-slate-800 transition-all">
+                            
+                            <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md">
+                                {{ substr(Auth::user()->name, 0, 1) }}
+                            </div>
+                
+                            <div class="text-left hidden lg:block">
+                                <p class="text-[10px] text-stone-400 dark:text-slate-400 font-bold uppercase tracking-wider">Xin chào,</p>
+                                <p class="text-sm font-bold text-brown-dark dark:text-white leading-none max-w-[100px] truncate">
+                                    {{ Auth::user()->name }}
+                                </p>
+                            </div>
+                            
+                            <i class="fas fa-chevron-down text-xs text-stone-400 ml-1 transition-transform group-hover:rotate-180"></i>
+                        </button>
+                
+                        <div class="absolute right-0 top-full mt-2 w-60 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-stone-100 dark:border-slate-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right">
+                            
+                            <div class="p-4 border-b border-stone-100 dark:border-slate-700 bg-stone-50/50 dark:bg-slate-800/50 rounded-t-2xl">
+                                <p class="text-sm font-bold text-stone-800 dark:text-white">{{ Auth::user()->name }}</p>
+                                <p class="text-xs text-stone-500 dark:text-slate-400 truncate">{{ Auth::user()->email }}</p>
+                            </div>
+                
+                            <ul class="py-2">
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-2.5 text-sm text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-colors">
+                                        <span class="w-8 text-center mr-1"><i class="fas fa-user"></i></span> 
+                                        Tài khoản của tôi
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flex items-center px-4 py-2.5 text-sm text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-colors">
+                                        <span class="w-8 text-center mr-1"><i class="fas fa-box-open"></i></span> 
+                                        Đơn mua
+                                    </a>
+                                </li>
+                                
+                                <li class="border-t border-stone-100 dark:border-slate-700 my-1"></li>
+                                
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="w-full text-left flex items-center px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors font-bold">
+                                            <span class="w-8 text-center mr-1"><i class="fas fa-sign-out-alt"></i></span> 
+                                            Đăng xuất
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @endauth
+                
+                    {{-- 2. TRƯỜNG HỢP CHƯA ĐĂNG NHẬP (Code cũ của bạn) --}}
+                    @guest
+                        <div class="flex items-center space-x-2">
+                            <a href="{{ route('login') }}" class="px-4 py-1.5 rounded-full font-bold text-sm text-stone-600 hover:text-brown-primary hover:bg-stone-100 dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800 transition-all">
+                                Đăng nhập
+                            </a>
+                    
+                            <a href="{{ route('register') }}" class="px-5 py-1.5 rounded-full font-bold text-sm bg-brown-primary text-white hover:bg-brown-dark dark:bg-transparent dark:border dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white transition-all">
+                                Đăng ký
+                            </a>
+                        </div>
+                    @endguest
+                
                 </div>
                 
                 <!-- Nút mở menu mobile (chỉ hiển thị trên mobile) -->
                 <button id="mobile-menu-btn" class="lg:hidden text-2xl text-brown-dark dark:text-white pl-2">
                     <i class="fas fa-bars"></i>
                 </button>
+                
             </div>
         </div>
     </div>

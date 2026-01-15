@@ -102,37 +102,43 @@ html.dark body {
 
 
 
+
 /* --- BUTTON GIỎ HÀNG --- */
 .cart-btn {
     position: relative;
-    padding: 0.5rem;       /* p-2 */
-    margin-right: 0.5rem;  /* mr-2 */
-    transition: color 0.3s ease;
+    padding: 0.5rem;      /* p-2 */
+    margin-right: 0.5rem; /* mr-2 */
+    transition: all 0.3s ease;
     cursor: pointer;
     
-    /* Màu mặc định (Light Mode) */
-    color: #57534e;        /* text-stone-600 */
+    /* 1. MÀU MẶC ĐỊNH (Light Mode) */
+    /* Màu này sẽ truyền xuống cho Icon và Text nhờ text-inherit ở HTML */
+    color: #57534e;       /* text-stone-600 */
 }
 
-/* Hiệu ứng Hover (Light Mode) */
+/* 2. HIỆU ỨNG HOVER (Light Mode) */
 .cart-btn:hover {
-    color: #8D6E63;        /* text-brown-primary */
+    color: #8D6E63;       /* text-brown-primary */
+    transform: translateY(-2px); /* Thêm hiệu ứng bay lên nhẹ cho đẹp */
 }
 
-/* Trạng thái ACTIVE (Đang ở trang giỏ hàng - Light Mode) */
+/* 3. TRẠNG THÁI ACTIVE (Khi đang ở trang giỏ hàng - Light Mode) */
 .cart-btn.active {
-    color: #8D6E63;        /* text-brown-primary */
+    color: #8D6E63;       /* text-brown-primary */
+    font-weight: 800;     /* Làm đậm hơn chút để dễ nhận biết */
 }
 
 /* --- DARK MODE --- */
 .dark .cart-btn {
-    color: #cbd5e1;        /* text-slate-300 */
+    color: #cbd5e1;       /* text-slate-300 */
 }
 
 .dark .cart-btn:hover {
-    color: #FF1744;        /* text-neon-red */
+    color: #FF1744;       /* text-neon-red */
 }
 
 .dark .cart-btn.active {
-    color: #FF1744;        /* text-neon-red */
+    color: #FF1744;       /* text-neon-red */
 }
+
+
