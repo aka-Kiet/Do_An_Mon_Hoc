@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController; //Sử dụng ProductController
 use App\Http\Controllers\CheckoutController; //Sử dụng CheckoutController
 use App\Http\Controllers\CartController; //Sử dụng CheckoutController
 use App\Http\Controllers\AuthController; //Sử dụng AuthController
+use App\Http\Controllers\UserProfileController; //Sử dụng UserProfileController
 
 // HomeController
 // Định tuyến của trang chủ
@@ -57,6 +58,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // Quản lý Sách (Tự động tạo 7 route CRUD)
 
+});
+
+// Nhóm route yêu cầu đăng nhập
+Route::middleware('auth')->group(function () {
+    Route::get('/ho-so', [UserProfileController::class, 'index'])->name('profile.index');
+    Route::post('/ho-so', [UserProfileController::class, 'update'])->name('profile.update');
 });
 
 
