@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Banner;
+use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -22,12 +24,19 @@ class HomeController extends Controller
 
     // --- KHU VỰC CỦA THIỆN NHÂN ---
     private function getBanners() {
-        // Nhân viết logic lấy banner ở đây
-        // Ví dụ: return \App\Models\Banner::where('is_active', true)->get();
+        // Lấy banner đang BẬT (active), sắp xếp theo thứ tự ưu tiên
+        return Banner::where('is_active', 1)
+                     ->orderBy('sort_order', 'asc')
+                     ->get();
     }
+
     private function getCategories() {
-        // Nhân viết logic lấy banner ở đây
-        // Ví dụ: return \App\Models\Category::where('is_active', true)->take(4)->get();
+        // Lấy 4 danh mục đang BẬT, sắp xếp, và ĐẾM SỐ SÁCH (quan trọng)
+        return Category::where('is_active', 1)
+                       ->orderBy('sort_order', 'asc')
+                       ->take(4)
+                       ->withCount('books') // Hàm này giúp hiện số lượng sách ngoài View
+                       ->get();
     }
 
 
