@@ -30,6 +30,7 @@ class HomeController extends Controller
         // Lấy banner đang BẬT (active), sắp xếp theo thứ tự ưu tiên
         return Banner::where('is_active', 1)
                      ->orderBy('sort_order', 'asc')
+                     ->take(3)
                      ->get();
     }
 
