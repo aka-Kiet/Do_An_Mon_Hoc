@@ -42,9 +42,17 @@
                             </p>
 
                             {{-- Nút bấm --}}
-                            <button class="px-8 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 dark:hover:shadow-[0_0_20px_rgba(255,23,68,0.6)] transition-all duration-300 shadow-lg hover:translate-x-2">
-                                Khám Phá Ngay <i class="fas fa-arrow-right ml-2"></i>
-                            </button>
+                            {{-- Kiểm tra: Nếu có link thì mới hiện thẻ a, không thì hiện thẻ div hoặc button chết --}}
+                            @if($banner->link)
+                                <a href="{{ $banner->link }}" 
+                                class="inline-block px-8 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark transition-all shadow-lg hover:translate-x-2">
+                                    Khám Phá Ngay <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            @else
+                                <button class="px-8 py-3 rounded-full bg-gray-400 text-white font-bold cursor-not-allowed">
+                                    Sắp ra mắt
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
