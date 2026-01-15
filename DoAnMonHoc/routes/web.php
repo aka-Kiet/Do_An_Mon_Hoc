@@ -64,6 +64,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/ho-so', [UserProfileController::class, 'index'])->name('profile.index');
     Route::post('/ho-so', [UserProfileController::class, 'update'])->name('profile.update');
+
+    // Route Đổi mật khẩu
+    Route::get('/doi-mat-khau', [UserProfileController::class, 'showChangePasswordForm'])->name('profile.password');
+    Route::post('/doi-mat-khau', [UserProfileController::class, 'changePassword'])->name('profile.password.update');
 });
 
 
