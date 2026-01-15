@@ -11,8 +11,11 @@
             {{-- sticky top-24 giữ nguyên để sidebar trượt theo khi cuộn --}}
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 sticky top-24 transition-colors duration-300">
                 <div class="flex items-center gap-4 mb-6 pb-6 border-b border-stone-100 dark:border-slate-700">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random" 
-                         class="w-14 h-14 rounded-full shadow-md">
+                    {{-- <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random" 
+                         class="w-14 h-14 rounded-full shadow-md"> --}}
+                    <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md">
+                            {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
                     <div>
                         <p class="font-bold text-stone-800 dark:text-white">{{ $user->name }}</p>
                         <p class="text-xs text-stone-500 dark:text-slate-400">Thành viên thân thiết</p>
@@ -28,9 +31,11 @@
                     <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
                         <i class="fas fa-shopping-bag w-5 text-center"></i> Lịch sử đơn hàng
                     </a>
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
+
+                    <a href="{{ route('profile.password') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
                         <i class="fas fa-key w-5 text-center"></i> Đổi mật khẩu
                     </a>
+                    
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 transition">
