@@ -221,7 +221,7 @@
                         
                         {{-- Overlay khi hover --}}
                         <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <a href="{{ route('product.detail', ['id' => $book->id]) }}" class="w-12 h-12 rounded-full bg-white text-brown-dark dark:bg-neon-red dark:text-white hover:scale-110 transition shadow-lg flex items-center justify-center" title="Xem chi tiết">
+                            <a href="{{ route('product.show', ['id' => $book->id]) }}" class="w-12 h-12 rounded-full bg-white text-brown-dark dark:bg-neon-red dark:text-white hover:scale-110 transition shadow-lg flex items-center justify-center" title="Xem chi tiết">
                                 <i class="fas fa-eye"></i>
                             </a>
                         </div>
@@ -230,7 +230,7 @@
                     {{-- THÔNG TIN SÁCH --}}
                     <div class="text-center px-2">
                         <h3 class="font-bold text-lg text-stone-800 dark:text-white truncate mb-1">
-                            <a href="{{ route('product.detail', ['id' => $book->id]) }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors">
+                            <a href="{{ route('product.show', ['id' => $book->id]) }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors">
                                 {{ $book->name }}
                             </a>
                         </h3>
