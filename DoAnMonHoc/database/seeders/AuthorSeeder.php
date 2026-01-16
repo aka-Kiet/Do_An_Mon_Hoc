@@ -82,5 +82,40 @@ class AuthorSeeder extends Seeder
             'slug' => 'robert-kiyosaki',
             'bio'  => 'Nhà đầu tư, doanh nhân và là tác giả bộ sách tài chính cá nhân bán chạy nhất "Dạy Con Làm Giàu" (Rich Dad Poor Dad).',
         ]);
+
+        // 11. Napoleon Hill
+        Author::create([
+            'name' => 'Napoleon Hill',
+            'slug' => 'napoleon-hill',
+            'bio'  => 'Tác giả của cuốn sách "Nghĩ Giàu Làm Giàu" (Think and Grow Rich), người tiên phong trong thể loại phát triển bản thân.',
+        ]);
+
+        // 12. Tô Hoài
+        Author::create([
+            'name' => 'Tô Hoài',
+            'slug' => 'to-hoai',
+            'bio'  => 'Cây đại thụ của văn học Việt Nam, nổi tiếng với tác phẩm "Dế Mèn Phiêu Lưu Ký" gắn liền với tuổi thơ nhiều thế hệ.',
+        ]);
+
+        // 13. Arthur Conan Doyle
+        Author::create([
+            'name' => 'Arthur Conan Doyle',
+            'slug' => 'arthur-conan-doyle',
+            'bio'  => 'Nhà văn người Scotland, cha đẻ của nhân vật thám tử lừng danh Sherlock Holmes.',
+        ]);
+
+        // 14. Nam Cao
+        Author::create([
+            'name' => 'Nam Cao',
+            'slug' => 'nam-cao',
+            'bio'  => 'Nhà văn hiện thực xuất sắc trước 1945, tác giả của những truyện ngắn bất hủ như "Chí Phèo", "Lão Hạc".',
+        ]);
+
+        // 15. Stephen King
+        Author::create([
+            'name' => 'Stephen King',
+            'slug' => 'stephen-king',
+            'bio'  => 'Ông vua của thể loại kinh dị và giả tưởng, tác giả của "IT" (Gã Hề Ma Quái), "The Shining".',
+        ]);
     }
 }
