@@ -14,6 +14,7 @@ class Book extends Model
         'slug', 
         'image', 
         'description',
+        'short_description',
         'price', 
         'quantity',
         'sold_quantity', 

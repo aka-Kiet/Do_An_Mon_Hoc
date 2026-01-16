@@ -47,5 +47,40 @@ class AuthorSeeder extends Seeder
             'slug' => 'philip-kotler',
             'bio'  => 'Giáo sư marketing nổi tiếng thế giới, cha đẻ của Marketing hiện đại.',
         ]);
+
+        // 6. Dale Carnegie
+        Author::create([
+            'name' => 'Dale Carnegie',
+            'slug' => 'dale-carnegie',
+            'bio'  => 'Nhà văn và diễn thuyết gia người Mỹ, tác giả cuốn sách "Đắc Nhân Tâm" nổi tiếng toàn cầu.',
+        ]);
+
+        // 7. Nguyễn Ngọc Tư
+        Author::create([
+            'name' => 'Nguyễn Ngọc Tư',
+            'slug' => 'nguyen-ngoc-tu',
+            'bio'  => 'Nhà văn nữ tiêu biểu của văn học đương đại Việt Nam, nổi tiếng với tập truyện "Cánh Đồng Bất Tận".',
+        ]);
+
+        // 8. Haruki Murakami
+        Author::create([
+            'name' => 'Haruki Murakami',
+            'slug' => 'haruki-murakami',
+            'bio'  => 'Nhà văn Nhật Bản đương đại lừng danh với phong cách siêu thực, tác giả của "Rừng Na Uy", "Kafka bên bờ biển".',
+        ]);
+
+        // 9. Vũ Trọng Phụng
+        Author::create([
+            'name' => 'Vũ Trọng Phụng',
+            'slug' => 'vu-trong-phung',
+            'bio'  => 'Danh nhân văn hóa Việt Nam, "Ông vua phóng sự đất Bắc" với kiệt tác trào phúng "Số Đỏ".',
+        ]);
+
+        // 10. Robert Kiyosaki
+        Author::create([
+            'name' => 'Robert Kiyosaki',
+            'slug' => 'robert-kiyosaki',
+            'bio'  => 'Nhà đầu tư, doanh nhân và là tác giả bộ sách tài chính cá nhân bán chạy nhất "Dạy Con Làm Giàu" (Rich Dad Poor Dad).',
+        ]);
     }
 }

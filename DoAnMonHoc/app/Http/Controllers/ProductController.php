@@ -57,7 +57,7 @@ class ProductController extends Controller
     
         // 3. Phân trang & Giữ lại tham số trên URL
         // Quan trọng: Phải thêm tất cả tham số lọc vào appends
-        $products = $query->paginate(4)->appends($req->all()); 
+        $products = $query->paginate(9)->appends($req->all()); 
         // $req->all() sẽ tự động lấy hết: sort, search, categories, min_price... đưa vào link phân trang
     
         // 4. Lấy sách bán chạy (Sidebar)
