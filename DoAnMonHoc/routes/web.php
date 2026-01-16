@@ -68,6 +68,10 @@ Route::middleware('auth')->group(function () {
     // Route Đổi mật khẩu
     Route::get('/doi-mat-khau', [UserProfileController::class, 'showChangePasswordForm'])->name('profile.password');
     Route::post('/doi-mat-khau', [UserProfileController::class, 'changePassword'])->name('profile.password.update');
+
+    Route::get('/don-mua', [App\Http\Controllers\OrderController::class, 'index'])->name('profile.orders');
+    Route::get('/don-mua/{id}', [App\Http\Controllers\OrderController::class, 'show'])->name('profile.orders.show');
+    Route::post('/don-mua/huy/{id}', [App\Http\Controllers\OrderController::class, 'cancel'])->name('profile.orders.cancel');
 });
 
 
