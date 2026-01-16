@@ -42,4 +42,9 @@ class Book extends Model
     {
         return $this->hasMany(BookImage::class)->orderBy('sort_order', 'asc');
     }
+    // đánh giá, mới nhất ở đầu
+    public function reviews()
+    {
+        return $this->hasMany(Review::class)->where('is_active', true)->orderBy('created_at', 'desc');
+    }
 }
