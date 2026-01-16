@@ -221,11 +221,12 @@
                         <div class="flex items-center gap-2 mt-1">
                             @if($item->sale_price < $item->price)
                                 <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">
-                                    {{ number_format($item->sale_price, 0, ',', '.') }}đ
+                                    {{ number_format($item->price, 0, ',', '.') }}đ
                                 </span>
                             @else
                                 <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">
-                                    {{ number_format($item->price, 0, ',', '.') }}đ
+                                    
+                                    {{ number_format($item->sale_price, 0, ',', '.') }}đ
                                 </span>
                             @endif
                         </div>
