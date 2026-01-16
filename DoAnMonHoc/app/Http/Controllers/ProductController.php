@@ -77,9 +77,42 @@ class ProductController extends Controller
         return view('product.index')->with("viewData", $viewData);
     }
 
-    public function show($id) {
+    public function show($id) 
+    {
         $viewData = [];
-        $viewData ["title"]= "Chi tiết sản phẩm";
+
+        // 1. Lấy thông tin chi tiết cuốn sách
+        $book = Book::with(['category', 'author', 'images', 'reviews.user'])
+                    ->findOrFail($id);
+
+        // 2. Logic tính phần trăm giảm giá
+        $discountPercent = 0;
+        // Thêm điều kiện $book->sale_price > 0
+        if($book->price > 0 && $book->sale_price > 0 && $book->sale_price < $book->price) {
+            $discountPercent = round((($book->price - $book->sale_price) / $book->price) * 100);
+        }
+
+        // 3. Lấy sách liên quan
+        $relatedBooks = Book::where('category_id', $book->category_id)
+                            ->where('id', '!=', $id)
+                            ->where('is_active', true)
+                            ->inRandomOrder()
+                            ->take(4)
+                            ->get();
+
+        // k cùng danh mục thì lấy ngẫu nhiên
+        if ($relatedBooks->isEmpty()) {
+            $relatedBooks = Book::where('id', '!=', $id)
+                            ->where('is_active', true)
+                            ->inRandomOrder()
+                            ->take(4)
+                            ->get();
+        }
+
+        $viewData["title"] = $book->name;
+        $viewData["book"] = $book;
+        $viewData["discountPercent"] = $discountPercent;
+        $viewData["relatedBooks"] = $relatedBooks;
 
         return view("product.show")->with("viewData", $viewData);
     }
