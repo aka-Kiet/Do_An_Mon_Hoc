@@ -237,6 +237,7 @@
 
 </main>
 
+
 <script>
     function updateQty(change) {
         // 1. Lấy ô input
@@ -293,3 +294,6 @@
 </script>
 
 @endsection
+
+
+
