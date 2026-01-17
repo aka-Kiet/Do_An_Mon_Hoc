@@ -30,9 +30,18 @@
                 
                 <!-- Overlay khi hover: nút "Thêm vào giỏ" hiện lên -->
                 <div class="absolute inset-0 bg-stone-900/20 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px]">
-                    <button class="bg-white text-brown-dark dark:bg-neon-red dark:text-white px-5 py-2 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-110">
-                        <i class="fas fa-cart-plus mr-1"></i> Thêm
-                    </button>
+                    <form method="POST" action="{{ route('cart.add') }}">
+                        @csrf
+                        <input type="hidden" name="book_id" value="{{ $book->id }}">
+
+                        <button 
+                            type="submit"
+                            class="bg-white text-brown-dark dark:bg-neon-red dark:text-white px-5 py-2 
+                                rounded-full font-bold shadow-lg transform translate-y-4 
+                                group-hover:translate-y-0 transition-all duration-300 hover:scale-110">
+                            <i class="fas fa-cart-plus mr-1"></i> Thêm
+                        </button>
+                    </form>
                 </div>
             </div>
             

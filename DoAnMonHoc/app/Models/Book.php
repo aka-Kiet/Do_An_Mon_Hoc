@@ -41,4 +41,9 @@ class Book extends Model
     {
         return $this->hasMany(BookImage::class)->orderBy('sort_order', 'asc');
     }
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
 }
