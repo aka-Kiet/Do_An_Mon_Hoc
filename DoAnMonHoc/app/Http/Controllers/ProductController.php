@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book; // Import Model Book
 use App\Models\Category; // Import Model Category
+use Illuminate\Support\Str; // Import Str để tạo slug
 
 class ProductController extends Controller
 {
@@ -77,13 +78,14 @@ class ProductController extends Controller
         return view('product.index')->with("viewData", $viewData);
     }
 
-    public function show($id) 
+    public function show($slug) 
     {
         $viewData = [];
 
         // 1. Lấy thông tin chi tiết cuốn sách
         $book = Book::with(['category', 'author', 'images', 'reviews.user'])
-                    ->findOrFail($id);
+                    ->where('slug', $slug) // Tìm dòng có slug khớp
+                    ->firstOrFail(); // Nếu không thấy thì báo lỗi 404
 
         // 2. Logic tính phần trăm giảm giá
         $discountPercent = 0;
@@ -94,7 +96,7 @@ class ProductController extends Controller
 
         // 3. Lấy sách liên quan
         $relatedBooks = Book::where('category_id', $book->category_id)
-                            ->where('id', '!=', $id)
+                            ->where('id', '!=', $book->id)
                             ->where('is_active', true)
                             ->inRandomOrder()
                             ->take(4)
@@ -102,7 +104,7 @@ class ProductController extends Controller
 
         // k cùng danh mục thì lấy ngẫu nhiên
         if ($relatedBooks->isEmpty()) {
-            $relatedBooks = Book::where('id', '!=', $id)
+            $relatedBooks = Book::where('id', '!=', $book->id)
                             ->where('is_active', true)
                             ->inRandomOrder()
                             ->take(4)
