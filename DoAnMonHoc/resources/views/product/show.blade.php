@@ -70,15 +70,17 @@
                 <span class="text-stone-500 dark:text-slate-400 text-sm">({{ $book->total_reviews }} đánh giá)</span>
                 <span class="h-4 w-px bg-stone-300 dark:bg-slate-700"></span>
                 <!--Kiểm tra số lượng-->
-                @if($book->quantity > 0)
-                    <span class="text-green-600 dark:text-green-400 font-bold text-sm">
-                        <i class="fas fa-check-circle mr-1"></i>Còn hàng ({{ $book->quantity }})
-                    </span>
-                @else
-                    <span class="text-red-500 font-bold text-sm">
-                        <i class="fas fa-times-circle mr-1"></i>Hết hàng
-                    </span>
-                @endif
+                <div id="stock-status-container">
+                    @if($book->quantity > 0)
+                        <span class="text-green-600 dark:text-green-400 font-bold text-sm">
+                            <i class="fas fa-check-circle mr-1"></i>Còn hàng ({{ $book->quantity }})
+                        </span>
+                    @else
+                        <span class="text-red-500 font-bold text-sm">
+                            <i class="fas fa-times-circle mr-1"></i>Hết hàng
+                        </span>
+                    @endif
+                </div>
             </div>
             <!--Giá tiền-->
             <div class="glass p-4 rounded-2xl bg-white/50 dark:bg-slate-800/50 inline-block">
@@ -122,10 +124,13 @@
                         </div>
 
                         <div class="flex gap-4 flex-1">
-                            <button class="flex-1 px-6 py-3 rounded-full border-2 border-brown-primary text-brown-primary font-bold hover:bg-brown-primary hover:text-white dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white transition-all shadow-lg">
+                            <button id="btn-add-cart" 
+                                class="flex-1 px-6 py-3 rounded-full border-2 border-brown-primary text-brown-primary font-bold hover:bg-brown-primary hover:text-white dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white transition-all shadow-lg {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
                                 <i class="fas fa-cart-plus mr-2"></i> Thêm Giỏ Hàng
                             </button>
-                            <button class="flex-1 px-6 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 hover:shadow-xl dark:hover:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all">
+
+                            <button id="btn-buy-now" 
+                                class="flex-1 px-6 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 hover:shadow-xl dark:hover:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
                                 Mua Ngay
                             </button>
                         </div>
@@ -176,12 +181,12 @@
                                 <div>
                                     <div class="flex items-center gap-2 mb-1">
                                         <h4 class="font-bold text-brown-dark dark:text-white">{{$review->user->name}}</h4>
-                                        <div class="flex text-yellow-500 text-xs">
+                                        <div class="flex text-yellow-500 text-sm" id="rating-stars-container">
                                             @for($i = 1; $i <= 5; $i++)
-                                                @if($i <= $review->rating)
-                                                    <i class="fas fa-star"></i> 
+                                                @if($i <= round($book->avg_rating))
+                                                    <i class="fas fa-star"></i>
                                                 @else
-                                                    <i class="fas fa-star text-gray-300 dark:text-gray-600"></i> 
+                                                    <i class="far fa-star text-gray-300"></i>
                                                 @endif
                                             @endfor
                                         </div>
@@ -292,6 +297,59 @@
         // 4. Thêm trạng thái "active" cho nút vừa bấm
         evt.currentTarget.classList.add("active");
     }
+
+//<!---->
+    const bookId = "{{ $book->id }}";
+    const checkInterval = 5000; // 5 giây kiểm tra 1 lần
+
+    // Hàm cập nhật giao diện
+    function updateRealtimeUI(data) {
+        // 1. CẬP NHẬT SỐ LƯỢNG 
+        const stockContainer = document.getElementById('stock-status-container');
+        const btnAdd = document.getElementById('btn-add-cart'); // id nút thêm giỏ hàng
+        const btnBuy = document.getElementById('btn-buy-now');  // id nút mua ngay
+        
+        if (data.quantity > 0) {
+            // Nếu trạng thái đang là hết hàng hoặc số lượng thay đổi -> render lại
+            stockContainer.innerHTML = `
+                <span class="text-green-600 dark:text-green-400 font-bold text-sm animate-pulse">
+                    <i class="fas fa-check-circle mr-1"></i>Còn hàng (${data.quantity})
+                </span>`;
+            
+            // Mở lại nút mua nếu trước đó bị disable
+            if(btnAdd) btnAdd.classList.remove('opacity-50', 'pointer-events-none');
+            if(btnBuy) btnBuy.classList.remove('opacity-50', 'pointer-events-none');
+        } else {
+            stockContainer.innerHTML = `
+                <span class="text-red-500 font-bold text-sm animate-bounce">
+                    <i class="fas fa-times-circle mr-1"></i>Hết hàng
+                </span>`;
+            
+            // Disable nút mua
+            if(btnAdd) btnAdd.classList.add('opacity-50', 'pointer-events-none');
+            if(btnBuy) btnBuy.classList.add('opacity-50', 'pointer-events-none');
+        }
+
+        // Cập nhật số review
+        const reviewEl = document.getElementById('total-reviews-display');
+        if(reviewEl) reviewEl.innerText = data.total_reviews;
+
+        //chưa cập nhật sao
+    }
+
+    // gọi về server
+    function fetchRealtimeData() {
+        fetch(`/product/check-status/${bookId}`)
+            .then(res => res.json())
+            .then(res => {
+                if (res.status === 'success') {
+                    updateRealtimeUI(res.data);
+                }
+            })
+            .catch(e => console.error("Lỗi cập nhật realtime:", e));
+    }
+
+    setInterval(fetchRealtimeData, checkInterval);
 </script>
 
 @endsection

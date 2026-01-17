@@ -27,6 +27,8 @@ Route::get('/san-pham', [ProductController::class, 'index'])->name('product.inde
 //Định tuyến trang chi tiết sản phẩm
 // Sửa 'show' thành 'detail' cho khớp với code giao diện
 Route::get('/san-pham/{id}', [ProductController::class, 'show'])->name('product.show');
+//realtime số lượng, đánh giá, lượt view, trung bình
+Route::get('/san-pham/trang-thai/{id}', [ProductController::class, 'checkRealtimeStatus'])->name('product.checkRealtimeStatus');
 
 
 // CheckoutController

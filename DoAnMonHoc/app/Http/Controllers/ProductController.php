@@ -116,4 +116,25 @@ class ProductController extends Controller
 
         return view("product.show")->with("viewData", $viewData);
     }
+
+    //realtime yêu cầu 11, 17
+    public function checkRealtimeStatus($id) 
+{
+    $book = Book::select('id', 'quantity', 'avg_rating', 'total_reviews', 'view_count') 
+                ->find($id);
+
+    if ($book) {
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'quantity' => $book->quantity,         // số lượng 
+                'avg_rating' => $book->avg_rating,     // điểm trung bình
+                'total_reviews' => $book->total_reviews, // tổng đánh giá
+                'view_count' => $book->view_count ?? 0, // luotj view
+            ]
+        ]);
+    }
+    
+    return response()->json(['status' => 'error'], 404);
+}
 }
