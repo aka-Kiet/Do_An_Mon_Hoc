@@ -81,10 +81,8 @@ class CartController extends Controller
             'quantity' => $request->quantity
         ]);
 
-        return response()->json([
-            'item_total' => $item->price * $item->quantity,
-            'subtotal'   => $item->cart->subtotal(),
-        ]);
+         return redirect()->route('cart.index')
+            ->with('success', 'Đã cập nhật số lượng sản phẩm');
     }
 
 
