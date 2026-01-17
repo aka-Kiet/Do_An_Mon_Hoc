@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Book extends Model
 {
@@ -14,6 +15,7 @@ class Book extends Model
         'slug', 
         'image', 
         'description',
+        'short_description',
         'price', 
         'quantity',
         'sold_quantity', 
@@ -41,9 +43,20 @@ class Book extends Model
     {
         return $this->hasMany(BookImage::class)->orderBy('sort_order', 'asc');
     }
-    public function cartItems()
+    // đánh giá, mới nhất ở đầu
+    public function reviews()
     {
-        return $this->hasMany(CartItem::class);
+        return $this->hasMany(Review::class)->where('is_active', true)->orderBy('created_at', 'desc');
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Trước khi tạo mới (Creating)
+        static::creating(function ($book) {
+            // Tự động tạo slug từ tên
+            $book->slug = str::slug($book->name) . '-' . time(); // thêm thời gian để tránh trùng tuyệt đối
+        });
+    }
 }

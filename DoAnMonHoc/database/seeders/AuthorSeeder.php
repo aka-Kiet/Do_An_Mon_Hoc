@@ -47,64 +47,75 @@ class AuthorSeeder extends Seeder
             'slug' => 'philip-kotler',
             'bio'  => 'Giáo sư marketing nổi tiếng thế giới, cha đẻ của Marketing hiện đại.',
         ]);
+
+        // 6. Dale Carnegie
         Author::create([
             'name' => 'Dale Carnegie',
             'slug' => 'dale-carnegie',
-            'bio'  => 'Tác giả và diễn giả nổi tiếng với các sách phát triển bản thân và giao tiếp.',
+            'bio'  => 'Nhà văn và diễn thuyết gia người Mỹ, tác giả cuốn sách "Đắc Nhân Tâm" nổi tiếng toàn cầu.',
         ]);
 
+        // 7. Nguyễn Ngọc Tư
         Author::create([
-            'name' => 'James Clear',
-            'slug' => 'james-clear',
-            'bio'  => 'Tác giả cuốn Atomic Habits, chuyên gia về thói quen và hiệu suất cá nhân.',
+            'name' => 'Nguyễn Ngọc Tư',
+            'slug' => 'nguyen-ngoc-tu',
+            'bio'  => 'Nhà văn nữ tiêu biểu của văn học đương đại Việt Nam, nổi tiếng với tập truyện "Cánh Đồng Bất Tận".',
         ]);
 
-        Author::create([
-            'name' => 'Napoleon Hill',
-            'slug' => 'napoleon-hill',
-            'bio'  => 'Tác giả kinh điển của dòng sách tư duy thành công như Nghĩ Giàu Làm Giàu.',
-        ]);
-
-        Author::create([
-            'name' => 'Yuval Noah Harari',
-            'slug' => 'yuval-noah-harari',
-            'bio'  => 'Nhà sử học người Israel, tác giả Sapiens – Lược Sử Loài Người.',
-        ]);
-
+        // 8. Haruki Murakami
         Author::create([
             'name' => 'Haruki Murakami',
             'slug' => 'haruki-murakami',
-            'bio'  => 'Nhà văn Nhật Bản nổi tiếng với phong cách hiện thực huyền ảo.',
+            'bio'  => 'Nhà văn Nhật Bản đương đại lừng danh với phong cách siêu thực, tác giả của "Rừng Na Uy", "Kafka bên bờ biển".',
         ]);
 
+        // 9. Vũ Trọng Phụng
         Author::create([
-            'name' => 'Stephen R. Covey',
-            'slug' => 'stephen-r-covey',
-            'bio'  => 'Tác giả 7 Thói Quen Của Người Thành Đạt, chuyên gia lãnh đạo cá nhân.',
+            'name' => 'Vũ Trọng Phụng',
+            'slug' => 'vu-trong-phung',
+            'bio'  => 'Danh nhân văn hóa Việt Nam, "Ông vua phóng sự đất Bắc" với kiệt tác trào phúng "Số Đỏ".',
         ]);
 
+        // 10. Robert Kiyosaki
         Author::create([
-            'name' => 'Tony Robbins',
-            'slug' => 'tony-robbins',
-            'bio'  => 'Diễn giả truyền cảm hứng và tác giả sách phát triển bản thân nổi tiếng thế giới.',
+            'name' => 'Robert Kiyosaki',
+            'slug' => 'robert-kiyosaki',
+            'bio'  => 'Nhà đầu tư, doanh nhân và là tác giả bộ sách tài chính cá nhân bán chạy nhất "Dạy Con Làm Giàu" (Rich Dad Poor Dad).',
         ]);
 
+        // 11. Napoleon Hill
         Author::create([
-            'name' => 'Dan Brown',
-            'slug' => 'dan-brown',
-            'bio'  => 'Tiểu thuyết gia Mỹ, tác giả Mật Mã Da Vinci và các tiểu thuyết trinh thám.',
+            'name' => 'Napoleon Hill',
+            'slug' => 'napoleon-hill',
+            'bio'  => 'Tác giả của cuốn sách "Nghĩ Giàu Làm Giàu" (Think and Grow Rich), người tiên phong trong thể loại phát triển bản thân.',
         ]);
 
+        // 12. Tô Hoài
         Author::create([
-            'name' => 'Osho',
-            'slug' => 'osho',
-            'bio'  => 'Triết gia và diễn giả tâm linh với nhiều tác phẩm về cuộc sống và thiền định.',
+            'name' => 'Tô Hoài',
+            'slug' => 'to-hoai',
+            'bio'  => 'Cây đại thụ của văn học Việt Nam, nổi tiếng với tác phẩm "Dế Mèn Phiêu Lưu Ký" gắn liền với tuổi thơ nhiều thế hệ.',
         ]);
 
+        // 13. Arthur Conan Doyle
         Author::create([
-            'name' => 'Thích Nhất Hạnh',
-            'slug' => 'thich-nhat-hanh',
-            'bio'  => 'Thiền sư, học giả Phật giáo, tác giả nhiều sách về chánh niệm và an lạc.',
+            'name' => 'Arthur Conan Doyle',
+            'slug' => 'arthur-conan-doyle',
+            'bio'  => 'Nhà văn người Scotland, cha đẻ của nhân vật thám tử lừng danh Sherlock Holmes.',
+        ]);
+
+        // 14. Nam Cao
+        Author::create([
+            'name' => 'Nam Cao',
+            'slug' => 'nam-cao',
+            'bio'  => 'Nhà văn hiện thực xuất sắc trước 1945, tác giả của những truyện ngắn bất hủ như "Chí Phèo", "Lão Hạc".',
+        ]);
+
+        // 15. Stephen King
+        Author::create([
+            'name' => 'Stephen King',
+            'slug' => 'stephen-king',
+            'bio'  => 'Ông vua của thể loại kinh dị và giả tưởng, tác giả của "IT" (Gã Hề Ma Quái), "The Shining".',
         ]);
     }
 }

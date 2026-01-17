@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style_indext.css">
+    <link rel="stylesheet" href="{{ asset('css/style_indext.css') }}">
 
     {{-- Định vị vị trí sẽ chèn css riêng --}}
     @stack('styles')
@@ -55,7 +55,7 @@
 
     @include('partials.layouts.chat')
 
-    <script src="js/script.js"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
     <script src="js/script_popup.js"></script>
 
     {{-- Định vị vị trí sẽ chèn js riêng --}}

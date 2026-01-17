@@ -21,7 +21,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'phone',    // Mới
+        'address',  // Mới
+        'birthday', // Mới
+        'gender',   // Mới
     ];
+
+    public function favorites()
+    {
+        // Quan hệ nhiều-nhiều với Book thông qua bảng 'favorites'
+        return $this->belongsToMany(Book::class, 'favorites', 'user_id', 'book_id')->withTimestamps();
+    }
 
     /**
      * The attributes that should be hidden for serialization.

@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Models\Banner; // Sử dụng Model Banner
+
 
 class BannerSeeder extends Seeder
 {
@@ -13,54 +15,63 @@ class BannerSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Banner Công Nghệ (Vị trí số 1)
-        Banner::create([
-            'title' => 'Tương lai <span class="text-cyan-400">Kỹ Thuật Số</span>',
-            'badge' => 'CÔNG NGHỆ 2026',
-            'description' => 'Khám phá những cuốn sách về AI, Blockchain và xu hướng công nghệ mới nhất.',
-            'image_path' => 'banners/tech-slider.jpg',
-            'sort_order' => 1,
-            'is_active' => true,
-        ]);
+        // Xóa dữ liệu cũ để tránh trùng lặp khi seed lại
+        DB::table('banners')->truncate();
 
-        // 2. Banner Kỹ Năng / Sale (Vị trí số 2)
-        Banner::create([
-            'title' => 'Đọc sách là <span class="text-warning">Đầu tư cho bản thân</span>',
-            'badge' => 'KHUYẾN MÃI THÁNG 1',
-            'description' => 'Giảm giá lên đến 50% cho các đầu sách kinh tế, kỹ năng sống và khởi nghiệp.',
-            'image_path' => 'banners/book-sale.jpg',
-            'sort_order' => 2,
-            'is_active' => true,
-        ]);
+        $banners = [
+            [
+                'title' => 'Thế Giới Sách Đa Dạng',
+                'badge' => 'Mới Nhất',
+                'description' => 'Khám phá hơn 10.000 đầu sách văn học, kinh tế và kỹ năng sống mới cập nhật.',
+                'image_path' => 'banners/banner_01.jpg', 
+                'sort_order' => 1,
+                'is_active' => true,
+                // Thêm link trỏ về trang tất cả sản phẩm
+                'link' => route('product.index'),
+            ],
+            [
+                'title' => 'Siêu Sale Mùa Hè',
+                'badge' => 'Giảm 50%',
+                'description' => 'Cơ hội săn sách giá rẻ chưa từng có. Áp dụng cho toàn bộ sách Văn Học.',
+                'image_path' => 'banners/banner_02.jpg',
+                'sort_order' => 2,
+                // Link trỏ về trang sản phẩm + sắp xếp giá thấp đến cao
+                'link' => route('product.index', ['sort' => 'price_asc']),
+            ],
+            [
+                'title' => 'Tủ Sách Doanh Nhân',
+                'badge' => 'Best Seller',
+                'description' => 'Những cuốn sách gối đầu giường giúp bạn khởi nghiệp thành công.',
+                'image_path' => 'banners/banner_03.jpg',
+                'sort_order' => 3,
+                'is_active' => true,
+                // Giả sử lọc theo danh mục ID 1 (Bạn có thể sửa ID khác)
+                'link' => route('product.index', ['categories' => [1]]),
+            ],
+            [
+                'title' => 'Góc Nhỏ Thiếu Nhi',
+                'badge' => 'Yêu Thích',
+                'description' => 'Truyện tranh, sách tô màu và những câu chuyện cổ tích kỳ thú cho bé.',
+                'image_path' => 'banners/banner_04.jpg',
+                'sort_order' => 4,
+                'is_active' => true,
+                'link' => route('product.index'),
+            ],
+            [
+                'title' => 'Hội Viên BookStore',
+                'badge' => 'V.I.P',
+                'description' => 'Đăng ký thành viên ngay hôm nay để nhận ưu đãi Freeship trọn đời.',
+                'image_path' => 'banners/banner_05.jpg',
+                'sort_order' => 5,
+                'is_active' => true,
+                // Banner này có thể trỏ về trang đăng ký
+                'link' => route('register'),
+            ],
+        ];
 
-        // 3. Banner Thiếu Nhi (Vị trí số 3)
-        Banner::create([
-            'title' => 'Mùa hè <span class="text-success">Sôi Động</span> cùng bé',
-            'badge' => 'SÁCH THIẾU NHI',
-            'description' => 'Tuyển tập truyện tranh, sách khoa học vui giúp bé vừa học vừa chơi.',
-            'image_path' => 'banners/summer-reading.jpg',
-            'sort_order' => 3,
-            'is_active' => true,
-        ]);
-
-        // 4. Banner Văn Học (Vị trí số 4)
-        Banner::create([
-            'title' => 'Tuyệt tác <span class="text-danger">Văn Học</span> kinh điển',
-            'badge' => 'BÁN CHẠY NHẤT',
-            'description' => 'Những tác phẩm văn học nước ngoài và trong nước không thể bỏ lỡ.',
-            'image_path' => 'banners/classic-novels.jpg',
-            'sort_order' => 4,
-            'is_active' => true,
-        ]);
-
-        // 5. Banner Dụng Cụ Học Tập (Vị trí số 5)
-        Banner::create([
-            'title' => 'Hành trang <span class="text-info">Đến Trường</span>',
-            'badge' => 'BACK TO SCHOOL',
-            'description' => 'Sắm sửa bút, vở, balo và dụng cụ học tập với giá ưu đãi cực sốc.',
-            'image_path' => 'banners/back-to-school.jpg',
-            'sort_order' => 5,
-            'is_active' => true,
-        ]);
+        // Vòng lặp tạo dữ liệu
+        foreach ($banners as $item) {
+            Banner::create($item);
+        }
     }
 }

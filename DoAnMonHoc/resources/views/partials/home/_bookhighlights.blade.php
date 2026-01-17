@@ -1,72 +1,80 @@
 <section>
-    <!-- TIÊU ĐỀ PHẦN + LINK "XEM TẤT CẢ" -->
     <div class="flex justify-between items-end mb-8">
         <h2 class="text-2xl font-bold text-brown-dark dark:text-white border-l-4 border-brown-primary dark:border-neon-red pl-3 transition-colors">
-           Sách Nổi Bật <i class="fas fa-star text-yellow-400"></i>
+            Sách Nổi Bật <i class="fas fa-star text-yellow-400"></i>
         </h2>
         <a href="#" class="text-sm font-semibold underline text-stone-500 dark:text-slate-400 hover:text-brown-primary dark:hover:text-neon-red transition-colors">
             Xem tất cả
         </a>
     </div>
 
-    <!-- GRID CHỨA CÁC SẢN PHẨM SÁCH -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         
-        <!-- SẢN PHẨM SÁCH (Card) - Mẫu lặp lại 4 lần -->
-         @foreach ($highlightBooks as $book)
+        @foreach ($highlightBooks as $book)
         <div class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300">
 
-            <!-- PHẦN HÌNH ẢNH + NÚT YÊU THÍCH + NÚT THÊM GIỎ (overlay hover) -->
             <div class="h-64 overflow-hidden relative p-4">
                 
-                <!-- Nút yêu thích (tim) - góc trên phải -->
-                <button class="favorite-btn absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 dark:hover:text-neon-red dark:hover:bg-slate-900 transition-all duration-300 shadow-sm hover:scale-110">
+                {{-- NÚT YÊU THÍCH THÔNG MINH --}}
+                @auth
+                {{-- Đã đăng nhập --}}
+                <form action="{{ route('profile.favorites.toggle', $book->id) }}" method="POST" class="absolute top-6 right-6 z-20">
+                    @csrf
+                    <button type="submit" class="w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center transition-all duration-300 shadow-sm hover:scale-110 
+                        {{ Auth::user()->favorites->contains($book->id) ? 'text-red-500 bg-white' : 'text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300' }}">
+                        
+                        {{-- Kiểm tra xem user đã thích chưa để đổi icon --}}
+                        <i class="{{ Auth::user()->favorites->contains($book->id) ? 'fas' : 'far' }} fa-heart text-lg"></i>
+                    </button>
+                </form>
+                @else
+                {{-- Chưa đăng nhập -> Chuyển qua login --}}
+                <a href="{{ route('login') }}" class="absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 transition-all duration-300 shadow-sm hover:scale-110">
                     <i class="far fa-heart text-lg"></i>
-                </button>
+                </a>
+                @endauth
         
-                <!-- Ảnh bìa sách với hiệu ứng zoom khi hover -->
-                <img src="{{ asset($book->image) }}" 
-                     alt="{{ $book->name }}" class="w-full h-full object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
+                <a href="{{ route('product.show', $book->slug) }}" class="block w-full h-full">
+                    <img src="{{ asset($book->image) }}" 
+                         alt="{{ $book->name }}" class="w-full h-full object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
+                </a>
                 
-                <!-- Overlay khi hover: nút "Thêm vào giỏ" hiện lên -->
-                <div class="absolute inset-0 bg-stone-900/20 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px]">
-                    <form method="POST" action="{{ route('cart.add') }}">
-                        @csrf
-                        <input type="hidden" name="book_id" value="{{ $book->id }}">
+                <div class="absolute inset-0 bg-stone-900/10 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px] gap-3">
+                    
+                    {{-- 1. NÚT XEM CHI TIẾT (Mới thêm) --}}
+                    <a href="{{ route('product.show', $book->slug) }}"
+                       class="w-10 h-10 rounded-full bg-white text-stone-700 dark:bg-slate-700 dark:text-white flex items-center justify-center shadow-lg hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
+                       title="Xem chi tiết">
+                        <i class="fas fa-eye"></i>
+                    </a>
 
-                        <button 
-                            type="submit"
-                            class="bg-white text-brown-dark dark:bg-neon-red dark:text-white px-5 py-2 
-                                rounded-full font-bold shadow-lg transform translate-y-4 
-                                group-hover:translate-y-0 transition-all duration-300 hover:scale-110">
-                            <i class="fas fa-cart-plus mr-1"></i> Thêm
-                        </button>
-                    </form>
+                    {{-- 2. NÚT THÊM GIỎ HÀNG --}}
+                    <button class="w-10 h-10 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center shadow-lg hover:bg-brown-dark dark:hover:bg-red-700 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75"
+                            title="Thêm vào giỏ">
+                        <i class="fas fa-cart-plus"></i>
+                    </button>
                 </div>
             </div>
             
-            <!-- PHẦN THÔNG TIN SÁCH (tên, tác giả, giá, đánh giá) -->
             <div class="px-5 pb-5 pt-2">
                 <h3 class="font-bold text-lg truncate text-stone-800 dark:text-slate-100 group-hover:text-brown-primary dark:group-hover:text-neon-red transition-colors">
-                    {{ $book->name }}
+                    {{-- Gắn link vào tên sách --}}
+                    <a href="{{ route('product.show', $book->slug) }}">
+                        {{ $book->name }}
+                    </a>
                 </h3>
                 <p class="text-xs font-medium text-stone-500 dark:text-slate-400 mb-3">{{ $book->author->name }}</p>
+                
                 <div class="flex justify-between items-center">
-                    <span class="text-xl font-extrabold text-brown-primary dark:text-neon-red dark:drop-shadow-[0_0_5px_rgba(255,23,68,0.5)]">{{ number_format($book->price) }}đ</span>
-                    <div class="flex text-yellow-400 text-[10px] mb-1 items-center">
-                            @for ($i = 1; $i <= 5; $i++)
-                                @if ($book->avg_rating >= $i)
-                                    <i class="fas fa-star"></i>
-                                @elseif ($book->avg_rating >= $i - 0.5)
-                                    <i class="fas fa-star-half-alt"></i>
-                                @else
-                                    <i class="far fa-star"></i>
-                                @endif
-                            @endfor
-                            <p class="text-stone-600 dark:text-slate-300 ml-2">
-                                ({{ number_format($book->avg_rating, 1) }})
-                            </p>
-                        </div>
+                    <span class="text-xl font-extrabold text-brown-primary dark:text-neon-red dark:drop-shadow-[0_0_5px_rgba(255,23,68,0.5)]">
+                        {{ number_format($book->price) }}đ
+                    </span>
+                    <div class="flex items-center text-yellow-500 text-xs">
+                        <i class="fas fa-star mr-1"></i>
+                        <span class="font-medium">
+                            {{ number_format($book->avg_rating ?? 0, 1) }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

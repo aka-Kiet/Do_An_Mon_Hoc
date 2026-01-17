@@ -89,7 +89,10 @@
     
             <div class="break-inside-avoid relative group rounded-2xl overflow-hidden cursor-pointer">
                 <img src="https://images.unsplash.com/photo-1507842217343-583bb726cc2e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                     alt="Library" class="w-full h-auto rounded-2xl transform transition-transform duration-700 group-hover:scale-110">
+                     onerror="this.src='https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'"
+                     alt="Classic Library" 
+                     class="w-full h-auto rounded-2xl transform transition-transform duration-700 group-hover:scale-110">
+                
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
                     <span class="text-white font-serif italic text-lg border-b border-white pb-1">Cổ Điển</span>
                 </div>
@@ -103,11 +106,14 @@
                 </div>
             </div>
     
-            <div class="break-inside-avoid relative group rounded-2xl overflow-hidden cursor-pointer border-2 border-transparent dark:hover:border-neon-red/50 transition-all duration-300">
-                <img src="https://images.unsplash.com/photo-1614726365723-49cfae9e992a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                     alt="Neon Book" class="w-full h-auto rounded-2xl transform transition-transform duration-700 group-hover:scale-110 grayscale hover:grayscale-0 transition-all">
+            <div class="break-inside-avoid relative group rounded-2xl overflow-hidden cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                     onerror="this.src='https://images.unsplash.com/photo-1581022295087-9306ba216646?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'"
+                     alt="Cyberpunk Neon" 
+                     class="w-full h-auto rounded-2xl transform transition-transform duration-700 group-hover:scale-110 grayscale hover:grayscale-0 transition-all">
+                
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
-                    <span class="text-neon-red font-bold text-lg border-b border-neon-red pb-1 shadow-[0_0_10px_rgba(255,23,68,0.8)]">Cyberpunk</span>
+                    <span class="text-white font-serif italic text-lg border-b border-white pb-1">Cyberpunk</span>
                 </div>
             </div>
     
@@ -131,8 +137,11 @@
             </div>
     
             <div class="break-inside-avoid relative group rounded-2xl overflow-hidden cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1519681393798-38e43269d877?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" 
-                     alt="Reading" class="w-full h-auto rounded-2xl transform transition-transform duration-700 group-hover:scale-110">
+                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                     onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'"
+                     alt="Reading Passion" 
+                     class="w-full h-auto rounded-2xl transform transition-transform duration-700 group-hover:scale-110">
+                
                 <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
                     <span class="text-white font-serif italic text-lg border-b border-white pb-1">Đam Mê</span>
                 </div>

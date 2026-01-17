@@ -94,19 +94,13 @@
                 <a href="#" class="flex items-start gap-4 p-3 rounded-2xl glass hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all duration-300 group hover:translate-x-2 min-h-[120px]">
                     <img src="{{ asset($book->image) }}" alt="Book" class="w-24 h-36 object-contain bg-white dark:bg-slate-800 p-1 rounded-lg shadow-md">
                     <div class="flex-1 min-w-0">
-                        <div class="flex text-yellow-400 text-[10px] mb-1 items-center">
-                            @for ($i = 1; $i <= 5; $i++)
-                                @if ($book->avg_rating >= $i)
-                                    <i class="fas fa-star"></i>
-                                @elseif ($book->avg_rating >= $i - 0.5)
-                                    <i class="fas fa-star-half-alt"></i>
-                                @else
-                                    <i class="far fa-star"></i>
-                                @endif
-                            @endfor
-                            <p class="text-stone-600 dark:text-slate-300 ml-2">
-                                ({{ number_format($book->avg_rating, 1) }})
-                            </p>
+                        {{-- Đánh giá sách --}}
+                        <div class="flex items-center text-yellow-400 text-[10px] mb-1">
+                            <i class="fas fa-star mr-1"></i> {{-- 1 icon sao đại diện --}}
+                            
+                            <span class="text-stone-600 dark:text-slate-300 font-medium">
+                                {{ number_format($book->avg_rating ?? 0, 1) }} {{-- Hiển thị điểm số (VD: 4.8) --}}
+                            </span>
                         </div>
                         <h4 class="font-bold text-stone-800 dark:text-slate-100 line-clamp-2 min-h-[2.5rem] group-hover:text-brown-primary dark:group-hover:text-neon-red transition-colors">{{ $book->name }}</h4>
                         <p class="text-xs text-stone-500 dark:text-slate-400 mb-2">{{ $book->author->name }}</p>

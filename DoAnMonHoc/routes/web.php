@@ -7,6 +7,8 @@ use App\Http\Controllers\ProductController; //Sử dụng ProductController
 use App\Http\Controllers\CheckoutController; //Sử dụng CheckoutController
 use App\Http\Controllers\CartController; //Sử dụng CheckoutController
 use App\Http\Controllers\AuthController; //Sử dụng AuthController
+use App\Http\Controllers\UserProfileController; //Sử dụng UserProfileController
+use App\Http\Controllers\FavoriteController; //Sử dụng FavoriteController
 
 // HomeController
 // Định tuyến của trang chủ
@@ -23,8 +25,11 @@ Route::get('/chinh-sach', [HomeController::class, 'policy'])->name('home.policy'
 // Định tuyến trang sản phẩm
 Route::get('/san-pham', [ProductController::class, 'index'])->name('product.index');
 //Định tuyến trang chi tiết sản phẩm
+
 // Sửa 'show' thành 'detail' cho khớp với code giao diện
-Route::get('/san-pham/{id}', [ProductController::class, 'show'])->name('product.detail');
+Route::get('/san-pham/{slug}', [ProductController::class, 'show'])->name('product.show');
+//realtime số lượng, đánh giá, lượt view, trung bình
+Route::get('/san-pham/trang-thai/{slug}', [ProductController::class, 'checkRealtimeStatus'])->name('product.checkRealtimeStatus');
 
 
 // CheckoutController
@@ -63,6 +68,23 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // Quản lý Sách (Tự động tạo 7 route CRUD)
 
+});
+
+// Nhóm route yêu cầu đăng nhập
+Route::middleware('auth')->group(function () {
+    Route::get('/ho-so', [UserProfileController::class, 'index'])->name('profile.index');
+    Route::post('/ho-so', [UserProfileController::class, 'update'])->name('profile.update');
+
+    // Route Đổi mật khẩu
+    Route::get('/doi-mat-khau', [UserProfileController::class, 'showChangePasswordForm'])->name('profile.password');
+    Route::post('/doi-mat-khau', [UserProfileController::class, 'changePassword'])->name('profile.password.update');
+
+    Route::get('/don-mua', [App\Http\Controllers\OrderController::class, 'index'])->name('profile.orders');
+    Route::get('/don-mua/{id}', [App\Http\Controllers\OrderController::class, 'show'])->name('profile.orders.show');
+    Route::post('/don-mua/huy/{id}', [App\Http\Controllers\OrderController::class, 'cancel'])->name('profile.orders.cancel');
+
+    Route::get('/yeu-thich', [FavoriteController::class, 'index'])->name('profile.favorites');
+    Route::post('/yeu-thich/{id}', [FavoriteController::class, 'toggle'])->name('profile.favorites.toggle');
 });
 
 

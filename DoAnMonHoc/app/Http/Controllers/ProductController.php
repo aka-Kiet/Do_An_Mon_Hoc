@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book; // Import Model Book
 use App\Models\Category; // Import Model Category
+use Illuminate\Support\Str; // Import Str để tạo slug
 
 class ProductController extends Controller
 {
@@ -57,7 +58,7 @@ class ProductController extends Controller
     
         // 3. Phân trang & Giữ lại tham số trên URL
         // Quan trọng: Phải thêm tất cả tham số lọc vào appends
-        $products = $query->paginate(12)->appends($req->all()); 
+        $products = $query->paginate(9)->appends($req->all()); 
         // $req->all() sẽ tự động lấy hết: sort, search, categories, min_price... đưa vào link phân trang
     
         // 4. Lấy sách bán chạy (Sidebar)
@@ -77,10 +78,65 @@ class ProductController extends Controller
         return view('product.index')->with("viewData", $viewData);
     }
 
-    public function show($id) {
+    public function show($slug) 
+    {
         $viewData = [];
-        $viewData ["title"]= "Chi tiết sản phẩm";
+
+        // 1. Lấy thông tin chi tiết cuốn sách
+        $book = Book::with(['category', 'author', 'images', 'reviews.user'])
+                    ->where('slug', $slug) // Tìm dòng có slug khớp
+                    ->firstOrFail(); // Nếu không thấy thì báo lỗi 404
+
+        // 2. Logic tính phần trăm giảm giá
+        $discountPercent = 0;
+        // Thêm điều kiện $book->sale_price > 0
+        if($book->price > 0 && $book->sale_price > 0 && $book->sale_price < $book->price) {
+            $discountPercent = round((($book->price - $book->sale_price) / $book->price) * 100);
+        }
+
+        // 3. Lấy sách liên quan
+        $relatedBooks = Book::where('category_id', $book->category_id)
+                            ->where('id', '!=', $book->id)
+                            ->where('is_active', true)
+                            ->inRandomOrder()
+                            ->take(4)
+                            ->get();
+
+        // k cùng danh mục thì lấy ngẫu nhiên
+        if ($relatedBooks->isEmpty()) {
+            $relatedBooks = Book::where('id', '!=', $book->id)
+                            ->where('is_active', true)
+                            ->inRandomOrder()
+                            ->take(4)
+                            ->get();
+        }
+
+        $viewData["title"] = $book->name;
+        $viewData["book"] = $book;
+        $viewData["discountPercent"] = $discountPercent;
+        $viewData["relatedBooks"] = $relatedBooks;
 
         return view("product.show")->with("viewData", $viewData);
     }
+
+    //realtime yêu cầu 11, 17
+    public function checkRealtimeStatus($id) 
+{
+    $book = Book::select('id', 'quantity', 'avg_rating', 'total_reviews', 'view_count') 
+                ->find($id);
+
+    if ($book) {
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'quantity' => $book->quantity,         // số lượng 
+                'avg_rating' => $book->avg_rating,     // điểm trung bình
+                'total_reviews' => $book->total_reviews, // tổng đánh giá
+                'view_count' => $book->view_count ?? 0, // luotj view
+            ]
+        ]);
+    }
+    
+    return response()->json(['status' => 'error'], 404);
+}
 }

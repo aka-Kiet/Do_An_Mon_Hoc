@@ -157,6 +157,7 @@
     {{-- Top bán chạy --}}
     <section class="mt-20 border-t border-stone-200 dark:border-white/10 pt-12">
 
+        {{-- Phần Header giữ nguyên --}}
         <div class="flex items-center justify-between mb-8">
             <div class="flex items-center gap-3">
                 <div class="w-12 h-12 rounded-full bg-yellow-100 text-yellow-600 dark:bg-yellow-500/20 dark:text-yellow-400 flex items-center justify-center text-2xl shadow-sm">
@@ -170,50 +171,25 @@
                 </div>
             </div>
             
-            <a href="{{ route('product.index', ['sort' => 'best_seller']) }}" class="text-sm font-bold text-brown-primary hover:text-brown-dark dark:text-neon-red dark:hover:text-white transition-colors flex items-center group">
+            {{-- <a href="{{ route('product.index', ['sort' => 'best_seller']) }}" class="text-sm font-bold text-brown-primary hover:text-brown-dark dark:text-neon-red dark:hover:text-white transition-colors flex items-center group">
                 Xem bảng xếp hạng <i class="fas fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-            </a>
+            </a> --}}
         </div>
-
+    
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-
+    
             @foreach($viewData['bestSellers'] as $book)
-                @php
-                    $rank = $loop->iteration;
+                {{-- Giữ nguyên class card cũ, chỉ bỏ logic màu mè phức tạp --}}
+                <div class="relative group rounded-3xl glass p-4 border border-stone-200 dark:border-slate-700 bg-white/40 dark:bg-slate-900/40 hover:-translate-y-2 transition-all duration-300 shadow-sm hover:shadow-xl">
                     
-                    // Cấu hình màu sắc cho từng thứ hạng (Top 1, 2, 3 và còn lại)
-                    $rankStyles = [
-                        1 => ['bg' => 'bg-yellow-400', 'border' => 'border-yellow-400', 'card_border' => 'border-yellow-400/50'], // Vàng
-                        2 => ['bg' => 'bg-stone-400',  'border' => 'border-stone-400',  'card_border' => 'border-stone-300'],    // Bạc
-                        3 => ['bg' => 'bg-orange-400', 'border' => 'border-orange-400', 'card_border' => 'border-orange-300'],   // Đồng
-                        'default' => ['bg' => 'bg-stone-600/80', 'border' => 'border-stone-600', 'card_border' => 'border-stone-200/50 dark:border-slate-700']
-                    ];
-
-                    $style = $rankStyles[$rank] ?? $rankStyles['default'];
-                    
-                    // Card Top 1 sẽ có nền Gradient nổi bật hơn chút
-                    $cardBg = ($rank == 1) 
-                        ? 'bg-gradient-to-b from-yellow-50 to-white dark:from-yellow-900/10 dark:to-slate-900' 
-                        : 'bg-white/40 dark:bg-slate-900/40';
-                @endphp
-
-                <div class="relative group rounded-3xl glass p-4 border {{ $style['card_border'] }} {{ $cardBg }} hover:-translate-y-2 transition-all duration-300 shadow-sm hover:shadow-xl">
-                    
-                    {{-- BADGE XẾP HẠNG --}}
-                    <div class="absolute -top-4 -left-2 z-20">
-                        @if($rank == 1)
-                            {{-- Top 1: Dùng ảnh Vương miện/Cúp nếu có, hoặc style đặc biệt --}}
-                            <div class="relative w-14 h-14 flex items-center justify-center">
-                                <img src="https://cdn-icons-png.flaticon.com/512/2583/2583344.png" class="w-full h-full drop-shadow-md animate-bounce-slow" alt="Top 1">
-                                <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-extrabold text-white text-sm mt-1">1</span>
-                            </div>
-                        @else
-                            {{-- Top 2, 3, 4...: Dùng hình tròn màu --}}
-                            <div class="w-10 h-10 rounded-full {{ $style['bg'] }} flex items-center justify-center font-extrabold text-white shadow-lg border-2 border-white dark:border-slate-800">
-                                {{ $rank }}
-                            </div>
-                        @endif
+                    {{-- PHẦN XẾP HẠNG ĐÃ ĐƠN GIẢN HÓA --}}
+                    {{-- Chỉ hiện số thứ tự 1, 2, 3... trong vòng tròn --}}
+                    <div class="absolute -top-3 -left-3 z-20 w-10 h-10 rounded-full flex items-center justify-center font-extrabold text-white shadow-md border-2 border-white dark:border-slate-800
+                        {{ $loop->iteration <= 3 ? 'bg-yellow-500' : 'bg-stone-500' }}">
+                        {{ $loop->iteration }}
                     </div>
+                    
+                    {{-- CÁC PHẦN DƯỚI ĐÂY GIỮ NGUYÊN Y HỆT CŨ --}}
                     
                     {{-- ẢNH BÌA SÁCH --}}
                     <div class="relative overflow-hidden rounded-xl mb-4 aspect-[3/4] shadow-md group-hover:shadow-lg transition-all">
@@ -221,16 +197,16 @@
                         
                         {{-- Overlay khi hover --}}
                         <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <a href="{{ route('product.detail', ['id' => $book->id]) }}" class="w-12 h-12 rounded-full bg-white text-brown-dark dark:bg-neon-red dark:text-white hover:scale-110 transition shadow-lg flex items-center justify-center" title="Xem chi tiết">
+                            <a href="{{ route('product.show', $book->slug) }}" class="w-12 h-12 rounded-full bg-white text-brown-dark dark:bg-neon-red dark:text-white hover:scale-110 transition shadow-lg flex items-center justify-center" title="Xem chi tiết">
                                 <i class="fas fa-eye"></i>
                             </a>
                         </div>
                     </div>
-
+    
                     {{-- THÔNG TIN SÁCH --}}
                     <div class="text-center px-2">
                         <h3 class="font-bold text-lg text-stone-800 dark:text-white truncate mb-1">
-                            <a href="{{ route('product.detail', ['id' => $book->id]) }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors">
+                            <a href="{{ route('product.show', $book->slug) }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors">
                                 {{ $book->name }}
                             </a>
                         </h3>
@@ -247,7 +223,7 @@
                     </div>
                 </div>
             @endforeach
-
+    
         </div>
     </section>
 
