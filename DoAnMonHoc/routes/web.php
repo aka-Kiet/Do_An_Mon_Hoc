@@ -25,10 +25,11 @@ Route::get('/chinh-sach', [HomeController::class, 'policy'])->name('home.policy'
 // Định tuyến trang sản phẩm
 Route::get('/san-pham', [ProductController::class, 'index'])->name('product.index');
 //Định tuyến trang chi tiết sản phẩm
+
 // Sửa 'show' thành 'detail' cho khớp với code giao diện
-Route::get('/san-pham/{id}', [ProductController::class, 'show'])->name('product.show');
+Route::get('/san-pham/{slug}', [ProductController::class, 'show'])->name('product.show');
 //realtime số lượng, đánh giá, lượt view, trung bình
-Route::get('/san-pham/trang-thai/{id}', [ProductController::class, 'checkRealtimeStatus'])->name('product.checkRealtimeStatus');
+Route::get('/san-pham/trang-thai/{slug}', [ProductController::class, 'checkRealtimeStatus'])->name('product.checkRealtimeStatus');
 
 
 // CheckoutController
