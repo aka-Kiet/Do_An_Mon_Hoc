@@ -29,7 +29,11 @@
                     </a>
                     
                     <a href="{{ route('profile.orders') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
-                        <i class="fas fa-shopping-bag w-5 text-center"></i> Lịch sử đơn hàng
+                        <i class="fas fa-shopping-bag w-5 text-center"></i> Đơn mua
+                    </a>
+
+                    <a href="{{ route('profile.favorites') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
+                        <i class="fas fa-heart w-5 text-center"></i> Sản phẩm yêu thích
                     </a>
 
                     <a href="{{ route('profile.password') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">

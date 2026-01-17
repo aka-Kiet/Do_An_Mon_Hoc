@@ -72,43 +72,57 @@
                 @csrf 
                 
                 {{-- Input Email --}}
-                <div class="relative group">
-                    <input type="email" name="email" value="{{ old('email') }}" required placeholder=" " 
-                        class="peer w-full pl-12 pr-4 py-4 rounded-xl bg-stone-50 dark:bg-slate-900/50 border border-stone-200 dark:border-slate-600 text-stone-800 dark:text-white focus:ring-2 focus:ring-brown-primary dark:focus:ring-red-600 focus:border-transparent outline-none transition-all placeholder-transparent">
-                    
-                    <label class="absolute left-12 top-4 text-stone-400 dark:text-slate-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:bg-white peer-focus:dark:bg-slate-800 peer-focus:px-1 peer-focus:text-brown-primary peer-focus:dark:text-red-500 cursor-text">
+                <div>
+                    <label class="block mb-2 text-sm font-bold text-stone-700 dark:text-slate-300">
                         Email của bạn
                     </label>
-                    
-                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-brown-primary group-focus-within:dark:text-red-500 transition-colors"></i>
+                    <div class="relative">
+                        <input type="email" name="email" value="{{ old('email') }}" required placeholder="Ví dụ: name@email.com" 
+                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-stone-200 bg-stone-50 text-stone-800 placeholder-stone-400
+                            focus:outline-none focus:ring-2 focus:ring-brown-primary focus:border-transparent
+                            dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:placeholder-slate-400 dark:focus:ring-red-600
+                            transition-all duration-200">
+                        
+                        <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 dark:text-slate-500"></i>
+                    </div>
                 </div>
-
+            
                 {{-- Input Password --}}
-                <div class="relative group">
-                    <input type="password" name="password" required placeholder=" " 
-                        class="peer w-full pl-12 pr-4 py-4 rounded-xl bg-stone-50 dark:bg-slate-900/50 border border-stone-200 dark:border-slate-600 text-stone-800 dark:text-white focus:ring-2 focus:ring-brown-primary dark:focus:ring-red-600 focus:border-transparent outline-none transition-all placeholder-transparent">
-                    
-                    <label class="absolute left-12 top-4 text-stone-400 dark:text-slate-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:bg-white peer-focus:dark:bg-slate-800 peer-focus:px-1 peer-focus:text-brown-primary peer-focus:dark:text-red-500 cursor-text">
+                <div>
+                    <label class="block mb-2 text-sm font-bold text-stone-700 dark:text-slate-300">
                         Mật khẩu
                     </label>
-
-                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-brown-primary group-focus-within:dark:text-red-500 transition-colors"></i>
+                    <div class="relative">
+                        <input type="password" name="password" required placeholder="Nhập mật khẩu" 
+                            class="w-full pl-11 pr-4 py-3 rounded-xl border border-stone-200 bg-stone-50 text-stone-800 placeholder-stone-400
+                            focus:outline-none focus:ring-2 focus:ring-brown-primary focus:border-transparent
+                            dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:placeholder-slate-400 dark:focus:ring-red-600
+                            transition-all duration-200">
+                        
+                        <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 dark:text-slate-500"></i>
+                    </div>
                 </div>
-
+            
                 {{-- Remember & Forgot Password --}}
                 <div class="flex items-center justify-between text-sm">
-                    <label class="flex items-center cursor-pointer group">
-                        <input type="checkbox" name="remember" class="w-4 h-4 rounded border-stone-300 text-brown-primary focus:ring-brown-primary dark:bg-slate-700 dark:border-slate-500 dark:checked:bg-red-600 dark:focus:ring-red-600 transition">
-                        <span class="ml-2 text-stone-600 dark:text-slate-400 group-hover:text-brown-primary dark:group-hover:text-red-400 transition">Ghi nhớ đăng nhập</span>
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" name="remember" 
+                            class="w-4 h-4 rounded border-stone-300 text-brown-primary focus:ring-brown-primary 
+                            dark:bg-slate-700 dark:border-slate-600 dark:checked:bg-red-600 dark:focus:ring-red-600">
+                        <span class="ml-2 text-stone-600 dark:text-slate-400">Ghi nhớ đăng nhập</span>
                     </label>
-                    <a href="#" class="font-bold text-brown-primary hover:text-brown-dark dark:text-red-500 dark:hover:text-red-400 transition">Quên mật khẩu?</a>
+                    <a href="#" class="font-bold text-brown-primary hover:text-brown-dark dark:text-red-500 dark:hover:text-red-400 transition">
+                        Quên mật khẩu?
+                    </a>
                 </div>
-
+            
                 {{-- Submit Button --}}
-                <button type="submit" class="w-full py-4 rounded-xl bg-brown-primary dark:bg-red-600 text-white font-bold text-lg hover:bg-brown-dark dark:hover:bg-red-700 shadow-lg hover:shadow-xl dark:shadow-red-600/20 transition-all transform hover:-translate-y-1 active:scale-95">
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-brown-primary dark:bg-red-600 text-white font-bold text-lg 
+                    hover:bg-brown-dark dark:hover:bg-red-700 shadow-lg hover:shadow-xl dark:shadow-red-600/30 
+                    transition-all transform hover:-translate-y-1 active:scale-95">
                     Đăng Nhập
                 </button>
-
+            
                 {{-- Register Link --}}
                 <div class="mt-8 text-center text-stone-600 dark:text-slate-400">
                     Chưa có tài khoản? 

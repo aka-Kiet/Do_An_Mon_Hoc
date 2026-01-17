@@ -25,11 +25,15 @@
                     <a href="{{ route('profile.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
                         <i class="fas fa-user w-5 text-center"></i> Thông tin tài khoản
                     </a>
+
                     <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
-                        <i class="fas fa-shopping-bag w-5 text-center"></i> Lịch sử đơn hàng
+                        <i class="fas fa-shopping-bag w-5 text-center"></i> Đơn mua
                     </a>
                     
-                    {{-- 👇 ĐANG Ở TRANG NÀY: Thêm dark:bg-red-600 --}}
+                    <a href="{{ route('profile.favorites') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
+                        <i class="fas fa-heart w-5 text-center"></i> Sản phẩm yêu thích
+                    </a>
+
                     <a href="{{ route('profile.password') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-brown-primary dark:bg-red-600 text-white font-bold transition shadow-lg shadow-brown-primary/30 dark:shadow-red-600/30">
                         <i class="fas fa-key w-5 text-center"></i> Đổi mật khẩu
                     </a>
