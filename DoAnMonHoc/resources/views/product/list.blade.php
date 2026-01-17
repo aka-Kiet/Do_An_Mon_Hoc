@@ -16,11 +16,23 @@
                 <img src="{{ asset($product->image) }}" class="w-full h-full object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
             </a>
 
-            <div class="absolute inset-0 bg-stone-900/20 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px] pointer-events-none">
-                {{-- 2. GẮN LINK VÀO NÚT THÊM (Cần thêm pointer-events-auto để click được vì lớp cha đang pointer-events-none) --}}
-                <a href="{{ route('product.show', ['id' => $product->id]) }}" class="pointer-events-auto bg-white text-brown-dark dark:bg-neon-red dark:text-white px-5 py-2 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:scale-110 inline-flex items-center">
-                    <i class="fas fa-eye mr-1"></i> Xem chi tiết
+            {{-- 2. OVERLAY VỚI 2 NÚT TRÒN (MẮT + GIỎ) --}}
+            {{-- Lưu ý: pointer-events-none ở cha để không che, pointer-events-auto ở nút để click được --}}
+            <div class="absolute inset-0 bg-stone-900/10 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px] gap-3 pointer-events-none">
+                
+                {{-- Nút Xem chi tiết --}}
+                <a href="{{ route('product.show', ['id' => $product->id]) }}" 
+                   class="pointer-events-auto w-10 h-10 rounded-full bg-white text-stone-700 dark:bg-slate-700 dark:text-white flex items-center justify-center shadow-lg hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
+                   title="Xem chi tiết">
+                    <i class="fas fa-eye"></i>
                 </a>
+
+                {{-- Nút Thêm giỏ hàng --}}
+                <button class="pointer-events-auto w-10 h-10 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center shadow-lg hover:bg-brown-dark dark:hover:bg-red-700 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75"
+                        title="Thêm vào giỏ">
+                    <i class="fas fa-cart-plus"></i>
+                </button>
+
             </div>
         </div>
         
@@ -49,14 +61,11 @@
                 </div>
                 
                 {{-- Đánh giá --}}
-                <div class="flex text-yellow-500 text-xs">
-                    @for($i = 1; $i <= 5; $i++)
-                        @if($i <= round($product->avg_rating ?? 5))
-                            <i class="fas fa-star"></i>
-                        @else
-                            <i class="far fa-star"></i>
-                        @endif
-                    @endfor
+                <div class="flex items-center text-yellow-500 text-xs">
+                    <i class="fas fa-star mr-1"></i>
+                    <span class="font-medium">
+                        {{ number_format($product->avg_rating ?? 0, 1) }}
+                    </span>
                 </div>
             </div>
         </div>
