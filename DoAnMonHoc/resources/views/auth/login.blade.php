@@ -6,70 +6,113 @@
     <title>Đăng nhập - BookStore</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Hoặc 'media' tùy setup của bạn
+            theme: {
+                extend: {
+                    colors: {
+                        'brown-primary': '#8D6E63',
+                        'brown-dark': '#5D4037',
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-stone-100 dark:bg-slate-900 flex items-center justify-center min-h-screen p-4">
+<body class="bg-stone-100 dark:bg-slate-900 flex items-center justify-center min-h-screen p-4 transition-colors duration-300">
 
-    <div class="w-full max-w-4xl bg-white dark:bg-slate-800 rounded-[30px] shadow-2xl overflow-hidden flex flex-col lg:flex-row h-[600px]">
+    {{-- CARD CONTAINER --}}
+    <div class="w-full max-w-4xl bg-white dark:bg-slate-800 rounded-[30px] shadow-2xl overflow-hidden flex flex-col lg:flex-row min-h-[600px] transition-colors duration-300 relative">
         
-        <div class="hidden lg:block w-5/12 relative group">
+        {{-- NÚT HOME (Về trang chủ) --}}
+        <a href="{{ route('home.index') }}" class="absolute top-6 right-6 z-20 w-10 h-10 rounded-full flex items-center justify-center bg-stone-100 dark:bg-slate-700 text-stone-500 hover:bg-brown-primary hover:text-white dark:text-slate-400 dark:hover:bg-red-600 dark:hover:text-white transition-all shadow-sm">
+            <i class="fas fa-home"></i>
+        </a>
+
+        {{-- CỘT TRÁI: ẢNH (Ẩn trên mobile) --}}
+        <div class="hidden lg:block w-5/12 relative group overflow-hidden">
             <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
                  class="w-full h-full object-cover transition-transform duration-[3s] group-hover:scale-110" alt="Login bg">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-            <div class="absolute bottom-10 left-8 right-8 text-white z-10">
-                <p class="text-2xl font-serif italic mb-2">"A room without books is like a body without a soul."</p>
-                <p class="text-xs font-bold uppercase tracking-widest text-yellow-400 opacity-90">— Cicero</p>
+            
+            {{-- Lớp phủ màu --}}
+            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+            
+            {{-- Quote --}}
+            <div class="absolute bottom-12 left-8 right-8 text-white z-10">
+                <i class="fas fa-quote-left text-3xl text-brown-primary dark:text-red-500 opacity-80 mb-4"></i>
+                <p class="text-xl font-serif italic mb-4 leading-relaxed opacity-90">"A room without books is like a body without a soul."</p>
+                <div class="flex items-center gap-2">
+                    <span class="w-8 h-[2px] bg-brown-primary dark:bg-red-500"></span>
+                    <p class="text-xs font-bold uppercase tracking-widest text-stone-300">Cicero</p>
+                </div>
             </div>
         </div>
 
-        <div class="w-full lg:w-7/12 p-8 md:p-12 flex flex-col justify-center relative">
+        {{-- CỘT PHẢI: FORM --}}
+        <div class="w-full lg:w-7/12 p-8 md:p-12 flex flex-col justify-center relative bg-white dark:bg-slate-800">
             
-            <a href="{{ route('home.index') }}" class="absolute top-6 right-6 text-stone-400 hover:text-stone-600 dark:text-slate-500 dark:hover:text-white transition">
-                <i class="fas fa-home text-xl"></i>
-            </a>
-
-            <div class="mb-8">
-                <h2 class="text-3xl font-extrabold text-stone-800 dark:text-white">Đăng Nhập</h2>
-                <p class="text-stone-500 dark:text-slate-400 mt-2">Chào mừng bạn quay trở lại với BookStore.</p>
+            <div class="mb-10 text-center lg:text-left">
+                <h2 class="text-4xl font-extrabold text-brown-dark dark:text-white mb-2 tracking-tight">Chào mừng trở lại!</h2>
+                <p class="text-stone-500 dark:text-slate-400">Đăng nhập để tiếp tục hành trình tri thức.</p>
             </div>
 
             @if ($errors->any())
-                <div class="mb-4 p-3 bg-red-100 text-red-600 rounded-xl text-sm">
+                <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 text-red-600 dark:text-red-400 rounded-r-xl text-sm flex items-start gap-3">
+                    <i class="fas fa-exclamation-circle mt-0.5"></i>
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>• {{ $error }}</li>
+                            <li>{{ $error }}</li>
                         @endforeach
                     </ul>
                 </div>
             @endif
 
-            <form action="{{ route('login') }}" method="POST" class="space-y-5">
-                @csrf <div class="relative">
-                    <input type="email" name="email" value="{{ old('email') }}" placeholder="Email của bạn" 
-                        class="w-full pl-12 pr-4 py-3 rounded-xl bg-stone-50 dark:bg-slate-700 border border-stone-200 dark:border-slate-600 focus:ring-2 focus:ring-yellow-500 focus:outline-none transition-all dark:text-white">
-                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-stone-400"></i>
-                </div>
-
-                <div class="relative">
-                    <input type="password" name="password" placeholder="Mật khẩu" 
-                        class="w-full pl-12 pr-4 py-3 rounded-xl bg-stone-50 dark:bg-slate-700 border border-stone-200 dark:border-slate-600 focus:ring-2 focus:ring-yellow-500 focus:outline-none transition-all dark:text-white">
-                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-stone-400"></i>
-                </div>
-
-                <div class="flex items-center justify-between text-sm">
-                    <label class="flex items-center cursor-pointer">
-                        <input type="checkbox" name="remember" class="w-4 h-4 rounded text-yellow-600 focus:ring-yellow-500">
-                        <span class="ml-2 text-stone-600 dark:text-slate-400">Ghi nhớ đăng nhập</span>
+            <form action="{{ route('login') }}" method="POST" class="space-y-6">
+                @csrf 
+                
+                {{-- Input Email --}}
+                <div class="relative group">
+                    <input type="email" name="email" value="{{ old('email') }}" required placeholder=" " 
+                        class="peer w-full pl-12 pr-4 py-4 rounded-xl bg-stone-50 dark:bg-slate-900/50 border border-stone-200 dark:border-slate-600 text-stone-800 dark:text-white focus:ring-2 focus:ring-brown-primary dark:focus:ring-red-600 focus:border-transparent outline-none transition-all placeholder-transparent">
+                    
+                    <label class="absolute left-12 top-4 text-stone-400 dark:text-slate-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:bg-white peer-focus:dark:bg-slate-800 peer-focus:px-1 peer-focus:text-brown-primary peer-focus:dark:text-red-500 cursor-text">
+                        Email của bạn
                     </label>
-                    <a href="#" class="font-bold text-yellow-600 hover:text-yellow-700 dark:text-yellow-400">Quên mật khẩu?</a>
+                    
+                    <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-brown-primary group-focus-within:dark:text-red-500 transition-colors"></i>
                 </div>
 
-                <button type="submit" class="w-full py-3 rounded-xl bg-yellow-600 text-white font-bold text-lg hover:bg-yellow-700 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                {{-- Input Password --}}
+                <div class="relative group">
+                    <input type="password" name="password" required placeholder=" " 
+                        class="peer w-full pl-12 pr-4 py-4 rounded-xl bg-stone-50 dark:bg-slate-900/50 border border-stone-200 dark:border-slate-600 text-stone-800 dark:text-white focus:ring-2 focus:ring-brown-primary dark:focus:ring-red-600 focus:border-transparent outline-none transition-all placeholder-transparent">
+                    
+                    <label class="absolute left-12 top-4 text-stone-400 dark:text-slate-500 text-sm transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:bg-white peer-focus:dark:bg-slate-800 peer-focus:px-1 peer-focus:text-brown-primary peer-focus:dark:text-red-500 cursor-text">
+                        Mật khẩu
+                    </label>
+
+                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-brown-primary group-focus-within:dark:text-red-500 transition-colors"></i>
+                </div>
+
+                {{-- Remember & Forgot Password --}}
+                <div class="flex items-center justify-between text-sm">
+                    <label class="flex items-center cursor-pointer group">
+                        <input type="checkbox" name="remember" class="w-4 h-4 rounded border-stone-300 text-brown-primary focus:ring-brown-primary dark:bg-slate-700 dark:border-slate-500 dark:checked:bg-red-600 dark:focus:ring-red-600 transition">
+                        <span class="ml-2 text-stone-600 dark:text-slate-400 group-hover:text-brown-primary dark:group-hover:text-red-400 transition">Ghi nhớ đăng nhập</span>
+                    </label>
+                    <a href="#" class="font-bold text-brown-primary hover:text-brown-dark dark:text-red-500 dark:hover:text-red-400 transition">Quên mật khẩu?</a>
+                </div>
+
+                {{-- Submit Button --}}
+                <button type="submit" class="w-full py-4 rounded-xl bg-brown-primary dark:bg-red-600 text-white font-bold text-lg hover:bg-brown-dark dark:hover:bg-red-700 shadow-lg hover:shadow-xl dark:shadow-red-600/20 transition-all transform hover:-translate-y-1 active:scale-95">
                     Đăng Nhập
                 </button>
 
-                <div class="mt-6 text-center text-stone-600 dark:text-slate-400">
+                {{-- Register Link --}}
+                <div class="mt-8 text-center text-stone-600 dark:text-slate-400">
                     Chưa có tài khoản? 
-                    <a href="{{ route('register') }}" class="font-bold text-yellow-600 dark:text-yellow-400 hover:underline">
+                    <a href="{{ route('register') }}" class="font-bold text-brown-primary dark:text-red-500 hover:underline transition">
                         Đăng ký ngay
                     </a>
                 </div>
@@ -77,5 +120,53 @@
         </div>
     </div>
 
+    {{-- NÚT CHUYỂN DARK MODE (FIXED BOTTOM LEFT) --}}
+    <button id="theme-toggle" 
+        class="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 focus:outline-none transform hover:scale-110
+        bg-white text-brown-primary border-2 border-brown-primary
+        dark:bg-slate-800 dark:text-red-500 dark:border-red-500">
+
+        {{-- Icon Mặt trời (Hiện khi Dark mode) --}}
+        <i id="theme-toggle-light-icon" class="fas fa-sun text-xl hidden"></i>
+
+        {{-- Icon Mặt trăng (Hiện khi Light mode) --}}
+        <i id="theme-toggle-dark-icon" class="fas fa-moon text-xl hidden"></i>
+    </button>
+    {{-- SCRIPT XỬ LÝ DARK MODE --}}
+    <script>
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // 1. Kiểm tra trạng thái hiện tại khi load trang
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            // Đang là Dark Mode -> Hiện icon Mặt trời để bấm chuyển sang sáng
+            themeToggleLightIcon.classList.remove('hidden');
+            document.documentElement.classList.add('dark');
+        } else {
+            // Đang là Light Mode -> Hiện icon Mặt trăng để bấm chuyển sang tối
+            themeToggleDarkIcon.classList.remove('hidden');
+            document.documentElement.classList.remove('dark');
+        }
+
+        var themeToggleBtn = document.getElementById('theme-toggle');
+
+        // 2. Xử lý sự kiện click
+        themeToggleBtn.addEventListener('click', function() {
+
+            // Đổi icon
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            // Nếu đang có class dark thì xóa đi (Về sáng)
+            if (localStorage.getItem('color-theme') === 'dark') {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                // Nếu chưa có thì thêm vào (Về tối)
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>
