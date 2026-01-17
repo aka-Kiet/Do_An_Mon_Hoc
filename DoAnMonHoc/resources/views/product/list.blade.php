@@ -27,9 +27,9 @@
                 <i class="far fa-heart text-lg"></i>
             </a>
             @endauth
-            
+
             {{-- 1. GẮN LINK VÀO ẢNH --}}
-            <a href="{{ route('product.show', ['id' => $product->id]) }}" class="block w-full h-full">
+            <a href="{{ route('product.show', $product->slug) }}" class="block w-full h-full">
                 <img src="{{ asset($product->image) }}" class="w-full h-full object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
             </a>
 
@@ -38,7 +38,7 @@
             <div class="absolute inset-0 bg-stone-900/10 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px] gap-3 pointer-events-none">
                 
                 {{-- Nút Xem chi tiết --}}
-                <a href="{{ route('product.show', ['id' => $product->id]) }}" 
+                <a href="{{ route('product.show', $product->slug) }}" 
                    class="pointer-events-auto w-10 h-10 rounded-full bg-white text-stone-700 dark:bg-slate-700 dark:text-white flex items-center justify-center shadow-lg hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
                    title="Xem chi tiết">
                     <i class="fas fa-eye"></i>
@@ -55,7 +55,7 @@
         
         <div class="px-5 pb-5 pt-2">
             {{-- 3. GẮN LINK VÀO TÊN SÁCH --}}
-            <a href="{{ route('product.show', ['id' => $product->id]) }}">
+            <a href="{{ route('product.show', $product->slug) }}">
                 <h3 class="font-bold text-lg truncate text-stone-800 dark:text-slate-100 group-hover:text-brown-primary dark:group-hover:text-neon-red transition-colors hover:underline">
                     {{ $product->name }}
                 </h3>

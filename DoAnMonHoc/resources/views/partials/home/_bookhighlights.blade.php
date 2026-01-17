@@ -15,11 +15,26 @@
 
             <div class="h-64 overflow-hidden relative p-4">
                 
-                <button class="favorite-btn absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 dark:hover:text-neon-red dark:hover:bg-slate-900 transition-all duration-300 shadow-sm hover:scale-110">
+                {{-- NÚT YÊU THÍCH THÔNG MINH --}}
+                @auth
+                {{-- Đã đăng nhập --}}
+                <form action="{{ route('profile.favorites.toggle', $book->id) }}" method="POST" class="absolute top-6 right-6 z-20">
+                    @csrf
+                    <button type="submit" class="w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center transition-all duration-300 shadow-sm hover:scale-110 
+                        {{ Auth::user()->favorites->contains($book->id) ? 'text-red-500 bg-white' : 'text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300' }}">
+                        
+                        {{-- Kiểm tra xem user đã thích chưa để đổi icon --}}
+                        <i class="{{ Auth::user()->favorites->contains($book->id) ? 'fas' : 'far' }} fa-heart text-lg"></i>
+                    </button>
+                </form>
+                @else
+                {{-- Chưa đăng nhập -> Chuyển qua login --}}
+                <a href="{{ route('login') }}" class="absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 transition-all duration-300 shadow-sm hover:scale-110">
                     <i class="far fa-heart text-lg"></i>
-                </button>
+                </a>
+                @endauth
         
-                <a href="{{ route('product.show', ['id' => $book->id]) }}" class="block w-full h-full">
+                <a href="{{ route('product.show', $book->slug) }}" class="block w-full h-full">
                     <img src="{{ asset($book->image) }}" 
                          alt="{{ $book->name }}" class="w-full h-full object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
                 </a>
@@ -27,7 +42,7 @@
                 <div class="absolute inset-0 bg-stone-900/10 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px] gap-3">
                     
                     {{-- 1. NÚT XEM CHI TIẾT (Mới thêm) --}}
-                    <a href="{{ route('product.show', ['id' => $book->id]) }}" 
+                    <a href="{{ route('product.show', $book->slug) }}"
                        class="w-10 h-10 rounded-full bg-white text-stone-700 dark:bg-slate-700 dark:text-white flex items-center justify-center shadow-lg hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
                        title="Xem chi tiết">
                         <i class="fas fa-eye"></i>
@@ -44,7 +59,7 @@
             <div class="px-5 pb-5 pt-2">
                 <h3 class="font-bold text-lg truncate text-stone-800 dark:text-slate-100 group-hover:text-brown-primary dark:group-hover:text-neon-red transition-colors">
                     {{-- Gắn link vào tên sách --}}
-                    <a href="{{ route('product.show', ['id' => $book->id]) }}">
+                    <a href="{{ route('product.show', $book->slug) }}">
                         {{ $book->name }}
                     </a>
                 </h3>
