@@ -8,6 +8,7 @@ use App\Http\Controllers\CheckoutController; //Sử dụng CheckoutController
 use App\Http\Controllers\CartController; //Sử dụng CheckoutController
 use App\Http\Controllers\AuthController; //Sử dụng AuthController
 use App\Http\Controllers\UserProfileController; //Sử dụng UserProfileController
+use App\Http\Controllers\FavoriteController; //Sử dụng FavoriteController
 
 // HomeController
 // Định tuyến của trang chủ
@@ -72,6 +73,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/don-mua', [App\Http\Controllers\OrderController::class, 'index'])->name('profile.orders');
     Route::get('/don-mua/{id}', [App\Http\Controllers\OrderController::class, 'show'])->name('profile.orders.show');
     Route::post('/don-mua/huy/{id}', [App\Http\Controllers\OrderController::class, 'cancel'])->name('profile.orders.cancel');
+
+    Route::get('/yeu-thich', [FavoriteController::class, 'index'])->name('profile.favorites');
+    Route::post('/yeu-thich/{id}', [FavoriteController::class, 'toggle'])->name('profile.favorites.toggle');
 });
 
 

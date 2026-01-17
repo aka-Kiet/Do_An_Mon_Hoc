@@ -9,7 +9,24 @@
             <span class="absolute top-4 left-4 z-20 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-md">NEW</span>
             @endif
             
-            <button class="favorite-btn absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 dark:hover:text-neon-red dark:hover:bg-slate-900 transition-all duration-300 shadow-sm hover:scale-110"><i class="far fa-heart text-lg"></i></button>
+            {{-- NÚT YÊU THÍCH THÔNG MINH --}}
+            @auth
+            {{-- Đã đăng nhập --}}
+            <form action="{{ route('profile.favorites.toggle', $product->id) }}" method="POST" class="absolute top-6 right-6 z-20">
+                @csrf
+                <button type="submit" class="w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center transition-all duration-300 shadow-sm hover:scale-110 
+                    {{ Auth::user()->favorites->contains($product->id) ? 'text-red-500 bg-white' : 'text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300' }}">
+                    
+                    {{-- Kiểm tra xem user đã thích chưa để đổi icon --}}
+                    <i class="{{ Auth::user()->favorites->contains($product->id) ? 'fas' : 'far' }} fa-heart text-lg"></i>
+                </button>
+            </form>
+            @else
+            {{-- Chưa đăng nhập -> Chuyển qua login --}}
+            <a href="{{ route('login') }}" class="absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 transition-all duration-300 shadow-sm hover:scale-110">
+                <i class="far fa-heart text-lg"></i>
+            </a>
+            @endauth
             
             {{-- 1. GẮN LINK VÀO ẢNH --}}
             <a href="{{ route('product.show', ['id' => $product->id]) }}" class="block w-full h-full">
