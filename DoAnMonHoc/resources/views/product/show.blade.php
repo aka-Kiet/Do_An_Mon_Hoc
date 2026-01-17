@@ -58,14 +58,11 @@
 
             <div class="flex items-center space-x-4">
                 <!--Đánh giá-->
-                <div class="flex text-yellow-500 text-sm">
-                    @for($i = 1; $i <= 5; $i++)
-                        @if($i <= round($book->avg_rating))
-                            <i class="fas fa-star"></i>
-                        @else
-                            <i class="far fa-star text-gray-300"></i>
-                        @endif
-                    @endfor
+                <div class="flex items-center text-yellow-500 text-xs">
+                    <i class="fas fa-star mr-1"></i>
+                    <span class="font-medium">
+                        {{ number_format($book->avg_rating ?? 0, 1) }}
+                    </span>
                 </div>
                 <span class="text-stone-500 dark:text-slate-400 text-sm">({{ $book->total_reviews }} đánh giá)</span>
                 <span class="h-4 w-px bg-stone-300 dark:bg-slate-700"></span>
