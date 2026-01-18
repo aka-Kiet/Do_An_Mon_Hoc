@@ -6,6 +6,7 @@
     $book = $viewData['book'];
     $relatedBooks = $viewData['relatedBooks'];
     $title = $viewData['title'];
+    $isFavorite = Auth::check() && Auth::user()->favorites->contains($book->id);
 @endphp
 
 <main class="pt-28 pb-12 px-4 container mx-auto flex-grow">
@@ -25,9 +26,22 @@
             <div class="glass p-4 rounded-3xl bg-white/40 dark:bg-slate-900/40 relative overflow-hidden group">
                 <img id="mainImage" src="{{ asset($book->image) }}" 
                      alt="{{ $book->name }}" class="w-full h-auto rounded-xl object-cover transition-transform duration-500 group-hover:scale-110 cursor-zoom-in">
-                <button class="absolute top-6 right-6 z-20 w-10 h-10 rounded-full glass bg-white/60 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 dark:hover:text-neon-red transition-all shadow-md">
-                    <i class="far fa-heart text-xl"></i>
-                </button>
+                @auth
+                    <form action="{{ route('profile.favorites.toggle', $book->id) }}" method="POST" class="absolute top-6 right-6 z-20">
+                        @csrf
+                        <button type="submit" class="w-10 h-10 rounded-full glass flex items-center justify-center transition-all shadow-md group{{ $isFavorite ? 'bg-red-50 text-red-500' : 'bg-white/60 dark:bg-black/40 text-stone-500 hover:bg-white hover:text-red-500' }}">
+                            
+                            @if($isFavorite)
+                                <i class="fas fa-heart text-xl animate-pulse"></i>
+                            @else
+                                <i class="far fa-heart text-xl"></i>
+                            @endif
+                        </button>
+                    </form>
+                    @else
+                        <a href="{{ route('login') }}" class="absolute top-6 right-6 z-20 w-10 h-10 rounded-full glass flex items-center justify-center bg-white/60 text-stone-500 hover:bg-white hover:text-red-500 transition-all shadow-md">
+                            <i class="far fa-heart text-xl"></i>
+                @endauth
             </div>
             <!--ảnh thumbnail-->
             <div class="flex space-x-4 overflow-x-auto pb-2">
@@ -60,7 +74,7 @@
                 <!--Đánh giá-->
                 <div class="flex items-center text-yellow-500 text-xs">
                     <i class="fas fa-star mr-1"></i>
-                    <span class="font-medium">
+                    <span id="avg-rating-display" class="font-medium">
                         {{ number_format($book->avg_rating ?? 0, 1) }}
                     </span>
                 </div>
@@ -103,40 +117,33 @@
             </p>
             <!--Phần giỏ hàng-->
             <div class="border-t border-stone-200 dark:border-slate-700 pt-6">
-                <form action="{{ route('cart.add') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="book_id" value="{{ $book->id }}">
-                    <div class="flex flex-col md:flex-row gap-4 mb-4">
-                        
-                        <div class="flex items-center glass rounded-full px-4 py-2 bg-white/50 dark:bg-slate-800/50 w-fit">
-                            <button type="button" onclick="updateQty(-1)" class="w-8 h-8 flex items-center justify-center text-stone-500 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red transition">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            
-                            <input id="qtyInput" name="quantity" type="number" value="1" min="1" class="w-12 text-center bg-transparent border-none focus:outline-none font-bold text-brown-dark dark:text-white" readonly>
-                            
-                            <button type="button" onclick="updateQty(1)" class="w-8 h-8 flex items-center justify-center text-stone-500 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red transition">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
 
-                        <div class="flex gap-4 flex-1">
-                                <input type="hidden" name="book_id" value="{{ $book->id }}">
-                                <input id="qtyInput" name="quantity" type="number" value="1" min="1" hidden>
-                                <button 
-                                    type="submit"
-                                    class="flex-1 px-6 py-3 rounded-full border-2 border-brown-primary text-brown-primary font-bold hover:bg-brown-primary hover:text-white
-                                        dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white transition-all shadow-lg
-                                        {{ $book->quantity == 0 ? 'opacity-50 pointer-events-none' : '' }}">
-                                    <i class="fas fa-cart-plus"></i> Thêm giỏ hàng
-                                </button>
-                            <button id="btn-buy-now" 
-                                class="flex-1 px-6 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 hover:shadow-xl dark:hover:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
-                                Mua Ngay
-                            </button>
-                        </div>
-                    </div>
-                </form>
+                    
+            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                        
+                <div class="flex items-center glass rounded-full px-4 py-2 bg-white/50 dark:bg-slate-800/50 w-fit">
+                    <button type="button" onclick="updateQty(-1)" class="w-8 h-8 flex items-center justify-center text-stone-500 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red transition">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <input type="hidden" name="book-id" value="{{ $book->id }}">
+                    <input id="qtyInput" name="quantity" type="number" value="1" min="1" data-max="{{ $book->quantity }}" onchange="checkManualQty(this)" class="w-16 text-center bg-transparent border-none focus:outline-none font-bold text-brown-dark dark:text-white appearance-none m-0">
+                            
+                    <button type="button" onclick="updateQty(1)" class="w-8 h-8 flex items-center justify-center text-stone-500 dark:text-slate-300 hover:text-brown-primary dark:hover:text-neon-red transition">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+
+                <div class="flex gap-4 flex-1">
+                    <button type="button" onclick="addToCart()" class="flex-1 px-6 py-3 rounded-full border-2 border-brown-primary text-brown-primary font-bold hover:bg-brown-primary hover:text-white dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white transition-all shadow-lg {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
+                        <i class="fas fa-cart-plus mr-2"></i> Thêm Giỏ Hàng
+                    </button>
+
+                   <button id="btn-buy-now" class="flex-1 px-6 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 hover:shadow-xl dark:hover:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
+                        Mua Ngay
+                    </button>
+                </div>
+            </div>
+
             </div>
 
             <div class="flex gap-6 text-sm text-stone-500 dark:text-slate-400">
@@ -173,18 +180,76 @@
                 </div>
 <!--Đánh giá-->
                 <div id="reviews" class="tab-content hidden animate-fade-in space-y-6">
-                    <!--Có nhận xét-->
+                    <div class="bg-stone-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-stone-200 dark:border-slate-700">
+                        <h3 class="text-xl font-bold text-brown-dark dark:text-white mb-4">Gửi đánh giá của bạn</h3>
+                        
+                        @auth
+                            @if(session('error'))
+                                <div class="p-3 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                                    <i class="fas fa-exclamation-circle mr-1"></i> {{ session('error') }}
+                                </div>
+                            @endif
+                            @if(session('success'))
+                                <div class="p-3 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                                    <i class="fas fa-check-circle mr-1"></i> {{ session('success') }}
+                                </div>
+                            @endif
+
+                            <form action="{{ route('product.review.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="book_id" value="{{ $book->id }}">
+
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-stone-700 dark:text-slate-300 mb-2">Mức độ hài lòng</label>
+                                    <div class="flex flex-row-reverse justify-end gap-1 rating-input">
+                                        <input type="radio" id="star5" name="rating" value="5" class="hidden peer/5" required />
+                                        <label for="star5" class="cursor-pointer text-stone-300 peer-checked/5:text-yellow-400 hover:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star4" name="rating" value="4" class="hidden peer/4" />
+                                        <label for="star4" class="cursor-pointer text-stone-300 peer-checked/4:text-yellow-400 hover:text-yellow-400 peer-hover/4:text-yellow-400 peer-checked/5:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star3" name="rating" value="3" class="hidden peer/3" />
+                                        <label for="star3" class="cursor-pointer text-stone-300 peer-checked/3:text-yellow-400 hover:text-yellow-400 peer-hover/3:text-yellow-400 peer-checked/4:text-yellow-400 peer-hover/4:text-yellow-400 peer-checked/5:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star2" name="rating" value="2" class="hidden peer/2" />
+                                        <label for="star2" class="cursor-pointer text-stone-300 peer-checked/2:text-yellow-400 hover:text-yellow-400 peer-hover/2:text-yellow-400 peer-checked/3:text-yellow-400 peer-hover/3:text-yellow-400 peer-checked/4:text-yellow-400 peer-hover/4:text-yellow-400 peer-checked/5:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star1" name="rating" value="1" class="hidden peer/1" />
+                                        <label for="star1" class="cursor-pointer text-stone-300 peer-checked/1:text-yellow-400 hover:text-yellow-400 peer-hover/1:text-yellow-400 peer-checked/2:text-yellow-400 peer-hover/2:text-yellow-400 peer-checked/3:text-yellow-400 peer-hover/3:text-yellow-400 peer-checked/4:text-yellow-400 peer-hover/4:text-yellow-400 peer-checked/5:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="comment" class="block text-sm font-medium text-stone-700 dark:text-slate-300 mb-2">Nhận xét của bạn</label>
+                                    <textarea name="comment" id="comment" rows="3" class="w-full px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-stone-300 dark:border-slate-600 focus:ring-2 focus:ring-brown-primary focus:outline-none dark:text-white" placeholder="Sản phẩm thế nào? Hãy chia sẻ cảm nhận của bạn..."></textarea>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <p class="text-xs text-stone-500 italic">* Chỉ khách hàng đã mua sản phẩm này mới có thể gửi đánh giá.</p>
+                                    <button type="submit" class="px-6 py-2 bg-brown-primary text-white rounded-lg hover:bg-brown-dark transition-colors dark:bg-neon-red dark:hover:bg-red-700 font-bold shadow-md">
+                                        Gửi đánh giá
+                                    </button>
+                                </div>
+                            </form>
+                        @else
+                            <div class="text-center py-4">
+                                <p class="text-stone-600 dark:text-slate-400 mb-3">Vui lòng đăng nhập để gửi đánh giá</p>
+                                <a href="{{ route('login') }}" class="px-6 py-2 border border-brown-primary text-brown-primary rounded-full hover:bg-brown-primary hover:text-white transition-all dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white">Đăng nhập ngay</a>
+                            </div>
+                        @endauth
+                    </div>
+
                     @if($book->reviews->count() > 0)
                         @foreach($book->reviews as $review)
                             <div class="flex gap-4 border-b border-stone-200 dark:border-slate-700 pb-6">
-<!--ảnh đại diện-->
+<!-- chưa cập nhật ảnh đại diện-->
                                 <div class="w-12 h-12 rounded-full bg-gray-300 overflow-hidden shrink-0"><img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-full h-full object-cover"></div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1">
                                         <h4 class="font-bold text-brown-dark dark:text-white">{{$review->user->name}}</h4>
                                         <div class="flex text-yellow-500 text-sm" id="rating-stars-container">
                                             @for($i = 1; $i <= 5; $i++)
-                                                @if($i <= round($book->avg_rating))
+                                                @if($i <= $review->rating)
                                                     <i class="fas fa-star"></i>
                                                 @else
                                                     <i class="far fa-star text-gray-300"></i>
@@ -192,7 +257,7 @@
                                             @endfor
                                         </div>
                                     </div>
-<!--ngày đăng bình luận--><p class="text-sm text-stone-600 dark:text-slate-400 mb-2">12/01/2026</p>
+<!-- chưa có ngày đăng bình luận--><p class="text-sm text-stone-600 dark:text-slate-400 mb-2">12/01/2026</p>
                                     <p class="text-stone-700 dark:text-slate-300">{{$review->comment}}</p>
                                 </div>
                             </div>
@@ -217,9 +282,26 @@
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             @foreach($relatedBooks as $item)
-                <a href="{{ route('product.show', $item->slug) }}" class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300 block">       
+                @php
+                    // Kiểm tra người dùng có thích sách chưa
+                    $isRelatedFavorite = Auth::check() && Auth::user()->favorites->contains($item->id);
+                @endphp
+                <a href="{{ route('product.show', ['slug' => $item->slug]) }}" class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300 block">            
+
                     <div class="h-64 overflow-hidden relative p-4">
-                        <button class="absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 dark:hover:text-neon-red dark:hover:bg-slate-900 transition-all shadow-sm"><i class="far fa-heart"></i></button>
+                        @auth
+                            <form action="{{ route('profile.favorites.toggle', $item->id) }}" method="POST" class="absolute top-6 right-6 z-20" onclick="event.stopPropagation();">
+                                @csrf
+                                <button type="submit" 
+                                    class="w-8 h-8 rounded-full glass flex items-center justify-center transition-all shadow-sm{{ $isRelatedFavorite ? 'bg-red-50 text-red-500' : 'bg-white/50 dark:bg-black/40 text-stone-500 hover:bg-white hover:text-red-500' }}">                                 
+                                    @if($isRelatedFavorite)
+                                        <i class="fas fa-heart"></i>
+                                    @else
+                                        <i class="far fa-heart"></i>
+                                    @endif
+                                </button>
+                            </form>
+                        @endauth
                         <img src="{{asset($item->image)}}" class="{{$item->name}}">
                     </div>
                     <div class="px-5 pb-5 pt-2">
@@ -244,113 +326,104 @@
 
 </main>
 
-
 <script>
-    function updateQty(change) {
-        // 1. Lấy ô input
-        var input = document.getElementById('qtyInput');
-        
-        // 2. Lấy giá trị hiện tại (chuyển từ chữ sang số)
-        var currentQty = parseInt(input.value);
-        
-        // 3. Nếu giá trị không hợp lệ (NaN), gán bằng 1
-        if (isNaN(currentQty)) {
-            currentQty = 1;
-        }
-
-        // 4. Tính toán số lượng mới
-        var newQty = currentQty + change;
-
-        // 5. Kiểm tra điều kiện: Không được nhỏ hơn 1
-        if (newQty < 1) {
-            newQty = 1;
-        }
-
-        // 6. Gán ngược lại vào ô input
-        input.value = newQty;
-    }
+    // --- 1. XỬ LÝ TABS (Mô tả, Chi tiết, Đánh giá) ---
     function openTab(evt, tabName) {
-        // 1. Ẩn tất cả nội dung của các tab
         var i, tabcontent, tablinks;
         
-        // Lấy tất cả các thẻ có class "tab-content"
+        // Ẩn hết nội dung các tab
         tabcontent = document.getElementsByClassName("tab-content");
         for (i = 0; i < tabcontent.length; i++) {
-            // Thêm class 'hidden' để ẩn
-            tabcontent[i].classList.add("hidden"); 
-            // Xóa class 'block' để đảm bảo nó không hiện
-            tabcontent[i].classList.remove("block"); 
+            tabcontent[i].classList.add("hidden");
+            tabcontent[i].classList.remove("block");
         }
 
-        // 2. Xóa trạng thái "active" của tất cả các nút
+        // Bỏ active ở các nút
         tablinks = document.getElementsByClassName("tab-btn");
         for (i = 0; i < tablinks.length; i++) {
             tablinks[i].classList.remove("active");
-            // Reset màu chữ về mặc định (nếu cần thiết)
-            tablinks[i].classList.remove("text-brown-primary", "dark:text-neon-red");
         }
 
-        // 3. Hiển thị tab được click (tabName)
-        // Xóa 'hidden', thêm 'block'
+        // Hiện tab được chọn và active nút đó
         document.getElementById(tabName).classList.remove("hidden");
         document.getElementById(tabName).classList.add("block");
-
-        // 4. Thêm trạng thái "active" cho nút vừa bấm
         evt.currentTarget.classList.add("active");
     }
 
-//<!---->
-    const bookId = "{{ $book->id }}";
-    const checkInterval = 5000; // 5 giây kiểm tra 1 lần
+    // --- 2. XỬ LÝ SỐ LƯỢNG (+/-) ---
+    function updateQty(change) {
+        var input = document.getElementById('qtyInput');
+        var maxStock = parseInt(input.getAttribute('data-max'));
+        var currentQty = parseInt(input.value) || 1; // Nếu lỗi thì về 1
+        var newQty = currentQty + change;
 
-    // Hàm cập nhật giao diện
+        if (newQty < 1) newQty = 1;
+        if (newQty > maxStock) {
+            alert("Đã đạt giới hạn tồn kho!");
+            newQty = maxStock;
+        }
+        input.value = newQty;
+    }
+
+    function checkManualQty(input) {
+        var maxStock = parseInt(input.getAttribute('data-max'));
+        var val = parseInt(input.value);
+
+        if (isNaN(val) || val < 1) {
+            alert("Số lượng không hợp lệ");
+            input.value = 1;
+        } else if (val > maxStock) {
+            alert("Kho chỉ còn " + maxStock + " sản phẩm");
+            input.value = maxStock;
+        } else {
+            input.value = val;
+        }
+    }
+
+    // --- 3. REALTIME (Cập nhật số lượng, đánh giá) ---
     function updateRealtimeUI(data) {
-        // 1. CẬP NHẬT SỐ LƯỢNG 
+        // Cập nhật trạng thái kho
         const stockContainer = document.getElementById('stock-status-container');
-        const btnAdd = document.getElementById('btn-add-cart'); // id nút thêm giỏ hàng
-        const btnBuy = document.getElementById('btn-buy-now');  // id nút mua ngay
+        const btnAdd = document.getElementById('btn-add-cart'); 
+        const btnBuy = document.getElementById('btn-buy-now');
         
         if (data.quantity > 0) {
-            // Nếu trạng thái đang là hết hàng hoặc số lượng thay đổi -> render lại
-            stockContainer.innerHTML = `
-                <span class="text-green-600 dark:text-green-400 font-bold text-sm animate-pulse">
-                    <i class="fas fa-check-circle mr-1"></i>Còn hàng (${data.quantity})
-                </span>`;
-            
-            // Mở lại nút mua nếu trước đó bị disable
+            stockContainer.innerHTML = `<span class="text-green-600 font-bold text-sm"><i class="fas fa-check-circle mr-1"></i>Còn hàng (${data.quantity})</span>`;
             if(btnAdd) btnAdd.classList.remove('opacity-50', 'pointer-events-none');
             if(btnBuy) btnBuy.classList.remove('opacity-50', 'pointer-events-none');
         } else {
-            stockContainer.innerHTML = `
-                <span class="text-red-500 font-bold text-sm animate-bounce">
-                    <i class="fas fa-times-circle mr-1"></i>Hết hàng
-                </span>`;
-            
-            // Disable nút mua
+            stockContainer.innerHTML = `<span class="text-red-500 font-bold text-sm"><i class="fas fa-times-circle mr-1"></i>Hết hàng</span>`;
             if(btnAdd) btnAdd.classList.add('opacity-50', 'pointer-events-none');
             if(btnBuy) btnBuy.classList.add('opacity-50', 'pointer-events-none');
         }
-
-        // Cập nhật số review
+        
+        // Cập nhật số review và sao
         const reviewEl = document.getElementById('total-reviews-display');
         if(reviewEl) reviewEl.innerText = data.total_reviews;
-
-        //chưa cập nhật sao
+        
+        const ratingEl = document.getElementById('avg-rating-display');
+        if (ratingEl) ratingEl.innerText = parseFloat(data.avg_rating).toFixed(1);
     }
 
-    // gọi về server
     function fetchRealtimeData() {
-        fetch(`/product/check-status/${bookId}`)
+        // Dùng Route Slug ở đây
+        fetch("{{ route('product.checkRealtimeStatus', ['slug' => $book->slug]) }}")
             .then(res => res.json())
             .then(res => {
                 if (res.status === 'success') {
                     updateRealtimeUI(res.data);
                 }
             })
-            .catch(e => console.error("Lỗi cập nhật realtime:", e));
+            .catch(e => console.error("Lỗi Realtime:", e));
     }
+    
+    // Chạy ngay khi vào trang và lặp lại mỗi 5s
+    fetchRealtimeData(); 
+    setInterval(fetchRealtimeData, 5000);
 
-    setInterval(fetchRealtimeData, checkInterval);
+    // --- 4. THÊM VÀO GIỎ HÀNG (Alert đơn giản) ---
+    // gửi nhờ ở zalo th H, nào cardcontroller có mới dán lại
+    
 </script>
 
 @endsection

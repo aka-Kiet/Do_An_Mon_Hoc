@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController; //Sử dụng HomeController
 use App\Http\Controllers\ProductController; //Sử dụng ProductController
 use App\Http\Controllers\CheckoutController; //Sử dụng CheckoutController
 use App\Http\Controllers\CartController; //Sử dụng CheckoutController
+use App\Http\Controllers\ReviewController; // Sử dụng ReviewController
 use App\Http\Controllers\AuthController; //Sử dụng AuthController
 use App\Http\Controllers\UserProfileController; //Sử dụng UserProfileController
 use App\Http\Controllers\FavoriteController; //Sử dụng FavoriteController
@@ -90,6 +91,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/yeu-thich', [FavoriteController::class, 'index'])->name('profile.favorites');
     Route::post('/yeu-thich/{id}', [FavoriteController::class, 'toggle'])->name('profile.favorites.toggle');
+
+    Route::post('/san-pham/danh-gia', [ReviewController::class, 'store'])->name('product.review.store');
 });
 
 // ProductController - Route danh sách sản phẩm (dùng cho thanh tìm kiếm ở header)

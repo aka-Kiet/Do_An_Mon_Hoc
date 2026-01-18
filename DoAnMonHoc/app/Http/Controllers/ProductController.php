@@ -120,23 +120,25 @@ class ProductController extends Controller
     }
 
     //realtime yêu cầu 11, 17
-    public function checkRealtimeStatus($id) 
-{
-    $book = Book::select('id', 'quantity', 'avg_rating', 'total_reviews', 'view_count') 
-                ->find($id);
+    public function checkRealtimeStatus($slug) 
+    {
+        // Sửa: Tìm sách theo slug thay vì find(id)
+        $book = Book::select('id', 'quantity', 'avg_rating', 'total_reviews', 'view_count') 
+                    ->where('slug', $slug) // <-- Thay đổi ở đây
+                    ->first(); // Dùng first() để lấy 1 dòng
 
-    if ($book) {
-        return response()->json([
-            'status' => 'success',
-            'data' => [
-                'quantity' => $book->quantity,         // số lượng 
-                'avg_rating' => $book->avg_rating,     // điểm trung bình
-                'total_reviews' => $book->total_reviews, // tổng đánh giá
-                'view_count' => $book->view_count ?? 0, // luotj view
-            ]
-        ]);
+        if ($book) {
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'quantity' => $book->quantity,
+                    'avg_rating' => $book->avg_rating,
+                    'total_reviews' => $book->total_reviews,
+                    'view_count' => $book->view_count ?? 0,
+                ]
+            ]);
+        }
+        
+        return response()->json(['status' => 'error'], 404);
     }
-    
-    return response()->json(['status' => 'error'], 404);
-}
 }
