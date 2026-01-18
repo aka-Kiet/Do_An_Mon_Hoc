@@ -56,6 +56,13 @@ class CheckoutController extends Controller
         $user = Auth::user();
         $cart = Cart::where('user_id', $user->id)->with('items.book')->first();
 
+        // 👇 KIỂM TRA TỒN KHO TRƯỚC KHI BÁN
+        foreach ($cart->items as $item) {
+            if ($item->book->quantity < $item->quantity) {
+                return back()->with('error', 'Sản phẩm "' . $item->book->name . '" chỉ còn lại ' . $item->book->quantity . ' cuốn. Vui lòng cập nhật lại giỏ hàng.');
+            }
+        }
+
         if(!$cart || $cart->items->count() == 0) {
             return redirect()->route('cart.index');
         }
@@ -86,6 +93,14 @@ class CheckoutController extends Controller
                     'quantity' => $item->quantity,
                     'price' => $item->book->price
                 ]);
+
+                $book = $item->book;
+
+                // Trừ số lượng tồn kho
+                $book->decrement('quantity', $item->quantity);
+
+                // Tăng số lượng đã bán (Để tính Best Seller)
+                $book->increment('sold_quantity', $item->quantity);
             }
 
             // 3. Xóa sạch giỏ hàng
