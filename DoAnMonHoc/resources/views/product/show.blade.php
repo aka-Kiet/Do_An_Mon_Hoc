@@ -243,7 +243,10 @@
                         @foreach($book->reviews as $review)
                             <div class="flex gap-4 border-b border-stone-200 dark:border-slate-700 pb-6">
 <!-- chưa cập nhật ảnh đại diện-->
-                                <div class="w-12 h-12 rounded-full bg-gray-300 overflow-hidden shrink-0"><img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-full h-full object-cover"></div>
+                                <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md flex-shrink-0">
+                                    {{-- SỬA: Đổi $comment thành $review, thêm 'A' làm giá trị mặc định --}}
+                                    {{ substr($review->user?->name ?? 'A', 0, 1) }}
+                                </div>
                                 <div>
                                     <div class="flex items-center gap-2 mb-1">
                                         <h4 class="font-bold text-brown-dark dark:text-white">{{$review->user->name}}</h4>
