@@ -140,9 +140,9 @@
                     <p class="text-right text-xs text-stone-500 dark:text-slate-500 mt-1">(Đã bao gồm VAT)</p>
                 </div>
 
-                <button class="w-full py-4 rounded-xl bg-brown-primary text-white font-bold text-lg hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 shadow-xl hover:shadow-2xl dark:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all duration-300 transform hover:-translate-y-1">
+                <a href="{{ route('checkout.index') }}" class="block text-center w-full py-4 rounded-xl bg-brown-primary text-white font-bold text-lg hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 shadow-xl hover:shadow-2xl dark:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all duration-300 transform hover:-translate-y-1">
                     Tiến Hành Thanh Toán
-                </button>
+                </a>
 
                 <div class="mt-6 flex justify-center gap-3 text-2xl text-stone-400 dark:text-slate-600">
                     <i class="fab fa-cc-visa"></i>
