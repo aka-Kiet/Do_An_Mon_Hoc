@@ -68,6 +68,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
       // Quản lý Sách (Tự động tạo 7 route CRUD)
         Route::resource('categories', CategoryController::class);
+        Route::resource('books', App\Http\Controllers\Admin\BookController::class);
     });
 
 // Nhóm route yêu cầu đăng nhập
