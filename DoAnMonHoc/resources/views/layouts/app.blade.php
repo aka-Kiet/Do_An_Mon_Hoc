@@ -2,9 +2,10 @@
 <html lang="vi" class="">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $viewData['title'] }}</title>
-    
+    <title>@yield('title', 'BookStore')</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -59,5 +60,9 @@
 
     {{-- Định vị vị trí sẽ chèn js riêng --}}
     @stack('scripts')
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="{{ asset('js/cart.js') }}"></script>
+
 </body>
 </html>

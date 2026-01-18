@@ -58,7 +58,7 @@ class ProductController extends Controller
     
         // 3. Phân trang & Giữ lại tham số trên URL
         // Quan trọng: Phải thêm tất cả tham số lọc vào appends
-        $products = $query->paginate(9)->appends($req->all()); 
+        $products = $query->paginate(16)->appends($req->all()); 
         // $req->all() sẽ tự động lấy hết: sort, search, categories, min_price... đưa vào link phân trang
     
         // 4. Lấy sách bán chạy (Sidebar)
@@ -118,4 +118,25 @@ class ProductController extends Controller
 
         return view("product.show")->with("viewData", $viewData);
     }
+
+    //realtime yêu cầu 11, 17
+    public function checkRealtimeStatus($id) 
+{
+    $book = Book::select('id', 'quantity', 'avg_rating', 'total_reviews', 'view_count') 
+                ->find($id);
+
+    if ($book) {
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'quantity' => $book->quantity,         // số lượng 
+                'avg_rating' => $book->avg_rating,     // điểm trung bình
+                'total_reviews' => $book->total_reviews, // tổng đánh giá
+                'view_count' => $book->view_count ?? 0, // luotj view
+            ]
+        ]);
+    }
+    
+    return response()->json(['status' => 'error'], 404);
+}
 }
