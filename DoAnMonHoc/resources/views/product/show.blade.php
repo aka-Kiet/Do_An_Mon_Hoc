@@ -208,7 +208,7 @@
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             @foreach($relatedBooks as $item)
-                <a href="{{ route('product.show', $item->id) }}" class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300 block">       
+                <a href="{{ route('product.show', $item->slug) }}" class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300 block">       
                     <div class="h-64 overflow-hidden relative p-4">
                         <button class="absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 dark:hover:text-neon-red dark:hover:bg-slate-900 transition-all shadow-sm"><i class="far fa-heart"></i></button>
                         <img src="{{asset($item->image)}}" class="{{$item->name}}">
