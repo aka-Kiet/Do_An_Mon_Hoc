@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center h-16">
             
             <!-- LOGO / TÊN THƯƠNG HIỆU -->
-            <a href="#" class="text-2xl font-extrabold tracking-tighter hover:scale-105 transition-transform group flex-shrink-0">
+            <a href="{{ route('home.index') }}" class="text-2xl font-extrabold tracking-tighter hover:scale-105 transition-transform group flex-shrink-0">
                 <span class="text-brown-dark dark:text-white dark:group-hover:text-neon-red transition-colors">
                     <i class="fas fa-book-open mr-2"></i>Book
                 </span>
