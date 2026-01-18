@@ -52,7 +52,7 @@ class HomeController extends Controller
         return Book::with('author')
             ->where('is_active', true)
             ->latest()
-            ->take(3) // lấy 3 cuốn mới nhất
+            ->take(3) // lấy 4 cuốn mới nhất
             ->get();
     }
     private function getHighlightBooks() {

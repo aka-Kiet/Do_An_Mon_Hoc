@@ -39,7 +39,13 @@ Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.
 
 // CartController
 // Định tuyến trang thanh toán
-Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
+// Route::get('/gio-hang', [CartController::class, 'index'])->name('cart.index');
+Route::middleware('auth')->prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/update', [CartController::class, 'update'])->name('cart.update');
+    Route::post('/remove', [CartController::class, 'remove'])->name('cart.remove');
+});
 
 
 // 1. Đăng nhập
@@ -80,6 +86,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/yeu-thich', [FavoriteController::class, 'index'])->name('profile.favorites');
     Route::post('/yeu-thich/{id}', [FavoriteController::class, 'toggle'])->name('profile.favorites.toggle');
 });
+
 
 
 
