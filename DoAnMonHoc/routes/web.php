@@ -9,6 +9,9 @@ use App\Http\Controllers\CartController; //Sử dụng CheckoutController
 use App\Http\Controllers\AuthController; //Sử dụng AuthController
 use App\Http\Controllers\UserProfileController; //Sử dụng UserProfileController
 use App\Http\Controllers\FavoriteController; //Sử dụng FavoriteController
+use App\Http\Controllers\Admin\CategoryController; //Sử dụng CategoryController
+use App\Http\Controllers\Admin\DashboardController; //Sử dụng DashboardController
+
 
 // HomeController
 // Định tuyến của trang chủ
@@ -59,16 +62,13 @@ Route::post('/register', [AuthController::class, 'register']); // Xử lý đăn
 // 3. Đăng xuất
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
-
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    
+// Nhóm route dành cho Admin
+Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
     // Trang chủ Admin (Thống kê)
-    Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
-
-    // Quản lý Sách (Tự động tạo 7 route CRUD)
-
-});
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+      // Quản lý Sách (Tự động tạo 7 route CRUD)
+        Route::resource('categories', CategoryController::class);
+    });
 
 // Nhóm route yêu cầu đăng nhập
 Route::middleware('auth')->group(function () {
@@ -87,7 +87,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/yeu-thich/{id}', [FavoriteController::class, 'toggle'])->name('profile.favorites.toggle');
 });
 
-
+// ProductController - Route danh sách sản phẩm (dùng cho thanh tìm kiếm ở header)
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 

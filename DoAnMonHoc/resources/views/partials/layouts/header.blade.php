@@ -113,6 +113,12 @@
                 
                             <ul class="py-2">
                                 <li>
+                                    <a href="{{ route('admin.dashboard') }}" class="flex items-center px-4 py-2.5 text-sm text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-colors">
+                                        <span class="w-8 text-center mr-1"><i class="fas fa-user"></i></span> 
+                                        Quản lý Admin
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ route('profile.index') }}" class="flex items-center px-4 py-2.5 text-sm text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-colors">
                                         <span class="w-8 text-center mr-1"><i class="fas fa-user"></i></span> 
                                         Tài khoản của tôi
