@@ -3,7 +3,7 @@
         <div class="flex justify-between items-center h-16">
             
             <!-- LOGO / TÊN THƯƠNG HIỆU -->
-            <a href="#" class="text-2xl font-extrabold tracking-tighter hover:scale-105 transition-transform group flex-shrink-0">
+            <a href="{{ route('home.index') }}" class="text-2xl font-extrabold tracking-tighter hover:scale-105 transition-transform group flex-shrink-0">
                 <span class="text-brown-dark dark:text-white dark:group-hover:text-neon-red transition-colors">
                     <i class="fas fa-book-open mr-2"></i>Book
                 </span>
@@ -59,19 +59,29 @@
                 </button>
 
                 <!-- Giỏ hàng với badge số lượng sản phẩm -->
+
                 <a href="{{ route('cart.index') }}" 
-                    class="cart-btn group flex items-center gap-1 {{ request()->routeIs('cart.index') ? 'active' : '' }}">
-                    
-                    <div class="relative p-2 transition text-inherit"> <i class="fas fa-shopping-bag text-xl"></i>
-                        
-                        <span class="absolute top-0 right-0 bg-brown-primary dark:bg-neon-red text-white text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center shadow-md">
-                            4
-                        </span>
+                class="cart-btn group flex items-center gap-1 {{ request()->routeIs('cart.index') ? 'active' : '' }}">
+
+                    <div class="relative p-2 transition text-inherit">
+                        <i class="fas fa-shopping-bag text-xl"></i>
+
+                        @if ($headerCartCount > 0)
+                            <span
+                                class="cart-badge absolute top-0 right-0 bg-brown-primary dark:bg-neon-red
+                                    text-white text-[10px] font-bold rounded-full h-4 w-4 flex
+                                    items-center justify-center shadow-md">
+                                {{ $headerCartCount }}
+                            </span>
+                        @endif
                     </div>
-                
-                    <span class="hidden md:block font-bold text-sm transition text-inherit"> 1.250.000đ
+
+                    {{-- Không hiển thị tiền, chỉ giữ DOM cho JS --}}
+                    <span class="cart-total hidden font-bold text-sm transition text-inherit">
+                        {{ number_format($headerCartTotal) }}đ
                     </span>
                 </a>
+
 
                 <!-- Nút Đăng nhập / Đăng ký (hiển thị từ md trở lên) -->
                 <div class="relative group z-50">
@@ -102,6 +112,12 @@
                             </div>
                 
                             <ul class="py-2">
+                                <li>
+                                    <a href="{{ route('admin.dashboard') }}" class="flex items-center px-4 py-2.5 text-sm text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-colors">
+                                        <span class="w-8 text-center mr-1"><i class="fas fa-user"></i></span> 
+                                        Quản lý Admin
+                                    </a>
+                                </li>
                                 <li>
                                     <a href="{{ route('profile.index') }}" class="flex items-center px-4 py-2.5 text-sm text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-colors">
                                         <span class="w-8 text-center mr-1"><i class="fas fa-user"></i></span> 

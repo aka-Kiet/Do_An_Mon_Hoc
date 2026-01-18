@@ -661,3 +661,4 @@ class BookSeeder extends Seeder
         
     }
 }
+

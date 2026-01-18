@@ -49,9 +49,9 @@ class CategorySeeder extends Seeder
         Category::create([
             'name' => 'Tâm Lý & Kỹ Năng',
             'slug' => 'tam-ly-ky-nang',
-            'icon' => 'fas fa-lightbulb', // Icon bóng đèn
+            'icon' => 'fas fa-brain', // Icon não
             'is_featured' => true,
-            'is_active' => true,
+            // 'is_active' => true,
         ]);
     }
 }

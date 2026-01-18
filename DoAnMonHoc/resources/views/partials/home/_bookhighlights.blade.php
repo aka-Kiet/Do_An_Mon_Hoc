@@ -49,10 +49,16 @@
                     </a>
 
                     {{-- 2. NÚT THÊM GIỎ HÀNG --}}
-                    <button class="w-10 h-10 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center shadow-lg hover:bg-brown-dark dark:hover:bg-red-700 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75"
+                    <form method="POST" action="{{ route('cart.add') }}">
+                        @csrf
+                        <input type="hidden" name="book_id" value="{{ $book->id }}">
+                        <button 
+                            type="submit"
+                            class="w-10 h-10 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center shadow-lg hover:bg-brown-dark dark:hover:bg-red-700 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75"
                             title="Thêm vào giỏ">
-                        <i class="fas fa-cart-plus"></i>
-                    </button>
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
             

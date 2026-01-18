@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
     @foreach($viewData["products"] as $product)
     <div class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300">
@@ -35,22 +35,27 @@
 
             {{-- 2. OVERLAY VỚI 2 NÚT TRÒN (MẮT + GIỎ) --}}
             {{-- Lưu ý: pointer-events-none ở cha để không che, pointer-events-auto ở nút để click được --}}
-            <div class="absolute inset-0 bg-stone-900/10 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px] gap-3 pointer-events-none">
-                
-                {{-- Nút Xem chi tiết --}}
-                <a href="{{ route('product.show', $product->slug) }}" 
-                   class="pointer-events-auto w-10 h-10 rounded-full bg-white text-stone-700 dark:bg-slate-700 dark:text-white flex items-center justify-center shadow-lg hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
-                   title="Xem chi tiết">
-                    <i class="fas fa-eye"></i>
-                </a>
+            <div class="absolute inset-0 bg-stone-900/10 dark:bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-[2px] gap-3">
+                    
+                    {{-- 1. NÚT XEM CHI TIẾT (Mới thêm) --}}
+                    <a href="{{ route('product.show', $product->slug) }}"
+                       class="w-10 h-10 rounded-full bg-white text-stone-700 dark:bg-slate-700 dark:text-white flex items-center justify-center shadow-lg hover:bg-brown-primary hover:text-white dark:hover:bg-neon-red transition-all duration-300 transform translate-y-4 group-hover:translate-y-0"
+                       title="Xem chi tiết">
+                        <i class="fas fa-eye"></i>
+                    </a>
 
-                {{-- Nút Thêm giỏ hàng --}}
-                <button class="pointer-events-auto w-10 h-10 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center shadow-lg hover:bg-brown-dark dark:hover:bg-red-700 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75"
-                        title="Thêm vào giỏ">
-                    <i class="fas fa-cart-plus"></i>
-                </button>
-
-            </div>
+                    {{-- 2. NÚT THÊM GIỎ HÀNG --}}
+                    <form method="POST" action="{{ route('cart.add') }}">
+                        @csrf
+                        <input type="hidden" name="book_id" value="{{ $product->id }}">
+                        <button 
+                            type="submit"
+                            class="w-10 h-10 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center shadow-lg hover:bg-brown-dark dark:hover:bg-red-700 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75"
+                            title="Thêm vào giỏ">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
+                    </form>
+                </div>
         </div>
         
         <div class="px-5 pb-5 pt-2">

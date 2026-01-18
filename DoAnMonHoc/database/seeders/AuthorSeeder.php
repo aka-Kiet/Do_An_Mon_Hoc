@@ -119,3 +119,4 @@ class AuthorSeeder extends Seeder
         ]);
     }
 }
+

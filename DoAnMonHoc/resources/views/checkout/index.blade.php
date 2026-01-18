@@ -1,187 +1,137 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container mx-auto px-4 py-10 min-h-[600px]">
+    
+    <h1 class="text-3xl font-extrabold text-brown-dark dark:text-white mb-8 flex items-center">
+        <i class="fas fa-money-check-alt mr-3"></i> Thanh Toán
+    </h1>
 
-<main class="pt-28 pb-12 px-4 container mx-auto flex-grow">
+    <form action="{{ route('checkout.process') }}" method="POST">
+        @csrf
         
-    <div class="flex justify-center items-center mb-10 text-sm font-bold">
-        <div class="flex items-center text-brown-primary dark:text-neon-red">
-            <span class="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center mr-2">1</span> Giỏ hàng
-        </div>
-        <div class="w-16 h-0.5 bg-brown-primary dark:bg-neon-red mx-4"></div>
-        <div class="flex items-center text-brown-primary dark:text-neon-red">
-            <span class="w-8 h-8 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center mr-2 shadow-lg">2</span> Thanh toán
-        </div>
-        <div class="w-16 h-0.5 bg-stone-300 dark:bg-slate-700 mx-4"></div>
-        <div class="flex items-center text-stone-400 dark:text-slate-600">
-            <span class="w-8 h-8 rounded-full border-2 border-current flex items-center justify-center mr-2">3</span> Hoàn tất
-        </div>
-    </div>
-
-    <form action="#" method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        <div class="lg:col-span-2 space-y-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <div class="glass p-6 md:p-8 rounded-3xl bg-white/40 dark:bg-slate-900/40">
-                <h2 class="text-xl font-bold text-brown-dark dark:text-white mb-6 flex items-center border-b border-stone-200 dark:border-slate-700 pb-2">
-                    <i class="fas fa-map-marker-alt mr-3 text-brown-primary dark:text-neon-red"></i> Thông Tin Giao Hàng
-                </h2>
+            {{-- CỘT TRÁI: THÔNG TIN GIAO HÀNG --}}
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-brown-dark dark:text-white mb-6 border-b border-stone-100 dark:border-slate-700 pb-4">
+                        1. Thông tin giao hàng
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {{-- Họ tên --}}
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Họ và tên người nhận <span class="text-red-500">*</span></label>
+                            <input type="text" name="name" value="{{ old('name', $user->name) }}" required
+                                class="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-brown-primary focus:outline-none transition">
+                        </div>
+
+                        {{-- Số điện thoại --}}
+                        <div class="space-y-2">
+                            <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Số điện thoại <span class="text-red-500">*</span></label>
+                            <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" required
+                                class="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-brown-primary focus:outline-none transition">
+                        </div>
+
+                        {{-- Địa chỉ (Full width) --}}
+                        <div class="col-span-1 md:col-span-2 space-y-2">
+                            <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Địa chỉ nhận hàng <span class="text-red-500">*</span></label>
+                            <input type="text" name="address" value="{{ old('address', $user->address) }}" required placeholder="Số nhà, tên đường, phường/xã, quận/huyện..."
+                                class="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-brown-primary focus:outline-none transition">
+                        </div>
+
+                        {{-- Ghi chú --}}
+                        <div class="col-span-1 md:col-span-2 space-y-2">
+                            <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Ghi chú đơn hàng (Tùy chọn)</label>
+                            <textarea name="note" rows="2" placeholder="Ví dụ: Giao hàng vào giờ hành chính..."
+                                class="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-brown-primary focus:outline-none transition"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Phương thức thanh toán --}}
+                <div class="space-y-3">
+                    {{-- Lựa chọn 1: COD --}}
+                    <label class="flex items-center p-4 border border-stone-200 dark:border-slate-600 rounded-xl cursor-pointer transition-all hover:border-brown-primary hover:bg-brown-primary/5 dark:hover:border-neon-red dark:hover:bg-slate-700 has-[:checked]:border-brown-primary has-[:checked]:bg-brown-primary/5 dark:has-[:checked]:border-neon-red dark:has-[:checked]:bg-slate-700">
+                        <input type="radio" name="payment_method" value="cod" checked class="w-5 h-5 text-brown-primary focus:ring-brown-primary dark:text-neon-red dark:focus:ring-neon-red">
+                        <div class="ml-4">
+                            <span class="block font-bold text-stone-800 dark:text-white">Thanh toán khi nhận hàng (COD)</span>
+                            <span class="text-xs text-stone-500 dark:text-slate-400">Bạn chỉ phải thanh toán khi đã nhận được hàng.</span>
+                        </div>
+                        <i class="fas fa-money-bill-wave ml-auto text-2xl text-brown-primary dark:text-neon-red"></i>
+                    </label>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase text-stone-500 dark:text-slate-400 ml-1">Họ tên người nhận</label>
-                        <input type="text" placeholder="Nguyễn Văn A" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 border border-stone-200 dark:border-slate-700 focus:border-brown-primary dark:focus:border-neon-red focus:outline-none focus:ring-2 focus:ring-brown-primary/20 dark:focus:ring-neon-red/20 transition-all dark:text-white">
-                    </div>
-                    
-                    <div class="space-y-1">
-                        <label class="text-xs font-bold uppercase text-stone-500 dark:text-slate-400 ml-1">Số điện thoại</label>
-                        <input type="tel" placeholder="0909 xxx xxx" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 border border-stone-200 dark:border-slate-700 focus:border-brown-primary dark:focus:border-neon-red focus:outline-none focus:ring-2 focus:ring-brown-primary/20 dark:focus:ring-neon-red/20 transition-all dark:text-white">
-                    </div>
-
-                    <div class="md:col-span-2 space-y-1">
-                        <label class="text-xs font-bold uppercase text-stone-500 dark:text-slate-400 ml-1">Email (Để nhận hóa đơn)</label>
-                        <input type="email" placeholder="email@example.com" class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 border border-stone-200 dark:border-slate-700 focus:border-brown-primary dark:focus:border-neon-red focus:outline-none focus:ring-2 focus:ring-brown-primary/20 dark:focus:ring-neon-red/20 transition-all dark:text-white">
-                    </div>
-
-                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <select class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 border border-stone-200 dark:border-slate-700 focus:outline-none focus:border-brown-primary dark:focus:border-neon-red cursor-pointer">
-                            <option>Tỉnh / Thành phố</option>
-                            <option>TP. Hồ Chí Minh</option>
-                            <option>Hà Nội</option>
-                        </select>
-                        <select class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 border border-stone-200 dark:border-slate-700 focus:outline-none focus:border-brown-primary dark:focus:border-neon-red cursor-pointer">
-                            <option>Quận / Huyện</option>
-                        </select>
-                        <select class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 border border-stone-200 dark:border-slate-700 focus:outline-none focus:border-brown-primary dark:focus:border-neon-red cursor-pointer">
-                            <option>Phường / Xã</option>
-                        </select>
-                    </div>
-
-                    <div class="md:col-span-2 space-y-1">
-                        <label class="text-xs font-bold uppercase text-stone-500 dark:text-slate-400 ml-1">Địa chỉ cụ thể</label>
-                        <input type="text" placeholder="Số nhà, tên đường..." class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 border border-stone-200 dark:border-slate-700 focus:border-brown-primary dark:focus:border-neon-red focus:outline-none focus:ring-2 focus:ring-brown-primary/20 dark:focus:ring-neon-red/20 transition-all dark:text-white">
-                    </div>
-                    
-                    <div class="md:col-span-2 space-y-1">
-                        <label class="text-xs font-bold uppercase text-stone-500 dark:text-slate-400 ml-1">Ghi chú đơn hàng (Tùy chọn)</label>
-                        <textarea rows="2" placeholder="Ví dụ: Giao giờ hành chính..." class="w-full px-4 py-3 rounded-xl bg-white/50 dark:bg-slate-800/50 border border-stone-200 dark:border-slate-700 focus:border-brown-primary dark:focus:border-neon-red focus:outline-none focus:ring-2 focus:ring-brown-primary/20 dark:focus:ring-neon-red/20 transition-all dark:text-white resize-none"></textarea>
-                    </div>
+                    {{-- Lựa chọn 2: Chuyển khoản (Đã MỞ KHÓA) --}}
+                    <label class="flex items-center p-4 border border-stone-200 dark:border-slate-600 rounded-xl cursor-pointer transition-all hover:border-blue-500 hover:bg-blue-50 dark:hover:border-blue-400 dark:hover:bg-slate-700 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 dark:has-[:checked]:border-blue-400 dark:has-[:checked]:bg-slate-700">
+                        {{-- 👇 Quan trọng: value="banking" --}}
+                        <input type="radio" name="payment_method" value="banking" class="w-5 h-5 text-blue-600 focus:ring-blue-500">
+                        <div class="ml-4">
+                            <span class="block font-bold text-stone-800 dark:text-white">Chuyển khoản ngân hàng (QR)</span>
+                            <span class="text-xs text-stone-500 dark:text-slate-400">Quét mã VietQR - Tự động xác nhận.</span>
+                        </div>
+                        <i class="fas fa-qrcode ml-auto text-2xl text-blue-600 dark:text-blue-400"></i>
+                    </label>
                 </div>
             </div>
 
-            <div class="glass p-6 md:p-8 rounded-3xl bg-white/40 dark:bg-slate-900/40">
-                <h2 class="text-xl font-bold text-brown-dark dark:text-white mb-6 flex items-center border-b border-stone-200 dark:border-slate-700 pb-2">
-                    <i class="fas fa-wallet mr-3 text-brown-primary dark:text-neon-red"></i> Phương Thức Thanh Toán
-                </h2>
+            {{-- CỘT PHẢI: TÓM TẮT ĐƠN HÀNG --}}
+            <div class="lg:col-span-1">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 sticky top-28">
+                    <h3 class="text-xl font-bold text-brown-dark dark:text-white mb-6 border-b border-stone-100 dark:border-slate-700 pb-4">
+                        Đơn hàng của bạn
+                    </h3>
 
-                <div class="space-y-4">
-                    <div class="relative">
-                        <input type="radio" name="payment" id="cod" class="payment-radio hidden" checked>
-                        <label for="cod" class="flex items-center p-4 rounded-xl border-2 border-stone-200 dark:border-slate-700 cursor-pointer hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
-                            <div class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xl mr-4 shrink-0">
-                                <i class="fas fa-money-bill-wave"></i>
+                    {{-- Danh sách item thu gọn --}}
+                    <div class="max-h-[300px] overflow-y-auto pr-2 mb-6 space-y-4 custom-scrollbar">
+                        @foreach($viewData['cart']->items as $item)
+                            <div class="flex gap-3">
+                                <div class="w-16 h-20 rounded border border-stone-200 overflow-hidden shrink-0">
+                                    <img src="{{ asset($item->book->image) }}" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="text-sm font-bold text-stone-800 dark:text-white line-clamp-2">{{ $item->book->name }}</h4>
+                                    <div class="flex justify-between mt-1 text-xs">
+                                        <span class="text-stone-500 dark:text-slate-400">x{{ $item->quantity }}</span>
+                                        <span class="font-bold text-brown-primary dark:text-neon-red">{{ number_format($item->book->price * $item->quantity) }}đ</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="font-bold text-brown-dark dark:text-white">Thanh toán khi nhận hàng (COD)</h4>
-                                <p class="text-xs text-stone-500 dark:text-slate-400">Thanh toán bằng tiền mặt cho shipper khi nhận được hàng.</p>
-                            </div>
-                        </label>
+                        @endforeach
                     </div>
 
-                    <div class="relative">
-                        <input type="radio" name="payment" id="banking" class="payment-radio hidden">
-                        <label for="banking" class="flex items-center p-4 rounded-xl border-2 border-stone-200 dark:border-slate-700 cursor-pointer hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
-                            <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl mr-4 shrink-0">
-                                <i class="fas fa-university"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-brown-dark dark:text-white">Chuyển khoản ngân hàng (QR Code)</h4>
-                                <p class="text-xs text-stone-500 dark:text-slate-400">Quét mã QR để thanh toán nhanh chóng qua App ngân hàng.</p>
-                            </div>
-                        </label>
+                    {{-- Tính tiền --}}
+                    <div class="space-y-3 mb-6 pt-4 border-t border-stone-100 dark:border-slate-700 text-sm text-stone-600 dark:text-slate-300">
+                        <div class="flex justify-between">
+                            <span>Tạm tính</span>
+                            <span class="font-bold">{{ number_format($viewData['subtotal']) }}đ</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Phí vận chuyển</span>
+                            <span class="font-bold text-green-600">Miễn phí</span>
+                        </div>
                     </div>
 
-                    <div class="relative">
-                        <input type="radio" name="payment" id="momo" class="payment-radio hidden">
-                        <label for="momo" class="flex items-center p-4 rounded-xl border-2 border-stone-200 dark:border-slate-700 cursor-pointer hover:bg-white/50 dark:hover:bg-slate-800/50 transition-all">
-                            <div class="w-12 h-12 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-xl mr-4 shrink-0">
-                                <i class="fas fa-qrcode"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-bold text-brown-dark dark:text-white">Ví điện tử (Momo / ZaloPay)</h4>
-                                <p class="text-xs text-stone-500 dark:text-slate-400">Liên kết ví điện tử để thanh toán một chạm.</p>
-                            </div>
-                        </label>
+                    <div class="border-t border-stone-200 dark:border-slate-700 my-4 pt-4">
+                        <div class="flex justify-between items-end">
+                            <span class="font-bold text-lg text-brown-dark dark:text-white">Tổng cộng</span>
+                            <span class="text-2xl font-extrabold text-brown-primary dark:text-neon-red">
+                                {{ number_format($viewData['total']) }}đ
+                            </span>
+                        </div>
                     </div>
+
+                    <button type="submit" class="w-full py-4 rounded-xl bg-brown-primary text-white font-bold text-lg hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        XÁC NHẬN ĐẶT HÀNG
+                    </button>
+                    
+                    <p class="text-center text-xs text-stone-400 mt-4">
+                        Bằng việc đặt hàng, bạn đồng ý với <a href="#" class="underline hover:text-brown-primary">Điều khoản dịch vụ</a> của chúng tôi.
+                    </p>
                 </div>
             </div>
 
         </div>
-
-        <div class="lg:col-span-1">
-            <div class="glass p-6 rounded-3xl bg-white/50 dark:bg-slate-900/60 sticky top-28 border border-white/60 dark:border-white/10">
-                <h3 class="text-xl font-bold text-brown-dark dark:text-white mb-6 border-b border-stone-200 dark:border-slate-700 pb-4">
-                    Đơn Hàng (3)
-                </h3>
-                
-                <div class="space-y-4 mb-6 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
-                    <div class="flex gap-3">
-                        <div class="w-16 h-20 rounded-lg overflow-hidden border border-stone-200 dark:border-slate-700 shrink-0">
-                            <img src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-bold text-brown-dark dark:text-white truncate">Cà Phê Cùng Tony</h4>
-                            <div class="flex justify-between mt-1">
-                                <span class="text-xs text-stone-500 dark:text-slate-400">x1</span>
-                                <span class="text-sm font-bold text-brown-primary dark:text-neon-red">120.000đ</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex gap-3">
-                        <div class="w-16 h-20 rounded-lg overflow-hidden border border-stone-200 dark:border-slate-700 shrink-0">
-                            <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="text-sm font-bold text-brown-dark dark:text-white truncate">Nhà Giả Kim</h4>
-                            <div class="flex justify-between mt-1">
-                                <span class="text-xs text-stone-500 dark:text-slate-400">x2</span>
-                                <span class="text-sm font-bold text-brown-primary dark:text-neon-red">170.000đ</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex justify-between items-center bg-green-100 dark:bg-green-500/10 p-3 rounded-xl mb-4 border border-green-200 dark:border-green-900/30">
-                    <span class="text-sm font-bold text-green-700 dark:text-green-400"><i class="fas fa-ticket-alt mr-1"></i> Mã giảm giá</span>
-                    <span class="text-sm font-bold text-green-700 dark:text-green-400">-0đ</span>
-                </div>
-
-                <div class="space-y-2 border-t border-stone-200 dark:border-slate-700 pt-4">
-                    <div class="flex justify-between text-stone-600 dark:text-slate-300 text-sm">
-                        <span>Tạm tính</span>
-                        <span>290.000đ</span>
-                    </div>
-                    <div class="flex justify-between text-stone-600 dark:text-slate-300 text-sm">
-                        <span>Phí vận chuyển</span>
-                        <span class="font-bold text-green-600 dark:text-green-400">Miễn phí</span>
-                    </div>
-                    <div class="flex justify-between items-end mt-4 pt-4 border-t border-stone-200 dark:border-slate-700">
-                        <span class="font-bold text-lg text-brown-dark dark:text-white">Tổng cộng</span>
-                        <span class="text-3xl font-extrabold text-brown-primary dark:text-neon-red">290.000đ</span>
-                    </div>
-                </div>
-
-                <button type="submit" class="w-full mt-6 py-4 rounded-xl bg-brown-primary text-white font-bold text-lg hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 shadow-xl hover:shadow-2xl dark:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all duration-300 transform hover:-translate-y-1">
-                    Đặt Hàng Ngay
-                </button>
-                
-                <p class="text-center text-xs text-stone-400 dark:text-slate-500 mt-4">
-                    Bằng việc đặt hàng, bạn đồng ý với <a href="#" class="underline hover:text-brown-primary dark:hover:text-neon-red">điều khoản</a> của chúng tôi.
-                </p>
-            </div>
-        </div>
-
     </form>
-</main>
-
+</div>
 @endsection

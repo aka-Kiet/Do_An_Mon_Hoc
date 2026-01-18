@@ -6,6 +6,7 @@
     $book = $viewData['book'];
     $relatedBooks = $viewData['relatedBooks'];
     $title = $viewData['title'];
+    $isFavorite = Auth::check() && Auth::user()->favorites->contains($book->id);
 @endphp
 
 <main class="pt-28 pb-12 px-4 container mx-auto flex-grow">
@@ -25,9 +26,22 @@
             <div class="glass p-4 rounded-3xl bg-white/40 dark:bg-slate-900/40 relative overflow-hidden group">
                 <img id="mainImage" src="{{ asset($book->image) }}" 
                      alt="{{ $book->name }}" class="w-full h-auto rounded-xl object-cover transition-transform duration-500 group-hover:scale-110 cursor-zoom-in">
-                <button class="absolute top-6 right-6 z-20 w-10 h-10 rounded-full glass bg-white/60 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 dark:hover:text-neon-red transition-all shadow-md">
-                    <i class="far fa-heart text-xl"></i>
-                </button>
+                @auth
+                    <form action="{{ route('profile.favorites.toggle', $book->id) }}" method="POST" class="absolute top-6 right-6 z-20">
+                        @csrf
+                        <button type="submit" class="w-10 h-10 rounded-full glass flex items-center justify-center transition-all shadow-md group{{ $isFavorite ? 'bg-red-50 text-red-500' : 'bg-white/60 dark:bg-black/40 text-stone-500 hover:bg-white hover:text-red-500' }}">
+                            
+                            @if($isFavorite)
+                                <i class="fas fa-heart text-xl animate-pulse"></i>
+                            @else
+                                <i class="far fa-heart text-xl"></i>
+                            @endif
+                        </button>
+                    </form>
+                    @else
+                        <a href="{{ route('login') }}" class="absolute top-6 right-6 z-20 w-10 h-10 rounded-full glass flex items-center justify-center bg-white/60 text-stone-500 hover:bg-white hover:text-red-500 transition-all shadow-md">
+                            <i class="far fa-heart text-xl"></i>
+                @endauth
             </div>
             <!--ảnh thumbnail-->
             <div class="flex space-x-4 overflow-x-auto pb-2">
@@ -103,6 +117,7 @@
             </p>
             <!--Phần giỏ hàng-->
             <div class="border-t border-stone-200 dark:border-slate-700 pt-6">
+
                     
             <div class="flex flex-col md:flex-row gap-4 mb-4">
                         
@@ -128,6 +143,7 @@
                     </button>
                 </div>
             </div>
+
             </div>
 
             <div class="flex gap-6 text-sm text-stone-500 dark:text-slate-400">
@@ -208,9 +224,26 @@
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             @foreach($relatedBooks as $item)
-                <a href="{{ route('product.show', ['slug' => $item->slug]) }}" class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300 block">       
+                @php
+                    // Kiểm tra người dùng có thích sách chưa
+                    $isRelatedFavorite = Auth::check() && Auth::user()->favorites->contains($item->id);
+                @endphp
+                <a href="{{ route('product.show', ['slug' => $item->slug]) }}" class="group relative rounded-3xl glass overflow-hidden neon-hover transition-all duration-300 block">            
+
                     <div class="h-64 overflow-hidden relative p-4">
-                        <button class="absolute top-6 right-6 z-20 w-8 h-8 rounded-full glass bg-white/50 dark:bg-black/40 flex items-center justify-center text-stone-500 hover:text-red-500 hover:bg-white dark:text-slate-300 dark:hover:text-neon-red dark:hover:bg-slate-900 transition-all shadow-sm"><i class="far fa-heart"></i></button>
+                        @auth
+                            <form action="{{ route('profile.favorites.toggle', $item->id) }}" method="POST" class="absolute top-6 right-6 z-20" onclick="event.stopPropagation();">
+                                @csrf
+                                <button type="submit" 
+                                    class="w-8 h-8 rounded-full glass flex items-center justify-center transition-all shadow-sm{{ $isRelatedFavorite ? 'bg-red-50 text-red-500' : 'bg-white/50 dark:bg-black/40 text-stone-500 hover:bg-white hover:text-red-500' }}">                                 
+                                    @if($isRelatedFavorite)
+                                        <i class="fas fa-heart"></i>
+                                    @else
+                                        <i class="far fa-heart"></i>
+                                    @endif
+                                </button>
+                            </form>
+                        @endauth
                         <img src="{{asset($item->image)}}" class="{{$item->name}}">
                     </div>
                     <div class="px-5 pb-5 pt-2">
