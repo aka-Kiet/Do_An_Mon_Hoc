@@ -78,7 +78,7 @@
                         {{ number_format($book->avg_rating ?? 0, 1) }}
                     </span>
                 </div>
-                <span class="text-stone-500 dark:text-slate-400 text-sm">({{ $book->total_reviews }} đánh giá)</span>
+                <span class="text-stone-500 dark:text-slate-400 text-sm">(<span id="total-reviews-display">{{ $book->total_reviews }}</span> đánh giá)</span>
                 <span class="h-4 w-px bg-stone-300 dark:bg-slate-700"></span>
                 <!--Kiểm tra số lượng-->
                 <div id="stock-status-container">
@@ -134,11 +134,11 @@
                 </div>
 
                 <div class="flex gap-4 flex-1">
-                    <button type="button" onclick="addToCart()" class="flex-1 px-6 py-3 rounded-full border-2 border-brown-primary text-brown-primary font-bold hover:bg-brown-primary hover:text-white dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white transition-all shadow-lg {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
+                    <button type="button" id="btn-add-cart" onclick="addToCart()" class="flex-1 px-6 py-3 rounded-full border-2 border-brown-primary text-brown-primary font-bold hover:bg-brown-primary hover:text-white dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white transition-all shadow-lg {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
                         <i class="fas fa-cart-plus mr-2"></i> Thêm Giỏ Hàng
                     </button>
 
-                   <button id="btn-buy-now" class="flex-1 px-6 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 hover:shadow-xl dark:hover:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
+                   <button id="btn-buy-now" type="button" onclick="addToCart(true)" class="flex-1 px-6 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 hover:shadow-xl dark:hover:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
                         Mua Ngay
                     </button>
                 </div>
@@ -242,8 +242,8 @@
                     @if($book->reviews->count() > 0)
                         @foreach($book->reviews as $review)
                             <div class="flex gap-4 border-b border-stone-200 dark:border-slate-700 pb-6">
-<!-- chưa cập nhật ảnh đại diện-->
-                                <div class="w-12 h-12 rounded-full bg-gray-300 overflow-hidden shrink-0"><img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-full h-full object-cover"></div>
+
+<!--CẦN ẢNH ĐẠI DIỆN (CHƯA CÓ)  <div class="w-12 h-12 rounded-full bg-gray-300 overflow-hidden shrink-0"><img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-full h-full object-cover"></div>-->
                                 <div>
                                     <div class="flex items-center gap-2 mb-1">
                                         <h4 class="font-bold text-brown-dark dark:text-white">{{$review->user->name}}</h4>
@@ -302,19 +302,21 @@
                                 </button>
                             </form>
                         @endauth
-                        <img src="{{asset($item->image)}}" class="{{$item->name}}">
+                        <img src="{{asset($item->image)}}" alt="{{$item->name}}" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110">
                     </div>
                     <div class="px-5 pb-5 pt-2">
                         <h3 class="font-bold text-stone-800 dark:text-white truncate" title="{{ $item->name }}" >{{$item->name}}</h3>
                         <div class="flex items-center gap-2 mt-1">
                             @if($item->sale_price < $item->price)
                                 <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">
+                                    {{ number_format($item->sale_price, 0, ',', '.') }}đ
+                                </span>
+                                <span class="text-sm line-through text-gray-400">
                                     {{ number_format($item->price, 0, ',', '.') }}đ
                                 </span>
                             @else
                                 <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">
-                                    
-                                    {{ number_format($item->sale_price, 0, ',', '.') }}đ
+                                    {{ number_format($item->price, 0, ',', '.') }}đ
                                 </span>
                             @endif
                         </div>
@@ -327,104 +329,15 @@
 </main>
 
 <script>
-    // --- 1. XỬ LÝ TABS (Mô tả, Chi tiết, Đánh giá) ---
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        
-        // Ẩn hết nội dung các tab
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].classList.add("hidden");
-            tabcontent[i].classList.remove("block");
-        }
-
-        // Bỏ active ở các nút
-        tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].classList.remove("active");
-        }
-
-        // Hiện tab được chọn và active nút đó
-        document.getElementById(tabName).classList.remove("hidden");
-        document.getElementById(tabName).classList.add("block");
-        evt.currentTarget.classList.add("active");
-    }
-
-    // --- 2. XỬ LÝ SỐ LƯỢNG (+/-) ---
-    function updateQty(change) {
-        var input = document.getElementById('qtyInput');
-        var maxStock = parseInt(input.getAttribute('data-max'));
-        var currentQty = parseInt(input.value) || 1; // Nếu lỗi thì về 1
-        var newQty = currentQty + change;
-
-        if (newQty < 1) newQty = 1;
-        if (newQty > maxStock) {
-            alert("Đã đạt giới hạn tồn kho!");
-            newQty = maxStock;
-        }
-        input.value = newQty;
-    }
-
-    function checkManualQty(input) {
-        var maxStock = parseInt(input.getAttribute('data-max'));
-        var val = parseInt(input.value);
-
-        if (isNaN(val) || val < 1) {
-            alert("Số lượng không hợp lệ");
-            input.value = 1;
-        } else if (val > maxStock) {
-            alert("Kho chỉ còn " + maxStock + " sản phẩm");
-            input.value = maxStock;
-        } else {
-            input.value = val;
-        }
-    }
-
-    // --- 3. REALTIME (Cập nhật số lượng, đánh giá) ---
-    function updateRealtimeUI(data) {
-        // Cập nhật trạng thái kho
-        const stockContainer = document.getElementById('stock-status-container');
-        const btnAdd = document.getElementById('btn-add-cart'); 
-        const btnBuy = document.getElementById('btn-buy-now');
-        
-        if (data.quantity > 0) {
-            stockContainer.innerHTML = `<span class="text-green-600 font-bold text-sm"><i class="fas fa-check-circle mr-1"></i>Còn hàng (${data.quantity})</span>`;
-            if(btnAdd) btnAdd.classList.remove('opacity-50', 'pointer-events-none');
-            if(btnBuy) btnBuy.classList.remove('opacity-50', 'pointer-events-none');
-        } else {
-            stockContainer.innerHTML = `<span class="text-red-500 font-bold text-sm"><i class="fas fa-times-circle mr-1"></i>Hết hàng</span>`;
-            if(btnAdd) btnAdd.classList.add('opacity-50', 'pointer-events-none');
-            if(btnBuy) btnBuy.classList.add('opacity-50', 'pointer-events-none');
-        }
-        
-        // Cập nhật số review và sao
-        const reviewEl = document.getElementById('total-reviews-display');
-        if(reviewEl) reviewEl.innerText = data.total_reviews;
-        
-        const ratingEl = document.getElementById('avg-rating-display');
-        if (ratingEl) ratingEl.innerText = parseFloat(data.avg_rating).toFixed(1);
-    }
-
-    function fetchRealtimeData() {
-        // Dùng Route Slug ở đây
-        fetch("{{ route('product.checkRealtimeStatus', ['slug' => $book->slug]) }}")
-            .then(res => res.json())
-            .then(res => {
-                if (res.status === 'success') {
-                    updateRealtimeUI(res.data);
-                }
-            })
-            .catch(e => console.error("Lỗi Realtime:", e));
-    }
-    
-    // Chạy ngay khi vào trang và lặp lại mỗi 5s
-    fetchRealtimeData(); 
-    setInterval(fetchRealtimeData, 5000);
-
-    // --- 4. THÊM VÀO GIỎ HÀNG (Alert đơn giản) ---
-    // gửi nhờ ở zalo th H, nào cardcontroller có mới dán lại
-    
+    window.productConfig = {
+        bookId: "{{ $book->id }}",
+        realtimeRoute: "{{ route('product.checkRealtimeStatus', ['slug' => $book->slug]) }}",
+        addToCartRoute: "{{ route('cart.add') }}", 
+        checkoutRoute: "{{ route('checkout.index') }}" 
+    };
 </script>
+
+<script src="{{ asset('js/script_productde.js') }}"></script>
 
 @endsection
 

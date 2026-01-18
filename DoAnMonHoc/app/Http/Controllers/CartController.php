@@ -55,31 +55,44 @@ class CartController extends Controller
     }
 
   
-    public function add(Request $request)
+    public function add(Request $request)// Huỳnh sửa lại hàm add
     {
+        // 1. Validate cả book_id và quantity
         $request->validate([
-            'book_id' => 'required|exists:books,id'
+            'book_id' => 'required|exists:books,id',
+            'quantity' => 'nullable|integer|min:1' // Lấy số lượng mà khách hàng chọn
         ]);
 
+        // 2. Lấy giỏ hàng
         $cart = Cart::firstOrCreate([
             'user_id' => auth()->id()
         ]);
 
+        // 3. Lấy số lượng khách chọn (mặc định là 1 nếu không có)
+        $qty = $request->input('quantity', 1);
+
+        // 4. Kiểm tra sách đã có trong giỏ chưa
         $item = $cart->items()->where('book_id', $request->book_id)->first();
+        $book = Book::findOrFail($request->book_id);
 
         if ($item) {
-            $item->increment('quantity');
+            // Nếu có rồi thì cộng thêm số lượng khách chọn
+            $item->quantity += $qty;
+            $item->save();
         } else {
-            $book = Book::findOrFail($request->book_id);
-
+            // Nếu chưa có thì tạo mới
             $cart->items()->create([
                 'book_id'  => $book->id,
-                'quantity' => 1,
+                'quantity' => $qty, // Dùng số lượng khách chọn
                 'price'    => $book->price
             ]);
         }
 
-        return redirect()->back()->with('success', 'Đã thêm sản phẩm vào giỏ hàng');
+        // --- QUAN TRỌNG: TRẢ VỀ JSON THAY VÌ REDIRECT ---
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã thêm ' . $book->name . ' vào giỏ hàng thành công!'
+        ]);
     }
 
     public function update(Request $request)

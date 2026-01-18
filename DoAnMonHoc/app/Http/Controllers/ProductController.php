@@ -83,9 +83,14 @@ class ProductController extends Controller
         $viewData = [];
 
         // 1. Lấy thông tin chi tiết cuốn sách
-        $book = Book::with(['category', 'author', 'images', 'reviews.user'])
-                    ->where('slug', $slug) // Tìm dòng có slug khớp
-                    ->firstOrFail(); // Nếu không thấy thì báo lỗi 404
+        $book = Book::where('slug', $slug)
+        ->with([
+            'category', 
+            'author', 
+            'images', 
+            'reviews.user'
+        ]) 
+        ->firstOrFail();
 
         // 2. Logic tính phần trăm giảm giá
         $discountPercent = 0;
@@ -110,7 +115,7 @@ class ProductController extends Controller
                             ->take(4)
                             ->get();
         }
-
+        
         $viewData["title"] = $book->name;
         $viewData["book"] = $book;
         $viewData["discountPercent"] = $discountPercent;
