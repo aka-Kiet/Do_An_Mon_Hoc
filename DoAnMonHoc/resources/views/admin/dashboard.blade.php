@@ -3,30 +3,96 @@
 
 
 @section('content')
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-xl p-6 shadow-sm border-l-4 border-blue-500">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-xs font-semibold text-gray-400 uppercase">Tổng doanh thu</p>
-                    <h3 class="text-2xl font-bold text-gray-800 mt-1">15.200.000đ</h3>
-                </div>
-                <div class="p-2 bg-blue-50 rounded-lg text-blue-600">
-                    <i class="fas fa-dollar-sign text-xl"></i>
-                </div>
-            </div>
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
 
-        <div class="bg-white rounded-xl p-6 shadow-sm border-l-4 border-green-500">
-            <div class="flex justify-between items-start">
-                <div>
-                    <p class="text-xs font-semibold text-gray-400 uppercase">Đơn hàng mới</p>
-                    <h3 class="text-2xl font-bold text-gray-800 mt-1">12</h3>
-                </div>
-                <div class="p-2 bg-green-50 rounded-lg text-green-600">
-                    <i class="fas fa-shopping-bag text-xl"></i>
-                </div>
+            <div class="glass p-6 rounded-3xl bg-white/50 dark:bg-slate-800/50">
+                <p class="text-sm text-stone-500">Sản phẩm</p>
+                <p class="text-2xl font-bold">{{ $totalBooks }}</p>
             </div>
-        </div>
 
+            <div class="glass p-6 rounded-3xl bg-white/50 dark:bg-slate-800/50">
+                <p class="text-sm text-stone-500">Danh mục</p>
+                <p class="text-2xl font-bold">{{ $totalCategories }}</p>
+            </div>
+
+            <div class="glass p-6 rounded-3xl bg-white/50 dark:bg-slate-800/50">
+                <p class="text-sm text-stone-500">Đơn hàng</p>
+                <p class="text-2xl font-bold">{{ $totalOrders }}</p>
+            </div>
+
+            <div class="glass p-6 rounded-3xl bg-white/50 dark:bg-slate-800/50">
+                <p class="text-sm text-stone-500">Doanh thu</p>
+                <p class="text-2xl font-bold">
+                    {{ number_format($totalRevenue) }}đ
+                </p>
+            </div>
+
+            <div class="glass p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 w-2/3 md:col-span-4 mt-6">
+                <h2 class="text-lg font-bold mb-4">📈 Doanh thu theo tháng</h2>
+                <canvas id="revenueChart"></canvas>
+            </div>
+
+            <div class="glass p-8 rounded-3xl bg-white/50 dark:bg-slate-800/50 w-2/3 md:col-span-4 mt-6">
+                <h2 class="text-lg font-bold mb-4">🔥 Top 5 sách bán chạy</h2>
+
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class=" text-left border-b text-stone-500">
+                            <th>#</th>
+                            <th>Tên sách</th>
+                            <th>Đã bán</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($bestSellingBooks as $index => $book)
+                        <tr class="border-b">
+                            <td>{{ $index + 1 }}</td>
+                            <td class="font-semibold">{{ $book->name }}</td>
+                            <td class="text-red-600 font-bold">
+                                {{ $book->sold_quantity }}
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            @if($lowStockBooks->count())
+            <div class="glass p-6 rounded-3xl bg-red-50 dark:bg-red-900/30 mt-6">
+                <h2 class="text-lg font-bold text-red-600 mb-3">
+                    ⚠️ Sách sắp hết hàng
+                </h2>
+
+                <ul class="list-disc ml-6 text-sm">
+                    @foreach($lowStockBooks as $book)
+                        <li>
+                            <span class="font-semibold">{{ $book->name }}</span>
+                            - còn {{ $book->quantity }} quyển
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
         </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const data = @json($monthlyRevenue);
+
+        const labels = Array.from({length: 12}, (_, i) => 'Tháng ' + (i + 1));
+        const revenue = labels.map((_, i) => data[i + 1] ?? 0);
+
+        new Chart(document.getElementById('revenueChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Doanh thu (VNĐ)',
+                    data: revenue,
+                    tension: 0.4,
+                    fill: true
+                }]
+            }
+        });
+    </script>
 @endsection

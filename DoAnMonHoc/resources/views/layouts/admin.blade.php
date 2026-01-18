@@ -44,7 +44,7 @@
             <nav class="flex-grow py-6 px-4 space-y-2 overflow-y-auto">
                 <p class="text-xs font-bold text-stone-400 dark:text-slate-500 uppercase px-4 mb-2 tracking-wider">Tổng quan</p>
                 
-                <a href="/admin.html" class="nav-item active flex items-center px-4 py-3 rounded-lg font-medium hover:bg-stone-100 dark:hover:bg-slate-800 transition-all">
+                <a href="{{ route('admin.dashboard') }}" class="nav-item active flex items-center px-4 py-3 rounded-lg font-medium hover:bg-stone-100 dark:hover:bg-slate-800 transition-all">
                     <i class="fas fa-th-large w-6"></i> Dashboard
                 </a>
                 
