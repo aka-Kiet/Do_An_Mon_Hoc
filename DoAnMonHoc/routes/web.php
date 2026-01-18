@@ -88,5 +88,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 
 
