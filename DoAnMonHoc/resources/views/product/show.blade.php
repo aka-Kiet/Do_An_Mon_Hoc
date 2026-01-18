@@ -103,7 +103,7 @@
             </p>
             <!--Phần giỏ hàng-->
             <div class="border-t border-stone-200 dark:border-slate-700 pt-6">
-                <form action="{{-- thêm route phần giỏ hàng dô đây --}}" method="POST">
+                <form action="{{ route('cart.add') }}" method="POST">
                     @csrf
                     <input type="hidden" name="book_id" value="{{ $book->id }}">
                     <div class="flex flex-col md:flex-row gap-4 mb-4">
@@ -121,11 +121,15 @@
                         </div>
 
                         <div class="flex gap-4 flex-1">
-                            <button id="btn-add-cart" 
-                                class="flex-1 px-6 py-3 rounded-full border-2 border-brown-primary text-brown-primary font-bold hover:bg-brown-primary hover:text-white dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white transition-all shadow-lg {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
-                                <i class="fas fa-cart-plus mr-2"></i> Thêm Giỏ Hàng
-                            </button>
-
+                                <input type="hidden" name="book_id" value="{{ $book->id }}">
+                                <input id="qtyInput" name="quantity" type="number" value="1" min="1" hidden>
+                                <button 
+                                    type="submit"
+                                    class="flex-1 px-6 py-3 rounded-full border-2 border-brown-primary text-brown-primary font-bold hover:bg-brown-primary hover:text-white
+                                        dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white transition-all shadow-lg
+                                        {{ $book->quantity == 0 ? 'opacity-50 pointer-events-none' : '' }}">
+                                    <i class="fas fa-cart-plus"></i> Thêm giỏ hàng
+                                </button>
                             <button id="btn-buy-now" 
                                 class="flex-1 px-6 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 hover:shadow-xl dark:hover:shadow-[0_0_20px_rgba(255,23,68,0.4)] transition-all {{ $book->quantity == 0 ? 'opacity-50 cursor-not-allowed pointer-events-none' : '' }}">
                                 Mua Ngay

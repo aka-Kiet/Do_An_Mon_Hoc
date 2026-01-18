@@ -23,7 +23,7 @@
                 <div class="col-span-2 text-center">Số lượng</div>
                 <div class="col-span-2 text-right">Thành tiền</div>
             </div>
-            @foreach ($cart->items as $item)
+            @foreach ($items as $item)
                 <div class="glass p-4 rounded-2xl bg-white/40 dark:bg-slate-900/40 
                             relative group transition-all hover:bg-white/60 
                             dark:hover:bg-slate-800/60 cart-item"
@@ -88,8 +88,13 @@
                             </span>
                         </div>
                     </div>
-                </div>
-            @endforeach                  
+                </div>   
+            @endforeach 
+               @if ($items->hasPages())
+                    <div class="mt-6">
+                        {{ $items->links() }}
+                    </div>
+                @endif                 
             <div class="pt-4">
                 <a href="{{ route('product.index') }}" class="inline-flex items-center font-bold text-stone-500 hover:text-brown-primary dark:text-slate-400 dark:hover:text-neon-red transition">
                     <i class="fas fa-arrow-left mr-2"></i> Tiếp tục mua sắm

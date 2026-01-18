@@ -38,7 +38,7 @@ class HomeController extends Controller
         // Lấy 4 danh mục đang BẬT, sắp xếp, và ĐẾM SỐ SÁCH (quan trọng)
         return Category::where('is_active', 1)
                        ->orderBy('sort_order', 'asc')
-                       ->take(4)
+                       ->take(5)
                        ->withCount('books') // Hàm này giúp hiện số lượng sách ngoài View
                        ->get();
     }

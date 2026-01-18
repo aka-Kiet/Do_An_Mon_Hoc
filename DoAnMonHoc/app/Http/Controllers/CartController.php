@@ -23,17 +23,35 @@ class CartController extends Controller
         ]);
     }
 
+    // public function index()
+    // {
+    //     $cart = $this->getCart();
+        
+    //     $viewData = [];
+    //     $viewData['cart'] = $cart;
+    //     $viewData['subtotal'] = $cart->subtotal();
+    //     $viewData['shipping'] = 0;
+    //     $viewData['total'] = $viewData['subtotal'];
+
+    //     return view('cart.index', $viewData);
+    // }
     public function index()
     {
-        $cart = $this->getCart()->load('items.book');
-        
-        $viewData = [];
-        $viewData['cart'] = $cart;
-        $viewData['subtotal'] = $cart->subtotal();
-        $viewData['shipping'] = 0;
-        $viewData['total'] = $viewData['subtotal'];
+        $cart = $this->getCart();
 
-        return view('cart.index', $viewData);
+        // phân trang cart items (5 sản phẩm / trang)
+        $items = $cart->items()
+            ->with('book')
+            ->orderByDesc('id')
+            ->paginate(5);
+
+        return view('cart.index', [
+            'cart'     => $cart,
+            'items'    => $items,      // ← QUAN TRỌNG
+            'subtotal' => $cart->subtotal(),
+            'shipping' => 0,
+            'total'    => $cart->subtotal(),
+        ]);
     }
 
   
