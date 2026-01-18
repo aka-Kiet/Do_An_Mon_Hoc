@@ -35,6 +35,7 @@
             <tr class="border-b text-stone-500 text-sm">
                 <th>ID</th>
                 <th>Tên</th>
+                <th>Slug</th>
                 <th>Hình ảnh</th>
                 <th>Danh mục</th>
                 <th>Giá</th>
@@ -47,6 +48,7 @@
                 <tr class="border-b">
                     <td>{{ $books->firstItem() + $loop->index }}</td>
                     <td class="font-semibold max-w-56 line-clamp">{{ $book->name }}</td>
+                    <td class="font-semibold max-w-56 line-clamp">{{ $book->slug }}</td>
                     <td>
                         @if($book->image)
                             <img src="{{ asset($book->image) }}"

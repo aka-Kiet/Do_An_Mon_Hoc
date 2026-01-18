@@ -29,7 +29,9 @@
         <tbody>
             @foreach($categories as $cat)
             <tr class="border-b border-stone-200 dark:border-slate-700">
-                <td class="py-3">{{ $loop->iteration }}</td>
+                <td class="py-3">
+                    {{ $categories->firstItem() + $loop->index }}
+                </td>
                 <td class="font-bold">{{ $cat->name }}</td>
                 <td class="text-stone-500">{{ $cat->slug }}</td>
                 <td class="text-right space-x-2">
@@ -49,5 +51,15 @@
             @endforeach
         </tbody>
     </table>
+    <div id="pagination" class="mt-4 flex justify-end">
+                {{ $categories->links() }}
+    </div>
 </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('#pagination a').forEach(link => {
+                link.href = link.href + '#pagination';
+            });
+        });
+    </script>
 @endsection

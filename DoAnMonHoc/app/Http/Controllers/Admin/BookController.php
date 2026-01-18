@@ -16,21 +16,23 @@ class BookController extends Controller
          $query = Book::with('category');
         // --- TÌM KIẾM ---
         if ($request->filled('search')) {
-            $search = $request->search;
+            $search = trim($request->search);
 
             $query->where(function ($q) use ($search) {
-                // Tìm theo ID (nếu là số)
-                if (is_numeric($search)) {
-                    $q->orWhere('id', $search);
+
+                // ✅ TÌM THEO ID (ÉP KIỂU INT)
+                if (ctype_digit($search)) {
+                    $q->orWhere('id', (int) $search);
                 }
 
-                // Tìm theo tên
-                $q->orWhere('name', 'like', '%' . $search . '%')
+                // ✅ TÌM THEO TÊN
+                $q->orWhere('name', 'like', "%{$search}%");
 
-                // Tìm theo slug
-                ->orWhere('slug', 'like', '%' . $search . '%');
+                // ✅ TÌM THEO SLUG
+                $q->orWhere('slug', 'like', "%{$search}%");
             });
         }
+
 
         // 📄 Phân trang
         $books = $query->latest()

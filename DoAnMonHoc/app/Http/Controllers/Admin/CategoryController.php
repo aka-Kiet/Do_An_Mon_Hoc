@@ -12,9 +12,14 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::latest()->get();
+        $query = Category::query();
+
+        $categories = $query->latest()
+                    ->paginate(5)
+                    ->appends($request->all()); // giữ search khi chuyển trang
+
         return view('admin.categories.index', compact('categories'));
     }
 
