@@ -74,7 +74,8 @@ class CheckoutController extends Controller
                 'phone' => $request->phone,
                 'address' => $request->address,
                 'total_price' => $totalPrice,
-                'status' => 'pending' // Chờ xác nhận
+                'status' => 'pending', // Chờ xác nhận
+                'payment_method' => $request->payment_method,
             ]);
 
             // 2. Chuyển CartItem sang OrderItem
@@ -93,14 +94,31 @@ class CheckoutController extends Controller
 
             DB::commit(); // Xác nhận giao dịch thành công
 
-            // Chuyển hướng về trang lịch sử đơn hàng
-            return redirect()->route('profile.orders')
-                            ->with('success', 'Đặt hàng thành công! Mã đơn hàng: #' . $order->id);
+            // Thay vì redirect về profile.orders, ta redirect về trang success và truyền ID đơn hàng
+            return redirect()->route('checkout.success', ['id' => $order->id]);
 
         } catch (\Exception $e) {
             DB::rollBack(); // Hoàn tác nếu có lỗi
             return back()->with('error', 'Có lỗi xảy ra khi xử lý đơn hàng: ' . $e->getMessage());
         }
 
+    }
+
+    public function success($id)
+    {
+        // Tìm đơn hàng
+        $order = Order::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        // Cấu hình QR Code (Thay thông tin của bạn vào đây)
+        $bankId = 'VCB'; // Ví dụ: MB, VCB, TPB, TCB...
+        $accountNo = '1039098656'; // Số tài khoản của bạn
+        $template = 'compact'; // Kiểu hiển thị (compact, print...)
+        $amount = $order->total_price;
+        $description = 'THANHTOAN DH' . $order->id; // Nội dung ck: THANHTOAN DH15
+
+        // Link ảnh QR
+        $qrUrl = "https://img.vietqr.io/image/{$bankId}-{$accountNo}-{$template}.png?amount={$amount}&addInfo={$description}";
+
+        return view('checkout.success', compact('order', 'qrUrl'));
     }
 }

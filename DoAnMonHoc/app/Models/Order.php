@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['user_id', 'status', 'total_price', 'name', 'phone', 'address'];
+    protected $fillable = ['user_id', 'status', 'total_price', 'name', 'phone', 'address','payment_method'];
 
     // Quan hệ: 1 Đơn hàng có nhiều món (Items)
     public function items() {

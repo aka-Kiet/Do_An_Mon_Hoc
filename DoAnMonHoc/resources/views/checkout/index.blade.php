@@ -51,30 +51,27 @@
                 </div>
 
                 {{-- Phương thức thanh toán --}}
-                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold text-brown-dark dark:text-white mb-6 border-b border-stone-100 dark:border-slate-700 pb-4">
-                        2. Phương thức thanh toán
-                    </h3>
-                    <div class="space-y-3">
-                        <label class="flex items-center p-4 border border-brown-primary/30 bg-brown-primary/5 rounded-xl cursor-pointer">
-                            <input type="radio" name="payment_method" value="cod" checked class="w-5 h-5 text-brown-primary focus:ring-brown-primary">
-                            <div class="ml-4">
-                                <span class="block font-bold text-stone-800 dark:text-white">Thanh toán khi nhận hàng (COD)</span>
-                                <span class="text-xs text-stone-500">Bạn chỉ phải thanh toán khi đã nhận được hàng.</span>
-                            </div>
-                            <i class="fas fa-money-bill-wave ml-auto text-2xl text-brown-primary"></i>
-                        </label>
-
-                        {{-- Demo option (Disable) --}}
-                        <label class="flex items-center p-4 border border-stone-200 dark:border-slate-600 rounded-xl opacity-60 cursor-not-allowed">
-                            <input type="radio" name="payment_method" value="banking" disabled class="w-5 h-5">
-                            <div class="ml-4">
-                                <span class="block font-bold text-stone-800 dark:text-white">Chuyển khoản ngân hàng</span>
-                                <span class="text-xs text-stone-500">Hệ thống đang bảo trì cổng thanh toán này.</span>
-                            </div>
-                            <i class="fas fa-university ml-auto text-2xl text-stone-400"></i>
-                        </label>
-                    </div>
+                <div class="space-y-3">
+                    {{-- Lựa chọn 1: COD --}}
+                    <label class="flex items-center p-4 border border-stone-200 dark:border-slate-600 rounded-xl cursor-pointer transition-all hover:border-brown-primary hover:bg-brown-primary/5 dark:hover:border-neon-red dark:hover:bg-slate-700 has-[:checked]:border-brown-primary has-[:checked]:bg-brown-primary/5 dark:has-[:checked]:border-neon-red dark:has-[:checked]:bg-slate-700">
+                        <input type="radio" name="payment_method" value="cod" checked class="w-5 h-5 text-brown-primary focus:ring-brown-primary dark:text-neon-red dark:focus:ring-neon-red">
+                        <div class="ml-4">
+                            <span class="block font-bold text-stone-800 dark:text-white">Thanh toán khi nhận hàng (COD)</span>
+                            <span class="text-xs text-stone-500 dark:text-slate-400">Bạn chỉ phải thanh toán khi đã nhận được hàng.</span>
+                        </div>
+                        <i class="fas fa-money-bill-wave ml-auto text-2xl text-brown-primary dark:text-neon-red"></i>
+                    </label>
+                
+                    {{-- Lựa chọn 2: Chuyển khoản (Đã MỞ KHÓA) --}}
+                    <label class="flex items-center p-4 border border-stone-200 dark:border-slate-600 rounded-xl cursor-pointer transition-all hover:border-blue-500 hover:bg-blue-50 dark:hover:border-blue-400 dark:hover:bg-slate-700 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 dark:has-[:checked]:border-blue-400 dark:has-[:checked]:bg-slate-700">
+                        {{-- 👇 Quan trọng: value="banking" --}}
+                        <input type="radio" name="payment_method" value="banking" class="w-5 h-5 text-blue-600 focus:ring-blue-500">
+                        <div class="ml-4">
+                            <span class="block font-bold text-stone-800 dark:text-white">Chuyển khoản ngân hàng (QR)</span>
+                            <span class="text-xs text-stone-500 dark:text-slate-400">Quét mã VietQR - Tự động xác nhận.</span>
+                        </div>
+                        <i class="fas fa-qrcode ml-auto text-2xl text-blue-600 dark:text-blue-400"></i>
+                    </label>
                 </div>
             </div>
 
