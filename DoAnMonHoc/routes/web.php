@@ -40,6 +40,7 @@ Route::get('/san-pham/trang-thai/{slug}', [ProductController::class, 'checkRealt
 Route::middleware('auth')->group(function () {
     Route::get('/thanh-toan', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/thanh-toan', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/dat-hang-thanh-cong/{id}', [CheckoutController::class, 'success'])->name('checkout.success');
 });
 
 
