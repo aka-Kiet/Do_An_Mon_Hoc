@@ -180,7 +180,65 @@
                 </div>
 <!--Đánh giá-->
                 <div id="reviews" class="tab-content hidden animate-fade-in space-y-6">
-                    <!--Có nhận xét-->
+                    <div class="bg-stone-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-stone-200 dark:border-slate-700">
+                        <h3 class="text-xl font-bold text-brown-dark dark:text-white mb-4">Gửi đánh giá của bạn</h3>
+                        
+                        @auth
+                            @if(session('error'))
+                                <div class="p-3 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
+                                    <i class="fas fa-exclamation-circle mr-1"></i> {{ session('error') }}
+                                </div>
+                            @endif
+                            @if(session('success'))
+                                <div class="p-3 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                                    <i class="fas fa-check-circle mr-1"></i> {{ session('success') }}
+                                </div>
+                            @endif
+
+                            <form action="{{ route('product.review.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="book_id" value="{{ $book->id }}">
+
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-stone-700 dark:text-slate-300 mb-2">Mức độ hài lòng</label>
+                                    <div class="flex flex-row-reverse justify-end gap-1 rating-input">
+                                        <input type="radio" id="star5" name="rating" value="5" class="hidden peer/5" required />
+                                        <label for="star5" class="cursor-pointer text-stone-300 peer-checked/5:text-yellow-400 hover:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star4" name="rating" value="4" class="hidden peer/4" />
+                                        <label for="star4" class="cursor-pointer text-stone-300 peer-checked/4:text-yellow-400 hover:text-yellow-400 peer-hover/4:text-yellow-400 peer-checked/5:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star3" name="rating" value="3" class="hidden peer/3" />
+                                        <label for="star3" class="cursor-pointer text-stone-300 peer-checked/3:text-yellow-400 hover:text-yellow-400 peer-hover/3:text-yellow-400 peer-checked/4:text-yellow-400 peer-hover/4:text-yellow-400 peer-checked/5:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star2" name="rating" value="2" class="hidden peer/2" />
+                                        <label for="star2" class="cursor-pointer text-stone-300 peer-checked/2:text-yellow-400 hover:text-yellow-400 peer-hover/2:text-yellow-400 peer-checked/3:text-yellow-400 peer-hover/3:text-yellow-400 peer-checked/4:text-yellow-400 peer-hover/4:text-yellow-400 peer-checked/5:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                        
+                                        <input type="radio" id="star1" name="rating" value="1" class="hidden peer/1" />
+                                        <label for="star1" class="cursor-pointer text-stone-300 peer-checked/1:text-yellow-400 hover:text-yellow-400 peer-hover/1:text-yellow-400 peer-checked/2:text-yellow-400 peer-hover/2:text-yellow-400 peer-checked/3:text-yellow-400 peer-hover/3:text-yellow-400 peer-checked/4:text-yellow-400 peer-hover/4:text-yellow-400 peer-checked/5:text-yellow-400 peer-hover/5:text-yellow-400 text-2xl transition-colors"><i class="fas fa-star"></i></label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="comment" class="block text-sm font-medium text-stone-700 dark:text-slate-300 mb-2">Nhận xét của bạn</label>
+                                    <textarea name="comment" id="comment" rows="3" class="w-full px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-stone-300 dark:border-slate-600 focus:ring-2 focus:ring-brown-primary focus:outline-none dark:text-white" placeholder="Sản phẩm thế nào? Hãy chia sẻ cảm nhận của bạn..."></textarea>
+                                </div>
+
+                                <div class="flex items-center justify-between">
+                                    <p class="text-xs text-stone-500 italic">* Chỉ khách hàng đã mua sản phẩm này mới có thể gửi đánh giá.</p>
+                                    <button type="submit" class="px-6 py-2 bg-brown-primary text-white rounded-lg hover:bg-brown-dark transition-colors dark:bg-neon-red dark:hover:bg-red-700 font-bold shadow-md">
+                                        Gửi đánh giá
+                                    </button>
+                                </div>
+                            </form>
+                        @else
+                            <div class="text-center py-4">
+                                <p class="text-stone-600 dark:text-slate-400 mb-3">Vui lòng đăng nhập để gửi đánh giá</p>
+                                <a href="{{ route('login') }}" class="px-6 py-2 border border-brown-primary text-brown-primary rounded-full hover:bg-brown-primary hover:text-white transition-all dark:border-neon-red dark:text-neon-red dark:hover:bg-neon-red dark:hover:text-white">Đăng nhập ngay</a>
+                            </div>
+                        @endauth
+                    </div>
+
                     @if($book->reviews->count() > 0)
                         @foreach($book->reviews as $review)
                             <div class="flex gap-4 border-b border-stone-200 dark:border-slate-700 pb-6">
