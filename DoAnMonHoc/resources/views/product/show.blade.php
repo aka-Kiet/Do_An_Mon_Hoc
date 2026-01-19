@@ -225,7 +225,7 @@
                                 </div>
 
                                 <div class="flex items-center justify-between">
-                                    <p class="text-xs text-stone-500 italic">* Chỉ khách hàng đã mua sản phẩm này mới có thể gửi đánh giá.</p>
+                                    <p class="text-xs text-stone-500 italic">* Chỉ khách hàng đã mua sản phẩm này mới có thể gửi đánh giá (1 lần/ sản phẩm).</p>
                                     <button type="submit" class="px-6 py-2 bg-brown-primary text-white rounded-lg hover:bg-brown-dark transition-colors dark:bg-neon-red dark:hover:bg-red-700 font-bold shadow-md">
                                         Gửi đánh giá
                                     </button>
