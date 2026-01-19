@@ -90,6 +90,8 @@ class ProductController extends Controller
             'images', 
             'reviews.user'
         ]) 
+        ->withCount('reviews')//đếm số lượng đánh giá
+        ->withAvg('reviews', 'rating')//tính trung bình số sao
         ->firstOrFail();
 
         // 2. Logic tính phần trăm giảm giá
@@ -127,19 +129,24 @@ class ProductController extends Controller
     //realtime yêu cầu 11, 17
     public function checkRealtimeStatus($slug) 
     {
-        // Sửa: Tìm sách theo slug thay vì find(id)
-        $book = Book::select('id', 'quantity', 'avg_rating', 'total_reviews', 'view_count') 
-                    ->where('slug', $slug) // <-- Thay đổi ở đây
-                    ->first(); // Dùng first() để lấy 1 dòng
+        // Tìm sách theo slug
+        $book = Book::where('slug', $slug)->first();
 
         if ($book) {
+            // 1. Lấy thống kê đánh giá thực tế từ bảng reviews
+            $realReviewCount = $book->reviews()->count();       
+            $realAvgRating = $book->reviews()->avg('rating');
+
+            // 2. Lấy số lượng tồn kho thực tế (Laravel sẽ lấy giá trị mới nhất trong DB)
+            $realQuantity = $book->quantity;
+
             return response()->json([
                 'status' => 'success',
                 'data' => [
-                    'quantity' => $book->quantity,
-                    'avg_rating' => $book->avg_rating,
-                    'total_reviews' => $book->total_reviews,
-                    'view_count' => $book->view_count ?? 0,
+                    'quantity'      => $realQuantity, // Số lượng tồn kho hiện tại
+                    'avg_rating'    => round($realAvgRating ?? 0, 1), 
+                    'total_reviews' => $realReviewCount,
+                    'view_count'    => $book->view_count ?? 0,
                 ]
             ]);
         }

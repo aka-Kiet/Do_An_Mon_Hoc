@@ -123,6 +123,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/yeu-thich/{id}', [FavoriteController::class, 'toggle'])->name('profile.favorites.toggle');
 
     Route::post('/san-pham/danh-gia', [ReviewController::class, 'store'])->name('product.review.store');
+
+    Route::post('/gio-hang/them', [CartController::class, 'addToCart'])->name('cart.add');
 });
 
 // ProductController - Route danh sách sản phẩm (dùng cho thanh tìm kiếm ở header)

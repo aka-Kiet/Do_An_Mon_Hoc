@@ -75,10 +75,10 @@
                 <div class="flex items-center text-yellow-500 text-xs">
                     <i class="fas fa-star mr-1"></i>
                     <span id="avg-rating-display" class="font-medium">
-                        {{ number_format($book->avg_rating ?? 0, 1) }}
+                        {{ number_format($book->reviews_avg_rating ?? 0, 1) }}
                     </span>
                 </div>
-                <span class="text-stone-500 dark:text-slate-400 text-sm">(<span id="total-reviews-display">{{ $book->total_reviews }}</span> đánh giá)</span>
+                <span class="text-stone-500 dark:text-slate-400 text-sm">(<span id="total-reviews-display">{{ $book->reviews_count }}</span> đánh giá)</span>
                 <span class="h-4 w-px bg-stone-300 dark:bg-slate-700"></span>
                 <!--Kiểm tra số lượng-->
                 <div id="stock-status-container">
@@ -160,7 +160,7 @@
             <div class="flex border-b border-white/20 dark:border-slate-700">
                 <button onclick="openTab(event, 'desc')" class="tab-btn active px-8 py-4 font-bold text-stone-600 dark:text-slate-400 hover:text-brown-primary dark:hover:text-neon-red transition-all">Mô Tả Sản Phẩm</button>
                 <button onclick="openTab(event, 'details')" class="tab-btn px-8 py-4 font-bold text-stone-600 dark:text-slate-400 hover:text-brown-primary dark:hover:text-neon-red transition-all">Thông Tin Chi Tiết</button>
-                <button onclick="openTab(event, 'reviews')" class="tab-btn px-8 py-4 font-bold text-stone-600 dark:text-slate-400 hover:text-brown-primary dark:hover:text-neon-red transition-all">Đánh Giá ({{ $book->total_reviews }})</button>
+                <button onclick="openTab(event, 'reviews')" class="tab-btn px-8 py-4 font-bold text-stone-600 dark:text-slate-400 hover:text-brown-primary dark:hover:text-neon-red transition-all">Đánh Giá ({{ $book->reviews_count }})</button>
             </div>
 
             <div class="p-8 md:p-12 min-h-[300px]">
@@ -242,9 +242,7 @@
                     @if($book->reviews->count() > 0)
                         @foreach($book->reviews as $review)
                             <div class="flex gap-4 border-b border-stone-200 dark:border-slate-700 pb-6">
-<!-- chưa cập nhật ảnh đại diện-->
                                 <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md flex-shrink-0">
-                                    {{-- SỬA: Đổi $comment thành $review, thêm 'A' làm giá trị mặc định --}}
                                     {{ substr($review->user?->name ?? 'A', 0, 1) }}
                                 </div>
                                 <div>
@@ -336,7 +334,8 @@
         bookId: "{{ $book->id }}",
         realtimeRoute: "{{ route('product.checkRealtimeStatus', ['slug' => $book->slug]) }}",
         addToCartRoute: "{{ route('cart.add') }}", 
-        checkoutRoute: "{{ route('checkout.index') }}" 
+        checkoutRoute: "{{ route('checkout.index') }}" ,
+        loginRoute: "{{ route('login') }}"
     };
 </script>
 
