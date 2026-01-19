@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\DashboardController; //Sử dụng DashboardContr
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\OrderController; // Sử dụng OrderController
 
 
 // HomeController
@@ -110,6 +111,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
 
         // Quản Lý SlideShow
         Route::resource('banners', BannerController::class);
+
+        // Quản lý Đơn hàng
+        Route::put('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+        Route::resource('orders', OrderController::class);
+        
 });
 
 // Nhóm route yêu cầu đăng nhập

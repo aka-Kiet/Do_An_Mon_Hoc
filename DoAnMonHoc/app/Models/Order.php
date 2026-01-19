@@ -15,4 +15,23 @@ class Order extends Model
     public function items() {
         return $this->hasMany(OrderItem::class);
     }
+    // Quan hệ: Đơn hàng thuộc về 1 Người dùng (User)
+     public function user()
+    {
+         return $this->belongsTo(User::class)->withDefault([
+            'name'  => 'Khách vãng lai',
+            'email' => 'Không có email',
+        ]);
+    }
+     public const STATUS_LABELS = [
+        'pending'    => 'Chờ xử lý',
+        'processing' => 'Đang xử lý',
+        'completed'  => 'Hoàn thành',
+        'cancelled'  => 'Đã hủy',
+    ];
+
+    public function getStatusLabelAttribute()
+    {
+        return self::STATUS_LABELS[$this->status] ?? 'Không xác định';
+    }
 }
