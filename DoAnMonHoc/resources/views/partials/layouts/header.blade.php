@@ -90,9 +90,11 @@
                     @auth
                         <button class="flex items-center gap-3 py-1.5 px-3 rounded-full border border-transparent hover:border-stone-200 hover:bg-stone-50 dark:hover:bg-slate-800 transition-all">
                             
-                            <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md">
+                            {{-- <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md">
                                 {{ substr(Auth::user()->name, 0, 1) }}
-                            </div>
+                            </div> --}}
+                            {{-- Không cần truyền class vì mặc định đã là w-10 h-10 --}}
+                            <x-user-avatar :name="Auth::user()->name" />
                 
                             <div class="text-left hidden lg:block">
                                 <p class="text-[10px] text-stone-400 dark:text-slate-400 font-bold uppercase tracking-wider">Xin chào,</p>

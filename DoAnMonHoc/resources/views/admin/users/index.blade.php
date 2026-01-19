@@ -71,10 +71,9 @@
                             {{-- Cột 1: Avatar + Tên + Status --}}
                             <td class="px-6 py-4">
                                 <div class="flex items-center space-x-3">
+                                    {{--Avatar--}}
                                     <div class="flex-shrink-0 w-10 h-10">
-                                        <img class="w-full h-full rounded-full object-cover border border-gray-200 dark:border-gray-600" 
-                                             src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&color=fff" 
-                                             alt="{{ $user->name }}">
+                                        <x-user-avatar :name="$user->name" class="w-9 h-9" />
                                     </div>
                                     <div>
                                         <div class="text-base font-bold text-gray-900 dark:text-white {{ request('status') == 'trash' ? 'line-through text-gray-400' : '' }}">
