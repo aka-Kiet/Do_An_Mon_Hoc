@@ -339,14 +339,24 @@
                 <p class="text-xl text-stone-700 dark:text-slate-300 max-w-lg font-medium leading-relaxed">
                     Tuyển tập những tác phẩm kinh điển làm thay đổi tư duy nhân loại. Phiên bản bìa cứng giới hạn chỉ có tại BookStore.
                 </p>
-    
-                <div class="flex flex-wrap gap-4 pt-4">
-                    <button class="px-8 py-4 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark dark:bg-neon-red dark:text-white dark:hover:bg-red-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 flex items-center">
+                <div class="flex flex-wrap gap-4">
+                    <!-- NÚT KHÁM PHÁ -->
+                    <a href="{{ route('product.index') }}"
+                    class="px-8 py-4 rounded-full bg-brown-primary text-white font-bold
+                            hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700
+                            transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1
+                            flex items-center">
                         Khám Phá Ngay <i class="fas fa-arrow-right ml-3"></i>
-                    </button>
-                    <button class="px-8 py-4 rounded-full glass bg-white/50 text-brown-dark font-bold hover:bg-white dark:bg-slate-800/50 dark:text-white dark:hover:bg-slate-800/80 dark:border-white/10 transition-all duration-300 flex items-center hover:-translate-y-1">
+                    </a>
+
+                    <!-- NÚT REVIEW -->
+                    <a href="#reviews"
+                    class="px-8 py-4 rounded-full glass bg-white/50 text-brown-dark font-bold
+                            hover:bg-white dark:bg-slate-800/50 dark:text-white
+                            dark:hover:bg-slate-800/80 transition-all duration-300
+                            flex items-center hover:-translate-y-1">
                         Xem Review
-                    </button>
+                    </a>
                 </div>
             </div>
     

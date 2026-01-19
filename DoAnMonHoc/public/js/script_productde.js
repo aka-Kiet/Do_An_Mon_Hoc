@@ -127,20 +127,48 @@ function updateRealtimeUI(data) {
     const btnBuy = document.getElementById('btn-buy-now');
     const qtyInput = document.getElementById('qtyInput');
     
-    // Cập nhật tồn kho và nút bấm
+    // --- XỬ LÝ TỒN KHO ---
     if (data.quantity > 0) {
-        stockContainer.innerHTML = `<span class="text-green-600 dark:text-green-400 font-bold text-sm"><i class="fas fa-check-circle mr-1"></i>Còn hàng (${data.quantity})</span>`;
+        // Cập nhật text hiển thị
+        stockContainer.innerHTML = `
+            <span class="text-green-600 dark:text-green-400 font-bold text-sm">
+                <i class="fas fa-check-circle mr-1"></i>Còn hàng (${data.quantity})
+            </span>`;
+        
+        // Mở khóa nút mua
         if(btnAdd) btnAdd.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
         if(btnBuy) btnBuy.classList.remove('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
-        // Cập nhật lại max cho input số lượng
-        if(qtyInput) qtyInput.setAttribute('data-max', data.quantity);
+        
+        // Cập nhật giới hạn cho ô nhập số lượng
+        if(qtyInput) {
+            qtyInput.setAttribute('data-max', data.quantity);
+            
+            // LOGIC QUAN TRỌNG: 
+            // Nếu người dùng đang chọn số lượng > tồn kho mới (ví dụ chọn 5 mà kho còn 3)
+            // -> Tự động giảm xuống bằng tồn kho
+            let currentVal = parseInt(qtyInput.value);
+            if(currentVal > data.quantity) {
+                qtyInput.value = data.quantity;
+                // Có thể thêm thông báo nhỏ nếu muốn
+                // console.log("Đã cập nhật lại số lượng tối đa do kho thay đổi");
+            }
+        }
     } else {
-        stockContainer.innerHTML = `<span class="text-red-500 font-bold text-sm"><i class="fas fa-times-circle mr-1"></i>Hết hàng</span>`;
+        // Hết hàng
+        stockContainer.innerHTML = `
+            <span class="text-red-500 font-bold text-sm">
+                <i class="fas fa-times-circle mr-1"></i>Hết hàng
+            </span>`;
+            
+        // Khóa nút mua
         if(btnAdd) btnAdd.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
         if(btnBuy) btnBuy.classList.add('opacity-50', 'pointer-events-none', 'cursor-not-allowed');
+        
+        // Reset input về 0 hoặc 1 tùy logic
+        if(qtyInput) qtyInput.value = 1; 
     }
     
-    // Cập nhật đánh giá
+    // --- XỬ LÝ ĐÁNH GIÁ (REVIEW) ---
     const reviewEl = document.getElementById('total-reviews-display');
     if(reviewEl) reviewEl.innerText = data.total_reviews;
     
@@ -148,7 +176,9 @@ function updateRealtimeUI(data) {
     if (ratingEl) ratingEl.innerText = parseFloat(data.avg_rating).toFixed(1);
 }
 
+// 2. Hàm gọi API (Fetch)
 function fetchRealtimeData() {
+    // Kiểm tra biến config từ Blade
     if (typeof productConfig === 'undefined' || !productConfig.realtimeRoute) return;
 
     fetch(productConfig.realtimeRoute)
@@ -162,7 +192,6 @@ function fetchRealtimeData() {
 }
 
 // 5. THÊM VÀO GIỎ HÀNG (Hàm quan trọng còn thiếu)
-// Sửa lại hàm addToCart để nhận tham số isBuyNow (mặc định là false)
 function addToCart(isBuyNow = false) {
     if (typeof productConfig === 'undefined') {
         alert("Lỗi cấu hình trang!");
@@ -176,7 +205,8 @@ function addToCart(isBuyNow = false) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json' // <--- QUAN TRỌNG: Để Laravel trả về JSON thay vì redirect HTML
         },
         body: JSON.stringify({
             book_id: productConfig.bookId,
@@ -184,21 +214,32 @@ function addToCart(isBuyNow = false) {
         })
     })
     .then(response => {
-        // Kiểm tra nếu chưa đăng nhập (Status 401)
-        if (response.status === 401) {
-            alert("Vui lòng đăng nhập để mua hàng!");
-            window.location.href = "/login"; // Hoặc route login của bạn
-            throw new Error("Unauthorized");
+        // Kiểm tra lỗi 401 (Chưa đăng nhập) hoặc 419 (CSRF Token hết hạn/Session hết hạn)
+        if (response.status === 401 || response.status === 419) {
+            // Xác nhận chuyển trang
+            if(confirm("Bạn cần đăng nhập để thực hiện chức năng này!")) {
+                window.location.href = productConfig.loginRoute; // Chuyển hướng
+            }
+            throw new Error("Unauthorized"); // Ngắt chuỗi promise
         }
+        
+        // Nếu không phải lỗi 200 OK thì ném lỗi ra catch
+        if (!response.ok) {
+            throw new Error("HTTP error " + response.status);
+        }
+
         return response.json();
     })
     .then(data => {
         if (data.success) {
             if (isBuyNow) {
-                // SỬ DỤNG LINK TỪ CONFIG
                 window.location.href = productConfig.checkoutRoute; 
             } else {
+                // Thay alert bằng thông báo đẹp hơn nếu có (ví dụ Toastr/SweetAlert)
                 alert("Đã thêm sản phẩm vào giỏ hàng!");
+                
+                // Cập nhật số lượng trên icon giỏ hàng (nếu có hàm này)
+                // updateCartCount(data.total_items); 
             }
         } else {
             alert("Lỗi: " + (data.message || "Không thể thêm vào giỏ hàng"));
@@ -207,7 +248,7 @@ function addToCart(isBuyNow = false) {
     .catch(error => {
         if (error.message !== "Unauthorized") {
             console.error('Error:', error);
-            alert("Đã xảy ra lỗi, vui lòng thử lại.");
+            // alert("Đã xảy ra lỗi, vui lòng thử lại."); // Có thể bật lại nếu cần debug
         }
     });
 }

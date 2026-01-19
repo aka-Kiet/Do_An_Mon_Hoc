@@ -12,6 +12,7 @@ use App\Http\Controllers\UserProfileController; //Sử dụng UserProfileControl
 use App\Http\Controllers\FavoriteController; //Sử dụng FavoriteController
 use App\Http\Controllers\Admin\CategoryController; //Sử dụng CategoryController
 use App\Http\Controllers\Admin\DashboardController; //Sử dụng DashboardController
+use App\Http\Controllers\Admin\UserController;
 
 
 // HomeController
@@ -74,7 +75,21 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
       // Quản lý Sách (Tự động tạo 7 route CRUD)
         Route::resource('categories', CategoryController::class);
         Route::resource('books', App\Http\Controllers\Admin\BookController::class);
-    });
+
+        // 1. Route Hiển thị danh sách
+        Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+
+        // 2. Route THÊM MỚI (Phải đặt lên trên các route có {id})
+        Route::get('/users/create', [App\Http\Controllers\Admin\UserController::class, 'create'])->name('users.create'); 
+        Route::post('/users', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store'); 
+
+        // 3. Route Sửa (có {id})
+        Route::get('/users/{id}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('users.edit');
+        Route::put('/users/{id}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
+
+        // 4. Route Xóa (có {id})
+        Route::delete('/users/{id}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+});
 
 // Nhóm route yêu cầu đăng nhập
 Route::middleware('auth')->group(function () {
@@ -93,6 +108,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/yeu-thich/{id}', [FavoriteController::class, 'toggle'])->name('profile.favorites.toggle');
 
     Route::post('/san-pham/danh-gia', [ReviewController::class, 'store'])->name('product.review.store');
+
+    Route::post('/gio-hang/them', [CartController::class, 'addToCart'])->name('cart.add');
 });
 
 // ProductController - Route danh sách sản phẩm (dùng cho thanh tìm kiếm ở header)

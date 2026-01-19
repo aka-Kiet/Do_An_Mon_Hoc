@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/admin_style.css">
+    <link rel="stylesheet" href="{{ asset('css/admin_style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
@@ -44,7 +44,7 @@
             <nav class="flex-grow py-6 px-4 space-y-2 overflow-y-auto">
                 <p class="text-xs font-bold text-stone-400 dark:text-slate-500 uppercase px-4 mb-2 tracking-wider">Tổng quan</p>
                 
-                <a href="/admin.html" class="nav-item active flex items-center px-4 py-3 rounded-lg font-medium hover:bg-stone-100 dark:hover:bg-slate-800 transition-all">
+                <a href="{{ route('admin.dashboard') }}" class="nav-item active flex items-center px-4 py-3 rounded-lg font-medium hover:bg-stone-100 dark:hover:bg-slate-800 transition-all">
                     <i class="fas fa-th-large w-6"></i> Dashboard
                 </a>
                 
@@ -63,7 +63,7 @@
                     </div>
                     Đơn hàng
                 </a>
-                <a href="./admin_user.html"class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
+                <a href="{{ route('admin.users.index') }}"class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
                     <i class="fas fa-users w-6"></i> Khách hàng
                 </a>
 
@@ -150,7 +150,7 @@
         </div>
     </div>
 
-    <script src="js/admin_script.js"></script>
+    <script src="{{ asset('js/admin_script.js') }}"></script>
 
 </body>
 </html>
