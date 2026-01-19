@@ -20,27 +20,30 @@ class BannerController extends Controller
         return view('admin.banners.create');
     }
 
-    // 3. Xử lý thêm (Lưu thẳng vào public/banners)
+    // 3. Xử lý thêm (CÓ TỰ TẠO THƯ MỤC)
     public function store(Request $request)
     {
         $request->validate([
-            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:10240',
             'sort_order' => 'integer',
         ]);
 
         $data = $request->all();
 
-        // Xử lý ảnh
         if ($request->hasFile('image_path')) {
             $file = $request->file('image_path');
-            
-            // 1. Đặt tên file: time_tenfilegoc.jpg (để tránh trùng)
             $filename = time() . '_' . $file->getClientOriginalName();
             
-            // 2. Di chuyển ảnh vào thư mục public/banners
-            $file->move(public_path('banners'), $filename);
+            // 👇 BƯỚC QUAN TRỌNG: Kiểm tra thư mục có chưa, chưa có thì tạo
+            $path = public_path('banners');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
             
-            // 3. Lưu đường dẫn vào DB (VD: banners/hinh.jpg)
+            // Di chuyển ảnh
+            $file->move($path, $filename);
+            
+            // Lưu đường dẫn
             $data['image_path'] = 'banners/' . $filename;
         }
 
@@ -57,7 +60,7 @@ class BannerController extends Controller
         return view('admin.banners.edit', compact('banner'));
     }
 
-    // 5. Xử lý sửa (Xóa ảnh cũ trong public -> Up ảnh mới)
+    // 5. Xử lý sửa
     public function update(Request $request, $id)
     {
         $banner = Banner::findOrFail($id);
@@ -69,15 +72,22 @@ class BannerController extends Controller
         $data = $request->except(['image_path']); 
 
         if ($request->hasFile('image_path')) {
-            // A. Xóa ảnh cũ (nếu có)
-            if ($banner->image_path && File::exists(public_path($banner->image_path))) {
-                File::delete(public_path($banner->image_path));
+            // A. Xóa ảnh cũ (Kiểm tra kỹ để tránh lỗi)
+            $oldPath = public_path($banner->image_path);
+            if ($banner->image_path && File::exists($oldPath)) {
+                File::delete($oldPath);
             }
 
-            // B. Upload ảnh mới
+            // B. Upload ảnh mới (Tự tạo thư mục nếu chưa có)
             $file = $request->file('image_path');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('banners'), $filename);
+            
+            $path = public_path('banners');
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0755, true);
+            }
+
+            $file->move($path, $filename);
             
             $data['image_path'] = 'banners/' . $filename;
         }
@@ -89,17 +99,24 @@ class BannerController extends Controller
         return redirect()->route('admin.banners.index')->with('success', 'Cập nhật banner thành công!');
     }
 
-    // 6. Xóa (Xóa file trong public)
+    // 6. Xóa (Đảm bảo luôn xóa được Banner dù lỗi file)
     public function destroy($id)
     {
         $banner = Banner::findOrFail($id);
         
-        // Xóa file ảnh trong thư mục public/banners
-        if ($banner->image_path && File::exists(public_path($banner->image_path))) {
-            File::delete(public_path($banner->image_path));
+        // Cố gắng xóa ảnh, nếu lỗi thì bỏ qua để còn xóa Database
+        try {
+            $imagePath = public_path($banner->image_path);
+            if ($banner->image_path && File::exists($imagePath)) {
+                File::delete($imagePath);
+            }
+        } catch (\Exception $e) {
+            // Ghi log lỗi nếu cần, nhưng không chặn việc xóa record
+            // Log::error("Không xóa được ảnh: " . $e->getMessage());
         }
 
         $banner->delete();
+        
         return back()->with('success', 'Đã xóa banner.');
     }
 }

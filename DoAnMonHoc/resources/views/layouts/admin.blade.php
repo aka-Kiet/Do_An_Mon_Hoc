@@ -172,9 +172,8 @@
                                 </p>
                             </div>
                             
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random&color=fff" 
-                                 alt="Admin Avatar" 
-                                 class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-700 shadow-sm object-cover">
+                            {{---Avatar--}}
+                            <x-user-avatar :name="Auth::user()->name" />
                         </button>
             
                         <div class="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-stone-100 dark:border-slate-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50">
