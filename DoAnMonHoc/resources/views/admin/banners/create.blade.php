@@ -1,7 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+{{-- Đổi py-8 thành pt-28 để đẩy nội dung xuống dưới Header --}}
+<div class="container mx-auto px-4 pt-28 pb-8">
     <div class="max-w-2xl mx-auto bg-white dark:bg-slate-800 shadow-lg rounded-lg p-8">
         <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Thêm Banner Quảng Cáo</h2>
         

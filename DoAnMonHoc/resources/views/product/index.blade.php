@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
+
 @section('content')
+
 
 <main class="pt-28 pb-12 px-4 container mx-auto flex-grow">
     <section class="mb-10 mt-4 text-center">

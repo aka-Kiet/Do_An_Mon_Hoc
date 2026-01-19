@@ -44,37 +44,91 @@
             <nav class="flex-grow py-6 px-4 space-y-2 overflow-y-auto">
                 <p class="text-xs font-bold text-stone-400 dark:text-slate-500 uppercase px-4 mb-2 tracking-wider">Tổng quan</p>
                 
-                <a href="{{ route('admin.dashboard') }}" class="nav-item active flex items-center px-4 py-3 rounded-lg font-medium hover:bg-stone-100 dark:hover:bg-slate-800 transition-all">
-                    <i class="fas fa-th-large w-6"></i> Dashboard
+                {{-- DASHBOARD --}}
+                <a href="{{ route('admin.dashboard') }}" 
+                   class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                   {{ request()->routeIs('admin.dashboard') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-th-large w-6 text-center"></i> 
+                    <span class="ml-2">Dashboard</span>
                 </a>
                 
                 <p class="text-xs font-bold text-stone-400 dark:text-slate-500 uppercase px-4 mb-2 mt-6 tracking-wider">Quản lý</p>
                 
-                <a href="{{ route('admin.books.index') }}" class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
-                    <i class="fas fa-book w-6"></i> Sản phẩm
+                {{-- SẢN PHẨM (Active khi route là admin.books.*) --}}
+                <a href="{{ route('admin.books.index') }}" 
+                   class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                   {{ request()->routeIs('admin.books.*') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-book w-6 text-center"></i>
+                    <span class="ml-2">Sản phẩm</span>
                 </a>
-                <a href="{{ route('admin.categories.index') }}" class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
-                    <i class="fas fa-list-alt w-6"></i> Danh mục
+            
+                {{-- DANH MỤC --}}
+                <a href="{{ route('admin.categories.index') }}" 
+                   class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                   {{ request()->routeIs('admin.categories.*') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-list-alt w-6 text-center"></i>
+                    <span class="ml-2">Danh mục</span>
                 </a>
-                <a href="./admin_order.html" class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
-                    <div class="relative">
-                        <i class="fas fa-shopping-cart w-6"></i>
-                        <span class="absolute -top-1 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+            
+                {{-- ĐƠN HÀNG (Giả sử route là admin.orders.*) --}}
+                <a href="#" 
+                   class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                   {{ request()->routeIs('admin.orders.*') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <div class="relative w-6 text-center">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
                     </div>
-                    Đơn hàng
+                    <span class="ml-2">Đơn hàng</span>
                 </a>
-                <a href="{{ route('admin.users.index') }}"class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
-                    <i class="fas fa-users w-6"></i> Khách hàng
+            
+                {{-- KHÁCH HÀNG --}}
+                <a href="{{ route('admin.users.index') }}" 
+                   class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                   {{ request()->routeIs('admin.users.*') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-users w-6 text-center"></i>
+                    <span class="ml-2">Khách hàng</span>
                 </a>
-
-                <a href="{{ route('admin.authors.index') }}"class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
-                    <i class="fas fa-users w-6"></i> Tác giả
+            
+                {{-- TÁC GIẢ (Đổi icon sang cây bút) --}}
+                <a href="{{ route('admin.authors.index') }}" 
+                   class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                   {{ request()->routeIs('admin.authors.*') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-pen-nib w-6 text-center"></i>
+                    <span class="ml-2">Tác giả</span>
                 </a>
-
+            
+                {{-- BANNER (Đổi icon sang hình ảnh) --}}
+                <a href="{{ route('admin.banners.index') }}" 
+                   class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                   {{ request()->routeIs('admin.banners.*') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-images w-6 text-center"></i>
+                    <span class="ml-2">Banner</span>
+                </a>
+            
                 <p class="text-xs font-bold text-stone-400 dark:text-slate-500 uppercase px-4 mb-2 mt-6 tracking-wider">Hệ thống</p>
                 
-                <a href="./admin.html" class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
-                    <i class="fas fa-cog w-6"></i> Cài đặt
+                {{-- CÀI ĐẶT --}}
+                <a href="#" 
+                   class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                   {{ request()->routeIs('admin.settings.*') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-cog w-6 text-center"></i>
+                    <span class="ml-2">Cài đặt</span>
                 </a>
             </nav>
 

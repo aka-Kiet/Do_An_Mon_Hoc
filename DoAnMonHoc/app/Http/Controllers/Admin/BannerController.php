@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Banner;
-// ❌ Không cần use Storage nữa
-// ✅ Dùng File để xóa ảnh trong public
 use Illuminate\Support\Facades\File; 
 
 class BannerController extends Controller
