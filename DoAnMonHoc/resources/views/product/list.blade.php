@@ -5,7 +5,7 @@
         <div class="h-64 overflow-hidden relative p-4">
 
             {{-- Logic hiển thị nhãn New --}}
-            @if($product->created_at->diffInDays(now()) < 7)
+            @if($product->created_at->diffInDays(now()) < 3)
             <span class="absolute top-4 left-4 z-20 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-md">NEW</span>
             @endif
             
