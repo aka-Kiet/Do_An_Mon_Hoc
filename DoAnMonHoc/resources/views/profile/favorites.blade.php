@@ -10,9 +10,12 @@
         <div class="w-full md:w-1/4">
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 sticky top-24 transition-colors duration-300">
                 <div class="flex items-center gap-4 mb-6 pb-6 border-b border-stone-100 dark:border-slate-700">
-                    <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md">
+                    {{-- <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md">
                         {{ substr(Auth::user()->name, 0, 1) }}
-                    </div>
+                    </div> --}}
+
+                    <x-user-avatar :name="Auth::user()->name" />
+                        
                     <div>
                         <p class="font-bold text-stone-800 dark:text-white">{{ $user->name }}</p>
                         <p class="text-xs text-stone-500 dark:text-slate-400">Thành viên thân thiết</p>
