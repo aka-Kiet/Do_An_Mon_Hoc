@@ -89,6 +89,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
 
         // 4. Route Xóa (có {id})
         Route::delete('/users/{id}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+
+        // hiển thị danh sách bình luận
+        Route::get('/reviews', [App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('reviews.index');
+        // xóa 1 bình luận
+        Route::delete('/reviews/{id}', [App\Http\Controllers\Admin\ReviewController::class, 'destroy'])->name('reviews.destroy');
+        // xóa nhiều bình luận
+        Route::post('/reviews/bulk-delete', [App\Http\Controllers\Admin\ReviewController::class, 'bulkDelete'])->name('reviews.bulkDelete');
 });
 
 // Nhóm route yêu cầu đăng nhập

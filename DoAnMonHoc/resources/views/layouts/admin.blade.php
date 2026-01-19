@@ -56,6 +56,9 @@
                 <a href="{{ route('admin.categories.index') }}" class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
                     <i class="fas fa-list-alt w-6"></i> Danh mục
                 </a>
+                <a href="{{ route('admin.reviews.index') }}" class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
+                    <i class="fas fa-comments w-6"></i> Bình luận
+                </a>
                 <a href="./admin_order.html" class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
                     <div class="relative">
                         <i class="fas fa-shopping-cart w-6"></i>
