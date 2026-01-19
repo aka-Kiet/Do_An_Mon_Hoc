@@ -67,6 +67,10 @@
                     <i class="fas fa-users w-6"></i> Khách hàng
                 </a>
 
+                <a href="{{ route('admin.authors.index') }}"class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
+                    <i class="fas fa-users w-6"></i> Tác giả
+                </a>
+
                 <p class="text-xs font-bold text-stone-400 dark:text-slate-500 uppercase px-4 mb-2 mt-6 tracking-wider">Hệ thống</p>
                 
                 <a href="./admin.html" class="nav-item flex items-center px-4 py-3 rounded-lg font-medium text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-all">
