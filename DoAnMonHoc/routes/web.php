@@ -13,6 +13,8 @@ use App\Http\Controllers\FavoriteController; //Sử dụng FavoriteController
 use App\Http\Controllers\Admin\CategoryController; //Sử dụng CategoryController
 use App\Http\Controllers\Admin\DashboardController; //Sử dụng DashboardController
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AuthorController;
+use App\Http\Controllers\Admin\BannerController;
 
 
 // HomeController
@@ -96,6 +98,18 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         Route::delete('/reviews/{id}', [App\Http\Controllers\Admin\ReviewController::class, 'destroy'])->name('reviews.destroy');
         // xóa nhiều bình luận
         Route::post('/reviews/bulk-delete', [App\Http\Controllers\Admin\ReviewController::class, 'bulkDelete'])->name('reviews.bulkDelete');
+
+        // Route Khôi phục (Restore)
+        Route::post('/users/{id}/restore', [App\Http\Controllers\Admin\UserController::class, 'restore'])->name('users.restore');
+
+        // Route Xóa vĩnh viễn (Force Delete)
+        Route::delete('/users/{id}/force', [App\Http\Controllers\Admin\UserController::class, 'forceDelete'])->name('users.forceDelete');
+
+        // Quản lý Tác giả
+        Route::resource('authors', AuthorController::class);
+
+        // Quản Lý SlideShow
+        Route::resource('banners', BannerController::class);
 });
 
 // Nhóm route yêu cầu đăng nhập

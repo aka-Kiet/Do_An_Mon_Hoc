@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 {{-- CONTAINER: Thêm pt-28 để tránh Header che --}}

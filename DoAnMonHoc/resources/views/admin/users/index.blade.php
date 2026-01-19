@@ -1,167 +1,155 @@
-@extends('layouts.admin') 
+@extends('layouts.admin')
 
 @section('content')
-{{-- CONTAINER: Thêm pt-28 để tránh Header che --}}
-<div class="container mx-auto px-4 pt-28 pb-10 min-h-screen">
+<div class="container mx-auto px-4 py-8">
     
-    {{-- HEADER TRANG --}}
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-        <h1 class="text-3xl font-extrabold text-brown-dark dark:text-white flex items-center">
-            <i class="fas fa-users-cog mr-3 text-brown-primary dark:text-red-500"></i> 
-            Quản Lý Người Dùng
+    {{-- HEADER: TIÊU ĐỀ & NÚT THÊM --}}
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white flex items-center">
+            <i class="fas fa-users mr-2"></i> Quản Lý Người Dùng
         </h1>
         
-        <div class="flex items-center gap-3">
-            <span class="px-4 py-2 rounded-xl bg-white/60 dark:bg-slate-800/60 backdrop-blur border border-stone-200 dark:border-slate-700 text-stone-600 dark:text-slate-300 text-sm font-bold shadow-sm">
-                Tổng: <span class="text-brown-primary dark:text-red-500 text-base ml-1">{{ $users->total() }}</span> thành viên
-            </span>
-
-            {{-- FORM TÌM KIẾM --}}
-            <form action="{{ route('admin.users.index') }}" method="GET" class="relative w-full md:w-64">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <i class="fas fa-search text-gray-400"></i>
-                </div>
-                <input type="text" name="search" value="{{ request('search') }}" 
-                       class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-brown-primary focus:border-brown-primary dark:bg-slate-700 dark:border-slate-600 dark:text-white dark:focus:ring-red-500" 
-                       placeholder="Tìm email, tên hoặc sđt...">
-                
-                @if(request('search'))
-                    <a href="{{ route('admin.users.index') }}" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-red-500">
-                        <i class="fas fa-times-circle"></i>
-                    </a>
-                @endif
-            </form>
-            
-            {{-- Nút Thêm mới --}}
-            <a href="{{ route('admin.users.create') }}" class="px-4 py-2 bg-brown-primary dark:bg-red-600 text-white rounded-lg hover:bg-brown-dark dark:hover:bg-red-700 transition shadow-md font-bold text-sm flex items-center">
-                <i class="fas fa-user-plus mr-2"></i> Thêm mới
-            </a>
+        <div class="flex items-center gap-2">
+            @if(request('status') != 'trash')
+                <a href="{{ route('admin.users.create') }}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold shadow-md transition flex items-center">
+                    <i class="fas fa-plus mr-1"></i> Thêm User
+                </a>
+            @endif
         </div>
     </div>
 
-    {{-- BẢNG DANH SÁCH (GLASSMORPHISM) --}}
-    <div class="rounded-3xl overflow-hidden 
-        bg-white/60 dark:bg-slate-800/40 backdrop-blur-xl 
-        border border-stone-200/50 dark:border-slate-700/50 
-        shadow-lg transition-all duration-300">
+    {{-- THANH CÔNG CỤ: TABS & TÌM KIẾM --}}
+    <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg border border-gray-200 dark:border-slate-700">
         
-        <div class="overflow-x-auto custom-scrollbar">
-            <table class="w-full text-sm text-left">
+        {{-- Tabs --}}
+        <div class="flex gap-2">
+            <a href="{{ route('admin.users.index') }}" 
+               class="px-4 py-2 text-sm font-medium rounded-md transition {{ !request('status') ? 'bg-blue-600 text-white shadow' : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100' }}">
+               <i class="fas fa-users mr-1"></i> Tất cả
+            </a>
+            <a href="{{ route('admin.users.index', ['status' => 'trash']) }}" 
+               class="px-4 py-2 text-sm font-medium rounded-md transition {{ request('status') == 'trash' ? 'bg-red-600 text-white shadow' : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100' }}">
+               <i class="fas fa-trash-alt mr-1"></i> Thùng rác 
+               <span class="ml-1 text-xs bg-gray-200 text-gray-800 px-1.5 rounded-full opacity-80">
+                   {{ \App\Models\User::onlyTrashed()->count() }}
+               </span>
+            </a>
+        </div>
+
+        {{-- Search --}}
+        <form action="{{ route('admin.users.index') }}" method="GET" class="relative w-full md:w-64">
+            @if(request('status')) <input type="hidden" name="status" value="{{ request('status') }}"> @endif
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <i class="fas fa-search text-gray-400"></i>
+            </div>
+            <input type="text" name="search" value="{{ request('search') }}" 
+                   class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-800 dark:border-slate-600 dark:text-white" 
+                   placeholder="Tìm tên, email, sđt...">
+        </form>
+    </div>
+
+    {{-- BẢNG DANH SÁCH (STYLE GIỐNG BANNER) --}}
+    <div class="bg-white dark:bg-slate-800 shadow-md rounded-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 {{-- THEAD --}}
-                <thead class="text-xs uppercase font-bold
-                    text-stone-700 dark:text-slate-300
-                    bg-brown-primary/10 dark:bg-red-900/20">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-slate-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-4">ID</th>
-                        <th scope="col" class="px-6 py-4">Thành viên</th>
-                        <th scope="col" class="px-6 py-4">Email</th>
-                        <th scope="col" class="px-6 py-4">Số điện thoại</th> {{-- 👈 CỘT MỚI --}}
-                        <th scope="col" class="px-6 py-4">Vai trò</th>
-                        <th scope="col" class="px-6 py-4">Ngày tham gia</th>
-                        <th scope="col" class="px-6 py-4 text-right">Hành động</th>
+                        <th class="px-6 py-3">Thông tin thành viên</th>
+                        <th class="px-6 py-3">Liên hệ</th>
+                        <th class="px-6 py-3">Vai trò</th>
+                        <th class="px-6 py-3">Ngày tham gia</th>
+                        <th class="px-6 py-3 text-right">Hành động</th>
                     </tr>
                 </thead>
 
                 {{-- TBODY --}}
-                <tbody class="divide-y divide-stone-200/50 dark:divide-slate-700/50">
+                <tbody>
                     @foreach($users as $user)
-                        <tr class="hover:bg-white/50 dark:hover:bg-slate-700/30 transition duration-200 group">
+                        <tr class="bg-white border-b dark:bg-slate-800 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-700/50 transition">
                             
-                            {{-- ID --}}
-                            <td class="px-6 py-4 font-medium text-stone-500 dark:text-slate-400">
-                                #{{ $user->id }}
-                            </td>
-                            
-                            {{-- Thành viên --}}
+                            {{-- Cột 1: Avatar + Tên + Status --}}
                             <td class="px-6 py-4">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full border border-stone-200 dark:border-slate-600 overflow-hidden shadow-sm">
-                                        <img class="w-full h-full object-cover" 
+                                <div class="flex items-center space-x-3">
+                                    <div class="flex-shrink-0 w-10 h-10">
+                                        <img class="w-full h-full rounded-full object-cover border border-gray-200 dark:border-gray-600" 
                                              src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&color=fff" 
                                              alt="{{ $user->name }}">
                                     </div>
-                                    <div class="flex flex-col">
-                                        <span class="font-bold text-stone-800 dark:text-white text-base group-hover:text-brown-primary dark:group-hover:text-red-500 transition-colors">
+                                    <div>
+                                        <div class="text-base font-bold text-gray-900 dark:text-white {{ request('status') == 'trash' ? 'line-through text-gray-400' : '' }}">
                                             {{ $user->name }}
-                                        </span>
-                                        <span class="text-[10px] text-green-500 flex items-center gap-1">
-                                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Online
-                                        </span>
+                                        </div>
+                                        @if(request('status') == 'trash')
+                                            <div class="text-xs text-red-500">Đã xóa: {{ $user->deleted_at->format('d/m/Y') }}</div>
+                                        @else
+                                            <div class="text-xs text-green-500 font-semibold flex items-center">
+                                                <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span> Online
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
 
-                            {{-- Email --}}
-                            <td class="px-6 py-4 text-stone-600 dark:text-slate-300">
-                                {{ $user->email }}
-                            </td>
-
-                            {{-- Số điện thoại (CỘT MỚI) --}}
-                            <td class="px-6 py-4 text-stone-600 dark:text-slate-300">
-                                @if($user->phone)
-                                    {{ $user->phone }}
-                                @else
-                                    <span class="text-stone-400 italic text-xs">Chưa cập nhật</span>
-                                @endif
-                            </td>
-
-                            {{-- Vai trò --}}
+                            {{-- Cột 2: Email + SĐT --}}
                             <td class="px-6 py-4">
-                                @if($user->is_admin || $user->role === 'admin') 
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border
-                                        bg-red-100 text-red-700 border-red-200 
-                                        dark:bg-red-900/30 dark:text-red-400 dark:border-red-800">
-                                        <i class="fas fa-crown mr-1 text-[10px]"></i> Admin
+                                <div class="flex flex-col">
+                                    <span class="text-gray-700 dark:text-gray-300 font-medium">{{ $user->email }}</span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-500">
+                                        @if($user->phone)
+                                            <i class="fas fa-phone-alt mr-1 text-[10px]"></i> {{ $user->phone }}
+                                        @else
+                                            <span class="italic text-gray-400">Chưa có SĐT</span>
+                                        @endif
                                     </span>
-                                @else
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold border
-                                        bg-stone-100 text-stone-600 border-stone-200 
-                                        dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600">
-                                        <i class="fas fa-user mr-1 text-[10px]"></i> User
-                                    </span>
-                                @endif
-                            </td>
-
-                            {{-- Ngày tham gia --}}
-                            <td class="px-6 py-4 text-stone-500 dark:text-slate-400">
-                                <div class="flex items-center gap-2">
-                                    <i class="far fa-calendar-alt"></i>
-                                    {{ $user->created_at->format('d/m/Y') }}
                                 </div>
                             </td>
 
-                            {{-- Hành động --}}
-                            <td class="px-6 py-4 text-right">
-                                @if($user->id != Auth::id())
-                                    <div class="flex items-center justify-end gap-2">
-                                        
-                                        {{-- Nút Sửa --}}
-                                        <a href="{{ route('admin.users.edit', $user->id) }}" 
-                                           class="w-8 h-8 rounded-lg flex items-center justify-center transition-all
-                                           text-stone-400 hover:text-blue-600 hover:bg-blue-50 
-                                           dark:text-slate-500 dark:hover:text-blue-400 dark:hover:bg-blue-900/20"
-                                           title="Sửa thông tin">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                            {{-- Cột 3: Vai trò (Badge style giống Banner) --}}
+                            <td class="px-6 py-4">
+                                @if($user->role === 'admin') 
+                                    <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded border border-red-200">
+                                        Admin
+                                    </span>
+                                @else
+                                    <span class="bg-gray-100 text-gray-800 text-xs font-bold px-2 py-1 rounded border border-gray-200">
+                                        User
+                                    </span>
+                                @endif
+                            </td>
 
-                                        {{-- Nút Xóa --}}
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" 
-                                              onsubmit="return confirm('CẢNH BÁO: Bạn có chắc chắn muốn xóa thành viên {{ $user->name }}?');">
+                            {{-- Cột 4: Ngày --}}
+                            <td class="px-6 py-4">
+                                {{ $user->created_at->format('d/m/Y') }}
+                            </td>
+
+                            {{-- Cột 5: Hành động (Text Links giống Banner) --}}
+                            <td class="px-6 py-4 text-right space-x-2">
+                                @if($user->id != Auth::id())
+                                    @if(request('status') == 'trash')
+                                        {{-- Thùng rác: Khôi phục & Xóa vĩnh viễn --}}
+                                        <form action="{{ route('admin.users.restore', $user->id) }}" method="POST" class="inline-block">
                                             @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="w-8 h-8 rounded-lg flex items-center justify-center transition-all
-                                                text-stone-400 hover:text-red-500 hover:bg-red-50 
-                                                dark:text-slate-500 dark:hover:text-red-400 dark:hover:bg-red-900/20"
-                                                title="Xóa người dùng">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
+                                            <button class="text-green-600 font-bold hover:underline text-sm">Khôi phục</button>
                                         </form>
 
-                                    </div>
+                                        <form action="{{ route('admin.users.forceDelete', $user->id) }}" method="POST" class="inline-block"
+                                              onsubmit="return confirm('Xóa vĩnh viễn user này? Không thể hoàn tác!')">
+                                            @csrf @method('DELETE')
+                                            <button class="text-red-600 font-bold hover:underline text-sm">Xóa vĩnh viễn</button>
+                                        </form>
+                                    @else
+                                        {{-- Bình thường: Sửa & Xóa tạm --}}
+                                        <a href="{{ route('admin.users.edit', $user->id) }}" class="text-blue-600 font-bold hover:underline text-sm">Sửa</a>
+                                        
+                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline-block"
+                                              onsubmit="return confirm('Chuyển user này vào thùng rác?')">
+                                            @csrf @method('DELETE')
+                                            <button class="text-red-600 font-bold hover:underline text-sm">Xóa</button>
+                                        </form>
+                                    @endif
                                 @else
-                                    <span class="text-xs text-stone-400 dark:text-slate-600 italic select-none pr-2">
-                                        (Bạn)
-                                    </span>
+                                    <span class="text-gray-400 text-xs italic">(Bạn)</span>
                                 @endif
                             </td>
                         </tr>
@@ -172,15 +160,15 @@
 
         {{-- Phân trang --}}
         @if($users->hasPages())
-            <div class="p-4 border-t border-stone-200/50 dark:border-slate-700/50 bg-white/30 dark:bg-slate-900/30">
-                {{ $users->links() }} 
+            <div class="p-4 bg-white dark:bg-slate-800 border-t border-gray-200 dark:border-slate-700">
+                {{ $users->appends(request()->all())->links() }} 
             </div>
         @endif
-        
+
         @if($users->isEmpty())
-             <div class="text-center py-10">
-                <p class="text-stone-500 dark:text-slate-400">Không tìm thấy thành viên nào.</p>
-             </div>
+            <div class="text-center py-10 text-gray-500 dark:text-gray-400">
+                Không tìm thấy dữ liệu phù hợp.
+            </div>
         @endif
     </div>
 </div>
