@@ -16,6 +16,11 @@ class UserController extends Controller
 
         $query = User::query();
 
+        // Nếu có tham số ?status=trash thì lấy danh sách đã xóa
+        if ($request->has('status') && $request->status == 'trash') {
+            $query->onlyTrashed(); // Chỉ lấy người bị xóa mềm
+        }
+
         // Xử lý tìm kiếm
         if ($request->has('search') && $request->search != '') {
             $keyword = $request->search;
@@ -117,5 +122,28 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Đã thêm người dùng mới thành công!');
+    }
+
+    public function restore($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+
+        return back()->with('success', 'Đã khôi phục tài khoản thành công!');
+
+    }
+
+    public function forceDelete($id)
+    {
+        $user = User::withTrashed()->findOrFail($id);
+
+        // Chặn xóa chính mình (Đề phòng)
+        if($user->id == Auth::id()) {
+            return back()->with('error', 'không thể xóa vĩnh viễn tài khoản đang đăng nhập!');
+        }
+    
+        $user->forceDelete();
+
+        return back()->with('success', 'Đã xóa vĩnh viễn tài khoản khỏi hệ thống.');
     }
 }
