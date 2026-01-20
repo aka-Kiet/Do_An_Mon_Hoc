@@ -125,8 +125,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         Route::resource('banners', BannerController::class);
 
         // Quản lý Đơn hàng
-
+        Route::get('/orders/trash', [App\Http\Controllers\Admin\OrderController::class, 'trash'])->name('orders.trash');// hiển thị danh sách xóa mềm
         Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
+
         
         // Quản lý Liên hệ
         Route::get('/contacts', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('contacts.index');

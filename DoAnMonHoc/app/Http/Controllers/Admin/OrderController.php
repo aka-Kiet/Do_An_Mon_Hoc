@@ -53,8 +53,6 @@ class OrderController extends Controller
     // Xóa mềm đơn hàng
     public function destroy(Order $order)
     {
-        // 2. Xóa 'processing' khỏi điều kiện chặn xóa
-        // Chỉ chặn xóa khi đang giao hàng (shipping)
         if ($order->status === 'shipping') {
             return back()->with('error', 'Không thể xóa đơn hàng đang được giao.');
         }
@@ -65,5 +63,16 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
         }
+    }
+    //danh sách đơn hàng xóa mềm
+    public function trash()
+    {
+        // Sử dụng onlyTrashed() để chỉ lấy các đơn đã xóa
+        $orders = Order::onlyTrashed()
+            ->with('user')
+            ->latest()
+            ->paginate(10);
+
+        return view('admin.orders.trash', compact('orders'));
     }
 }
