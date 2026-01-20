@@ -12,6 +12,20 @@
         </a>
     </div>
 
+    @if(session('success'))
+        <div class="mb-6 p-4 bg-green-100 border border-green-200 text-green-700 rounded-lg flex items-center shadow-sm">
+            <i class="fas fa-check-circle mr-2 text-xl"></i>
+            <span class="font-medium">{{ session('success') }}</span>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="mb-6 p-4 bg-red-100 border border-red-200 text-red-700 rounded-lg flex items-center shadow-sm">
+            <i class="fas fa-exclamation-triangle mr-2 text-xl"></i>
+            <span class="font-medium">{{ session('error') }}</span>
+        </div>
+    @endif
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <div class="lg:col-span-2 space-y-6">
