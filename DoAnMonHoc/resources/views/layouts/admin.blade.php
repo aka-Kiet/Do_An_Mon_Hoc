@@ -36,14 +36,24 @@
         <aside class="w-64 fixed h-full z-20 glass bg-white/90 dark:bg-slate-900/90 border-r border-white/20 dark:border-white/5 flex flex-col transition-transform duration-300 -translate-x-full lg:translate-x-0" id="sidebar">
             
             <div class="h-20 flex items-center justify-center border-b border-stone-200 dark:border-slate-800">
-                <a href="#" class="text-2xl font-extrabold tracking-tighter">
+                <a href="{{ route('admin.dashboard') }}" class="text-2xl font-extrabold tracking-tighter">
                     <span class="text-brown-dark dark:text-white"><i class="fas fa-book-open mr-2"></i>Book</span><span class="dark:text-neon-red">Admin</span>
                 </a>
             </div>
+            {{-- Trang chủ --}}
+                <a href="{{ route('product.index') }}" 
+                   class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                   {{ request()->routeIs('product.index') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-chevron-left w-6 text-center"></i> 
+                    <span class="ml-2">Trang chủ</span>
+                </a>          
 
             <nav class="flex-grow py-6 px-4 space-y-2 overflow-y-auto">
                 <p class="text-xs font-bold text-stone-400 dark:text-slate-500 uppercase px-4 mb-2 tracking-wider">Tổng quan</p>
                 
+
                 {{-- DASHBOARD --}}
                 <a href="{{ route('admin.dashboard') }}" 
                    class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
@@ -75,9 +85,19 @@
                     <i class="fas fa-list-alt w-6 text-center"></i>
                     <span class="ml-2">Danh mục</span>
                 </a>
+
+                {{-- BÌNH LUẬN --}}
+                <a href="{{ route('admin.reviews.index') }}" 
+                    class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                    {{ request()->routeIs('admin.reviews.*') 
+                    ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                    : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-comments w-6"></i>
+                    <span class="ml-2">Bình luận</span>
+                </a>
             
                 {{-- ĐƠN HÀNG (Giả sử route là admin.orders.*) --}}
-                <a href="#" 
+                <a href="{{ route('admin.orders.index') }}" 
                    class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
                    {{ request()->routeIs('admin.orders.*') 
                       ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
@@ -172,9 +192,8 @@
                                 </p>
                             </div>
                             
-                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=random&color=fff" 
-                                 alt="Admin Avatar" 
-                                 class="w-10 h-10 rounded-full border-2 border-white dark:border-slate-700 shadow-sm object-cover">
+                            {{---Avatar--}}
+                            <x-user-avatar :name="Auth::user()->name" />
                         </button>
             
                         <div class="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-800 rounded-xl shadow-xl border border-stone-100 dark:border-slate-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-right z-50">

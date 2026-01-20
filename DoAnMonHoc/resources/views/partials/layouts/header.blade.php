@@ -90,9 +90,11 @@
                     @auth
                         <button class="flex items-center gap-3 py-1.5 px-3 rounded-full border border-transparent hover:border-stone-200 hover:bg-stone-50 dark:hover:bg-slate-800 transition-all">
                             
-                            <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md">
+                            {{-- <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md">
                                 {{ substr(Auth::user()->name, 0, 1) }}
-                            </div>
+                            </div> --}}
+                            {{-- Không cần truyền class vì mặc định đã là w-10 h-10 --}}
+                            <x-user-avatar :name="Auth::user()->name" />
                 
                             <div class="text-left hidden lg:block">
                                 <p class="text-[10px] text-stone-400 dark:text-slate-400 font-bold uppercase tracking-wider">Xin chào,</p>
@@ -130,7 +132,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="flex items-center px-4 py-2.5 text-sm text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-colors">
+                                    <a href="{{ route('profile.orders') }}" class="flex items-center px-4 py-2.5 text-sm text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-neon-red transition-colors">
                                         <span class="w-8 text-center mr-1"><i class="fas fa-box-open"></i></span> 
                                         Đơn mua
                                     </a>

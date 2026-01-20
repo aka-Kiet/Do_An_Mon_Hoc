@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\OrderController; // Sử dụng OrderController
+
 
 // HomeController
 // Định tuyến của trang chủ
@@ -94,6 +96,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         // 4. Route Xóa (có {id})
         Route::delete('/users/{id}', [App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
 
+        // hiển thị danh sách bình luận
+        Route::get('/reviews', [App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('reviews.index');
+        // xóa 1 bình luận
+        Route::delete('/reviews/{id}', [App\Http\Controllers\Admin\ReviewController::class, 'destroy'])->name('reviews.destroy');
+        // xóa nhiều bình luận
+        Route::post('/reviews/bulk-delete', [App\Http\Controllers\Admin\ReviewController::class, 'bulkDelete'])->name('reviews.bulkDelete');
 
         // Route Khôi phục (Restore)
         Route::post('/users/{id}/restore', [App\Http\Controllers\Admin\UserController::class, 'restore'])->name('users.restore');
@@ -106,6 +114,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
 
         // Quản Lý SlideShow
         Route::resource('banners', BannerController::class);
+
+        // Quản lý Đơn hàng
+        Route::put('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+        Route::resource('orders', OrderController::class);
+        
 });
 
 // Nhóm route yêu cầu đăng nhập

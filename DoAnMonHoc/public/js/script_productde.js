@@ -235,11 +235,7 @@ function addToCart(isBuyNow = false) {
             if (isBuyNow) {
                 window.location.href = productConfig.checkoutRoute; 
             } else {
-                // Thay alert bằng thông báo đẹp hơn nếu có (ví dụ Toastr/SweetAlert)
                 alert("Đã thêm sản phẩm vào giỏ hàng!");
-                
-                // Cập nhật số lượng trên icon giỏ hàng (nếu có hàm này)
-                // updateCartCount(data.total_items); 
             }
         } else {
             alert("Lỗi: " + (data.message || "Không thể thêm vào giỏ hàng"));
@@ -248,7 +244,6 @@ function addToCart(isBuyNow = false) {
     .catch(error => {
         if (error.message !== "Unauthorized") {
             console.error('Error:', error);
-            // alert("Đã xảy ra lỗi, vui lòng thử lại."); // Có thể bật lại nếu cần debug
         }
     });
 }
