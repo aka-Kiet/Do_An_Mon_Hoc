@@ -67,15 +67,16 @@
                         </span>
                     </td>
 
-                    {{-- 6. Hành Động (gồm xem chi tiết và xóa mềm) --}}
+                    {{-- 6. Hành Động --}}
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-2">
+                            <!--Xem chi tiết-->
                             <a href="{{ route('admin.orders.show', $order->id) }}" 
                                class="inline-flex items-center px-3 py-1.5 bg-white border border-stone-300 rounded-md text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-brown-primary transition-colors shadow-sm"
                                title="Xem chi tiết">
                                 <i class="fas fa-eye"></i>
                             </a>
-
+                            <!--Xóa mềm-->
                             <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn hàng #{{ $order->id }} này không?');">
                                 @csrf
                                 @method('DELETE')

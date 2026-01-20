@@ -23,7 +23,11 @@ class OrderController extends Controller
     {
         $order->load(['user', 'items.book']);
 
-        return view('admin.orders.show', compact('order'));
+        // Lấy danh sách trạng thái để truyền sang View ---
+        $statusLabels = Order::STATUS_LABELS;
+
+        // Truyền thêm biến 'statusLabels' vào compact
+        return view('admin.orders.show', compact('order', 'statusLabels'));
     }
 
     // Cập nhật trạng thái

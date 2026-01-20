@@ -75,7 +75,7 @@
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-stone-700 dark:text-slate-300 mb-2">Trạng thái hiện tại</label>
                         <select name="status" class="w-full rounded-md border-stone-300 dark:border-slate-600 bg-stone-50 dark:bg-slate-800 focus:ring-brown-primary focus:border-brown-primary">
-                            @foreach(\App\Models\Order::STATUS_LABELS as $key => $label)
+                            @foreach($statusLabels as $key => $label)
                                 <option value="{{ $key }}" {{ $order->status == $key ? 'selected' : '' }}>
                                     {{ $label }}
                                 </option>
