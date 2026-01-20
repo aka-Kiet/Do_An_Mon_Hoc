@@ -4,28 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
     
     protected $fillable = ['user_id', 'status', 'total_price', 'name', 'phone', 'address','payment_method'];
 
-    // Quan hệ: 1 Đơn hàng có nhiều món (Items)
     public function items() {
         return $this->hasMany(OrderItem::class);
     }
     // Quan hệ: Đơn hàng thuộc về 1 Người dùng (User)
-     public function user()
+    public function user()
     {
          return $this->belongsTo(User::class)->withDefault([
             'name'  => 'Khách vãng lai',
             'email' => 'Không có email',
         ]);
     }
-     public const STATUS_LABELS = [
+    public const STATUS_LABELS = [
         'pending'    => 'Chờ xử lý',
-        'processing' => 'Đang xử lý',
+        'shipping'   => 'Đang giao hàng',
         'completed'  => 'Hoàn thành',
         'cancelled'  => 'Đã hủy',
     ];
