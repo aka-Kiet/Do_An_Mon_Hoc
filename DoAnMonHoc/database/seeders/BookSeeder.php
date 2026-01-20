@@ -13,7 +13,7 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
-       Book::updateOrCreate(
+        Book::updateOrCreate(
             ['slug' => 'nha-gia-kim'],
             [
                 'name' => 'Nhà Giả Kim',
@@ -677,6 +677,405 @@ class BookSeeder extends Seeder
                 'author_id' => 2,
                 'is_active' => true,
                 'is_featured' => false,
+            ]
+        );
+
+        // 38. Những Lá Thư Không Gửi
+        Book::updateOrCreate(
+            ['slug' => 'nhung-la-thu-khong-gui'],
+            [
+                'name' => 'Những Lá Thư Không Gửi',
+                'image' => 'images/books/thu.jpg',
+                'short_description' => 'Văn học lãng mạn.',
+                'description' => 'Những lá thư của ký ức.',
+                'price' => 75000,
+                'sale_price' => null,
+                'quantity' => 200,
+                'sold_quantity' => 4100,
+                'avg_rating' => 4.8,
+                'total_reviews' => 600,
+                'category_id' => 1,
+                'author_id' => 3,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // 39. Đêm Dài Của Gió
+        Book::updateOrCreate(
+            ['slug' => 'dem-dai-cua-gio'],
+            [
+                'name' => 'Đêm Dài Của Gió',
+                'image' => 'images/books/gio.jpg',
+                'short_description' => 'Tiểu thuyết tâm lý.',
+                'description' => 'Hành trình vượt qua bóng tối.',
+                'price' => 105000,
+                'sale_price' => 95000,
+                'quantity' => 100,
+                'sold_quantity' => 2600,
+                'avg_rating' => 4.5,
+                'total_reviews' => 300,
+                'category_id' => 1,
+                'author_id' => 2,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // 40. Người Về Từ Hư Vô
+        Book::updateOrCreate(
+            ['slug' => 'nguoi-ve-tu-hu-vo'],
+            [
+                'name' => 'Người Về Từ Hư Vô',
+                'image' => 'images/books/hu-vo.jpg',
+                'short_description' => 'Văn học hiện đại.',
+                'description' => 'Cuộc tìm kiếm bản thân.',
+                'price' => 120000,
+                'sale_price' => 110000,
+                'quantity' => 90,
+                'sold_quantity' => 2300,
+                'avg_rating' => 4.7,
+                'total_reviews' => 350,
+                'category_id' => 1,
+                'author_id' => 1,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // 41. Mùa Thu Trên Phố Nhỏ
+        Book::updateOrCreate(
+            ['slug' => 'mua-thu-tren-pho-nho'],
+            [
+                'name' => 'Mùa Thu Trên Phố Nhỏ',
+                'image' => 'images/books/mua-thu.jpg',
+                'short_description' => 'Truyện nhẹ nhàng.',
+                'description' => 'Những cảm xúc bình dị.',
+                'price' => 69000,
+                'sale_price' => null,
+                'quantity' => 180,
+                'sold_quantity' => 5000,
+                'avg_rating' => 4.9,
+                'total_reviews' => 780,
+                'category_id' => 1,
+                'author_id' => 4,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // 42. Ký Ức Màu Tro
+        Book::updateOrCreate(
+            ['slug' => 'ky-uc-mau-tro'],
+            [
+                'name' => 'Ký Ức Màu Tro',
+                'image' => 'images/books/tro.jpg',
+                'short_description' => 'Tiểu thuyết nội tâm.',
+                'description' => 'Hồi ức và mất mát.',
+                'price' => 87000,
+                'sale_price' => null,
+                'quantity' => 140,
+                'sold_quantity' => 3400,
+                'avg_rating' => 4.6,
+                'total_reviews' => 410,
+                'category_id' => 1,
+                'author_id' => 3,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Căn Phòng Số 13
+        Book::updateOrCreate(
+            ['slug' => 'can-phong-so-13'],
+            [
+                'name' => 'Căn Phòng Số 13',
+                'image' => 'images/books/phong-13.jpg',
+                'short_description' => 'Truyện trinh thám',
+                'description' => 'Bí ẩn căn phòng khép kín',
+                'price' => 110000,
+                'sale_price' => 99000,
+                'quantity' => 110,
+                'sold_quantity' => 2900,
+                'avg_rating' => 4.8,
+                'total_reviews' => 520,
+                'category_id' => 1,
+                'author_id' => 2,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Lặng Thầm Yêu
+        Book::updateOrCreate(
+            ['slug' => 'lang-tham-yeu'],
+            [
+                'name' => 'Lặng Thầm Yêu',
+                'image' => 'images/books/yeu.jpg',
+                'short_description' => 'Văn học tình cảm',
+                'description' => 'Một tình yêu thầm lặng',
+                'price' => 65000,
+                'sale_price' => null,
+                'quantity' => 250,
+                'sold_quantity' => 6200,
+                'avg_rating' => 4.9,
+                'total_reviews' => 950,
+                'category_id' => 1,
+                'author_id' => 4,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Hồi Ức Sau Mưa
+        Book::updateOrCreate(
+            ['slug' => 'hoi-uc-sau-mua'],
+            [
+                'name' => 'Hồi Ức Sau Mưa',
+                'image' => 'images/books/mua-ky-uc.jpg',
+                'short_description' => 'Tiểu thuyết đời sống',
+                'description' => 'Những ký ức sau cơn mưa',
+                'price' => 90000,
+                'sale_price' => null,
+                'quantity' => 160,
+                'sold_quantity' => 3600,
+                'avg_rating' => 4.7,
+                'total_reviews' => 480,
+                'category_id' => 1,
+                'author_id' => 1,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // ===== MARKETING – KINH DOANH =====
+
+        // Marketing 4.0 Thực Chiến
+        Book::updateOrCreate(
+            ['slug' => 'marketing-4-thuc-chien'],
+            [
+                'name' => 'Marketing 4.0 Thực Chiến',
+                'image' => 'images/books/marketing-4.jpg',
+                'short_description' => 'Marketing hiện đại',
+                'description' => 'Ứng dụng marketing thời số',
+                'price' => 189000,
+                'sale_price' => 169000,
+                'quantity' => 300,
+                'sold_quantity' => 1500,
+                'avg_rating' => 4.6,
+                'total_reviews' => 210,
+                'category_id' => 2,
+                'author_id' => 5,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Tư Duy Bán Hàng Đột Phá
+        Book::updateOrCreate(
+            ['slug' => 'tu-duy-ban-hang-dot-pha'],
+            [
+                'name' => 'Tư Duy Bán Hàng Đột Phá',
+                'image' => 'images/books/ban-hang.jpg',
+                'short_description' => 'Kinh doanh',
+                'description' => 'Chiến lược bán hàng hiệu quả',
+                'price' => 159000,
+                'sale_price' => null,
+                'quantity' => 280,
+                'sold_quantity' => 1200,
+                'avg_rating' => 4.5,
+                'total_reviews' => 180,
+                'category_id' => 2,
+                'author_id' => 6,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Khởi Nghiệp Tinh Gọn
+        Book::updateOrCreate(
+            ['slug' => 'khoi-nghiep-tinh-gon'],
+            [
+                'name' => 'Khởi Nghiệp Tinh Gọn',
+                'image' => 'images/books/startup.jpg',
+                'short_description' => 'Startup',
+                'description' => 'Tư duy lean startup',
+                'price' => 199000,
+                'sale_price' => 179000,
+                'quantity' => 220,
+                'sold_quantity' => 980,
+                'avg_rating' => 4.7,
+                'total_reviews' => 260,
+                'category_id' => 2,
+                'author_id' => 5,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Nghệ Thuật Đàm Phán
+        Book::updateOrCreate(
+            ['slug' => 'nghe-thuat-dam-phan'],
+            [
+                'name' => 'Nghệ Thuật Đàm Phán',
+                'image' => 'images/books/dam-phan.jpg',
+                'short_description' => 'Kỹ năng',
+                'description' => 'Đàm phán trong kinh doanh',
+                'price' => 149000,
+                'sale_price' => null,
+                'quantity' => 240,
+                'sold_quantity' => 1100,
+                'avg_rating' => 4.6,
+                'total_reviews' => 200,
+                'category_id' => 2,
+                'author_id' => 6,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Chiến Lược Giá Thông Minh
+        Book::updateOrCreate(
+            ['slug' => 'chien-luoc-gia'],
+            [
+                'name' => 'Chiến Lược Giá Thông Minh',
+                'image' => 'images/books/gia.jpg',
+                'short_description' => 'Quản trị',
+                'description' => 'Chiến lược định giá',
+                'price' => 175000,
+                'sale_price' => 155000,
+                'quantity' => 200,
+                'sold_quantity' => 900,
+                'avg_rating' => 4.5,
+                'total_reviews' => 160,
+                'category_id' => 2,
+                'author_id' => 7,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // ===== KỸ NĂNG – TÂM LÝ =====
+
+        // Tư Duy Tích Cực
+        Book::updateOrCreate(
+            ['slug' => 'tu-duy-tich-cuc'],
+            [
+                'name' => 'Tư Duy Tích Cực',
+                'image' => 'images/books/tich-cuc.jpg',
+                'short_description' => 'Phát triển bản thân',
+                'description' => 'Suy nghĩ tích cực mỗi ngày',
+                'price' => 89000,
+                'sale_price' => null,
+                'quantity' => 300,
+                'sold_quantity' => 4100,
+                'avg_rating' => 4.8,
+                'total_reviews' => 600,
+                'category_id' => 3,
+                'author_id' => 8,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Quản Lý Cảm Xúc
+        Book::updateOrCreate(
+            ['slug' => 'quan-ly-cam-xuc'],
+            [
+                'name' => 'Quản Lý Cảm Xúc',
+                'image' => 'images/books/cam-xuc.jpg',
+                'short_description' => 'Tâm lý',
+                'description' => 'Kiểm soát cảm xúc hiệu quả',
+                'price' => 115000,
+                'sale_price' => 99000,
+                'quantity' => 260,
+                'sold_quantity' => 2500,
+                'avg_rating' => 4.7,
+                'total_reviews' => 420,
+                'category_id' => 3,
+                'author_id' => 9,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Sức Mạnh Của Thói Quen
+        Book::updateOrCreate(
+            ['slug' => 'suc-manh-thoi-quen'],
+            [
+                'name' => 'Sức Mạnh Của Thói Quen',
+                'image' => 'images/books/thoi-quen.jpg',
+                'short_description' => 'Kỹ năng sống',
+                'description' => 'Thay đổi thói quen để thành công',
+                'price' => 135000,
+                'sale_price' => 119000,
+                'quantity' => 240,
+                'sold_quantity' => 3100,
+                'avg_rating' => 4.9,
+                'total_reviews' => 900,
+                'category_id' => 3,
+                'author_id' => 7,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+
+        // Giao Tiếp Thông Minh
+        Book::updateOrCreate(
+            ['slug' => 'giao-tiep-thong-minh'],
+            [
+                'name' => 'Giao Tiếp Thông Minh',
+                'image' => 'images/books/giao-tiep.jpg',
+                'short_description' => 'Kỹ năng mềm',
+                'description' => 'Nâng cao giao tiếp',
+                'price' => 125000,
+                'sale_price' => null,
+                'quantity' => 220,
+                'sold_quantity' => 1900,
+                'avg_rating' => 4.6,
+                'total_reviews' => 300,
+                'category_id' => 3,
+                'author_id' => 6,
+                'is_active' => true,
+                'is_featured' => false,
+            ]
+        );
+        Book::updateOrCreate(
+            ['slug' => 'binh-tinh-trong-hon-loan'],
+            [
+                'name' => 'Bình Tĩnh Trong Hỗn Loạn',
+                'image' => 'images/books/binh-tinh.jpg',
+                'short_description' => 'Tâm lý học',
+                'description' => 'Giữ bình tĩnh mọi hoàn cảnh',
+                'price' => 125000,
+                'sale_price' => 109000,
+                'quantity' => 210,
+                'sold_quantity' => 1600,
+                'avg_rating' => 4.7,
+                'total_reviews' => 280,
+                'is_active' => true,
+                'is_featured' => false,
+                'category_id' => 3,
+                'author_id' => 10,
+            ]
+        );
+        Book::updateOrCreate(
+            ['slug' => '100-cau-chuyen-dao-duc'],
+            [
+                'name' => '100 Câu Chuyện Đạo Đức',
+                'image' => 'images/books/dao-duc.jpg',
+                'short_description' => 'Thiếu nhi',
+                'description' => 'Bài học đạo đức cho bé',
+                'price' => 69000,
+                'sale_price' => null,
+                'quantity' => 400,
+                'sold_quantity' => 7200,
+                'avg_rating' => 4.9,
+                'total_reviews' => 1200,
+                'is_active' => true,
+                'is_featured' => false,
+                'category_id' => 4,
+                'author_id' => 11,
             ]
         );
 

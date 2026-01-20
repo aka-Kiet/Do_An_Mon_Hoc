@@ -122,6 +122,16 @@ class AuthorSeeder extends Seeder
             ],
         ];
 
+        foreach ($authors as $author) {
+            Author::updateOrCreate(
+                ['slug' => $author['slug']],
+                [
+                    'name' => $author['name'],
+                    'bio'  => $author['bio'],
+                ]
+            );
+        }
+
         
     }
 }
