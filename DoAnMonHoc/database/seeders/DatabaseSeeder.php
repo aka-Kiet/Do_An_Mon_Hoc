@@ -15,27 +15,41 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Đây là tài khoản để bạn đăng nhập test
-        \App\Models\User::factory()->create([
-            'name' => 'Admin Kiệt',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('123456'), // Mật khẩu là 123456
-            'email_verified_at' => now(),
-            'role' => 'admin',
-        ]);
+       // Admin
+        User::updateOrCreate(
+            ['email' => 'admin@gmail.com'],
+            [
+                'name' => 'Admin Kiệt',
+                'password' => Hash::make('123456'),
+                'email_verified_at' => now(),
+                'role' => 'admin',
+            ]
+        );
 
-        User::factory(10)->create();
+        // 10 user thường
+        for ($i = 1; $i <= 10; $i++) {
+            User::updateOrCreate(
+                ['email' => "user{$i}@gmail.com"],
+                [
+                    'name' => "User {$i}",
+                    'password' => Hash::make('123456'),
+                    'email_verified_at' => now(),
+                    'role' => 'user',
+                ]
+            );
+        }
         $this->call([
+            UserSeeder::class,
             BannerSeeder::class,
             CategorySeeder::class,  
             AuthorSeeder::class, 
             BookSeeder::class,
             BookImageSeeder::class,
             ReviewSeeder::class,
+            OrderSeeder::class,
         ]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        
+        
     }
 }
