@@ -30,20 +30,20 @@
         
         <div class="lg:col-span-2 space-y-6">
             <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-stone-200 dark:border-slate-700 p-6">
-                <h3 class="text-lg font-semibold mb-4 text-stone-800 dark:text-white border-b pb-2">Danh sách sản phẩm</h3>
+                <h3 class="text-lg font-semibold mb-4 text-stone-800 dark:text-white border-b pb-2">Danh sách đơn hàng</h3>
                 <div class="space-y-4">
                     @foreach($order->items as $item)
                     <div class="flex items-center justify-between py-2">
                         <div class="flex items-center gap-4">
                             <div class="w-16 h-20 bg-stone-200 rounded overflow-hidden flex-shrink-0">
-                                @if($item->book && $item->book->thumbnail)
-                                    <img src="{{ asset($item->book->thumbnail) }}" class="w-full h-full object-cover">
+                                @if($item->book && $item->book->image)
+                                    <img src="{{ asset($item->book->image) }}" class="w-full h-full object-cover">
                                 @else
                                     <div class="flex items-center justify-center h-full text-stone-400"><i class="fas fa-book"></i></div>
                                 @endif
                             </div>
                             <div>
-                                <h4 class="font-medium text-stone-800 dark:text-white">{{ $item->book->title ?? 'Sách đã bị xóa' }}</h4>
+                                <h4 class="font-medium text-stone-800 dark:text-white">{{ $item->book->name ?? 'Sách đã bị xóa' }}</h4>
                                 <p class="text-sm text-stone-500">Đơn giá: {{ number_format($item->price) }}đ</p>
                                 <p class="text-sm text-stone-500">Số lượng: x{{ $item->quantity }}</p>
                             </div>
