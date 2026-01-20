@@ -115,6 +115,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         // Quản lý Đơn hàng
         Route::put('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
         Route::resource('orders', OrderController::class);
+
         
 });
 

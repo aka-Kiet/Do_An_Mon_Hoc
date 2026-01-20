@@ -95,7 +95,21 @@ class CartController extends Controller
         ]);
 
 
-        //return redirect()->back()->with('success', 'Đã thêm "' . $book->name . '" vào giỏ hàng thành công!');
+        // return redirect()->back()->with('success', 'Đã thêm "' . $book->name . '" vào giỏ hàng thành công!');
+        
+        // $message = 'Đã thêm "' . $book->name . '" vào giỏ hàng thành công!';
+
+        // // 👇 ĐOẠN CODE THÔNG MINH (Xử lý cả 2 trường hợp)
+        // if ($request->wantsJson()) {
+        //     // Nếu là AJAX (JS) thì trả về JSON
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => $message
+        //     ]);
+        // }
+
+        // // Nếu là Form bình thường (Mặc định) thì Redirect
+        // return redirect()->back()->with('success', $message);
     }
 
     public function update(Request $request)

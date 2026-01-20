@@ -37,6 +37,24 @@ class OrderController extends Controller
         return view('profile.orders', compact('orders', 'user', 'viewData'));
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        // 1. Validate dữ liệu đầu vào
+        $request->validate([
+            'status' => 'required|in:pending,processing,completed,cancelled',
+        ]);
+
+        // 2. Tìm đơn hàng
+        $order = Order::findOrFail($id);
+
+        // 3. Cập nhật trạng thái
+        $order->status = $request->status;
+        $order->save();
+
+        // 4. Trả về thông báo
+        return back()->with('success', 'Cập nhật trạng thái đơn hàng #' . $id . ' thành công!');
+    }
+
     // Xem chi tiết đơn hàng
     public function show($id)
     {
