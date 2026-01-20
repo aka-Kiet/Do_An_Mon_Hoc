@@ -55,46 +55,54 @@ class CartController extends Controller
     }
 
   
-    public function add(Request $request)// Huỳnh sửa lại hàm add
+    public function add(Request $request)
     {
-        // 1. Validate cả book_id và quantity
+        // 1. Validate
         $request->validate([
             'book_id' => 'required|exists:books,id',
-            'quantity' => 'nullable|integer|min:1' // Lấy số lượng mà khách hàng chọn
+            'quantity' => 'nullable|integer|min:1'
         ]);
 
-        // 2. Lấy giỏ hàng
-        $cart = Cart::firstOrCreate([
-            'user_id' => auth()->id()
-        ]);
-
-        // 3. Lấy số lượng khách chọn (mặc định là 1 nếu không có)
+        // 2. Logic thêm vào database (Giữ nguyên code cũ của bạn)
+        $cart = Cart::firstOrCreate(['user_id' => auth()->id()]);
         $qty = $request->input('quantity', 1);
-
-        // 4. Kiểm tra sách đã có trong giỏ chưa
+        
         $item = $cart->items()->where('book_id', $request->book_id)->first();
         $book = Book::findOrFail($request->book_id);
 
         if ($item) {
-            // Nếu có rồi thì cộng thêm số lượng khách chọn
             $item->quantity += $qty;
             $item->save();
         } else {
-            // Nếu chưa có thì tạo mới
             $cart->items()->create([
                 'book_id'  => $book->id,
-                'quantity' => $qty, // Dùng số lượng khách chọn
+                'quantity' => $qty,
                 'price'    => $book->price
             ]);
         }
 
-        // // --- QUAN TRỌNG: TRẢ VỀ JSON THAY VÌ REDIRECT ---
-        // return response()->json([
-        //     'success' => true,
-        //     'message' => 'Đã thêm ' . $book->name . ' vào giỏ hàng thành công!'
-        // ]);
+        // Nếu bấm nút "Mua ngay" -> Chuyển đến trang thanh toán
+        if ($request->input('action') === 'buy') {
+            return redirect()->route('checkout.index')->with('success', 'Đã thêm vào giỏ hàng!');
+        }
 
-        // ✅ THAY BẰNG DÒNG NÀY (Để quay lại trang cũ và hiện thông báo):
+
+        // return redirect()->back()->with('success', 'Đã thêm "' . $book->name . '" vào giỏ hàng thành công!');
+        
+        // $message = 'Đã thêm "' . $book->name . '" vào giỏ hàng thành công!';
+
+        // // 👇 ĐOẠN CODE THÔNG MINH (Xử lý cả 2 trường hợp)
+        // if ($request->wantsJson()) {
+        //     // Nếu là AJAX (JS) thì trả về JSON
+        //     return response()->json([
+        //         'success' => true,
+        //         'message' => $message
+        //     ]);
+        // }
+
+        // // Nếu là Form bình thường (Mặc định) thì Redirect
+        // return redirect()->back()->with('success', $message);
+        // Nếu bấm "Thêm giỏ hàng" -> Load lại trang hiện tại (Redirect Back)
         return redirect()->back()->with('success', 'Đã thêm "' . $book->name . '" vào giỏ hàng thành công!');
     }
 

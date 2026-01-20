@@ -40,6 +40,9 @@ return new class extends Migration
             $table->foreignId('author_id')->nullable()->constrained('authors')->onDelete('set null');
 
             $table->timestamps(); // created_at dùng để xếp hạng "SẢN PHẨM MỚI"
+
+            // Xóa mềm
+            $table->softDeletes();
         });
     }
 

@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\OrderController; // Sử dụng OrderController
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\BookController; // Sử dụng BookController
 
 
 // HomeController
@@ -81,8 +82,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
       // Quản lý Sách (Tự động tạo 7 route CRUD)
         Route::resource('categories', CategoryController::class);
-        Route::resource('books', App\Http\Controllers\Admin\BookController::class);
 
+        Route::delete('/books/soft-delete', [BookController::class, 'softDelete'])->name('books.softDelete');
+        Route::patch('/books/restore-all', [BookController::class, 'restoreAll'])->name('books.restoreAll');
+        Route::get('/books/trash', [BookController::class, 'trash'])->name('books.trash');
+        Route::patch('/books/{id}/restore', [BookController::class, 'restore'])->name('books.restore');
+        Route::delete('/books/{id}/force-delete', [BookController::class, 'forceDelete'])->name('books.forceDelete');
+        Route::delete('/books/force-delete-all', [BookController::class, 'forceDeleteAll'])->name('books.forceDeleteAll');
+        Route::resource('books', BookController::class);
+        
         // 1. Route Hiển thị danh sách
         Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
 
@@ -117,8 +125,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         Route::resource('banners', BannerController::class);
 
         // Quản lý Đơn hàng
-        Route::put('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
-        Route::resource('orders', OrderController::class);
+
+        Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
         
         // Quản lý Liên hệ
         Route::get('/contacts', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('contacts.index');

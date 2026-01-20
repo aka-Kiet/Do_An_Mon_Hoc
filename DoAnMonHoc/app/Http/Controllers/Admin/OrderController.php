@@ -27,25 +27,20 @@ class OrderController extends Controller
     }
 
     // Cập nhật trạng thái
-    public function updateStatus(Request $request, Order $order)
+    public function update(Request $request, Order $order)
     {
-        // $request->validate([
-        //     'status' => 'required|in:pending,processing,completed,cancelled'
-        // ]);
-
-        // $order->update([
-        //     'status' => $request->status
-        // ]);
-
-        // return back()->with('success', 'Cập nhật trạng thái thành công');
-   
+        // 1. Xóa 'processing' khỏi danh sách validate
         $request->validate([
-            'status' => 'required|in:pending,processing,completed,cancelled',
+            'status' => 'required|in:pending,shipping,completed,cancelled',
         ]);
 
-        // Không cho đổi nếu đã hoàn thành
+        // Giữ nguyên logic chặn sửa nếu đã hoàn thành/hủy
         if ($order->status === 'completed') {
-            return back()->with('error', 'Đơn hàng đã hoàn thành, không thể thay đổi.');
+            return back()->with('error', 'Đơn hàng đã hoàn thành, không thể thay đổi trạng thái.');
+        }
+
+        if ($order->status === 'cancelled') {
+             return back()->with('error', 'Đơn hàng đã bị hủy, không thể khôi phục trạng thái.');
         }
 
         $order->update([
@@ -53,5 +48,22 @@ class OrderController extends Controller
         ]);
 
         return back()->with('success', 'Cập nhật trạng thái đơn hàng thành công.');
+    }
+
+    // Xóa mềm đơn hàng
+    public function destroy(Order $order)
+    {
+        // 2. Xóa 'processing' khỏi điều kiện chặn xóa
+        // Chỉ chặn xóa khi đang giao hàng (shipping)
+        if ($order->status === 'shipping') {
+            return back()->with('error', 'Không thể xóa đơn hàng đang được giao.');
+        }
+
+        try {
+            $order->delete();
+            return redirect()->route('admin.orders.index')->with('success', 'Đã xóa đơn hàng thành công.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
     }
 }

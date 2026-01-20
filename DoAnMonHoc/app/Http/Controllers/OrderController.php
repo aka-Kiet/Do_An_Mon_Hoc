@@ -37,6 +37,8 @@ class OrderController extends Controller
         return view('profile.orders', compact('orders', 'user', 'viewData'));
     }
 
+    
+
     // Xem chi tiết đơn hàng
     public function show($id)
     {
