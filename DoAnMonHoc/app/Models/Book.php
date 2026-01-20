@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes; // Xóa mềm
 
 class Book extends Model
 {
-    use HasFactory;
-
+    use HasFactory,SoftDeletes;
     protected $fillable = [
         'name',
         'slug',
@@ -31,14 +31,13 @@ class Book extends Model
     {
         static::creating(function ($book) {
 
-            // CHỈ tạo slug nếu chưa có
             if (empty($book->slug)) {
 
                 $baseSlug = Str::slug($book->name);
                 $slug = $baseSlug;
                 $count = 1;
 
-                while (self::where('slug', $slug)->exists()) {
+                while (self::withTrashed()->where('slug', $slug)->exists()) {
                     $slug = $baseSlug . '-' . $count++;
                 }
 
@@ -46,6 +45,7 @@ class Book extends Model
             }
         });
     }
+
 
     // Quan hệ: Sách thuộc về 1 Danh mục
     public function category()
@@ -69,14 +69,4 @@ class Book extends Model
         return $this->hasMany(Review::class)->where('is_active', true)->orderBy('created_at', 'desc');
     }
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Trước khi tạo mới (Creating)
-        static::creating(function ($book) {
-            // Tự động tạo slug từ tên
-            $book->slug = str::slug($book->name) . '-' . time(); // thêm thời gian để tránh trùng tuyệt đối
-        });
-    }
 }
