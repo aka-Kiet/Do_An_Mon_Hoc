@@ -13,7 +13,7 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
-       Book::updateOrCreate(
+        Book::updateOrCreate(
             ['slug' => 'nha-gia-kim'],
             [
                 'name' => 'Nhà Giả Kim',
@@ -1078,6 +1078,8 @@ class BookSeeder extends Seeder
                 'author_id' => 11,
             ]
         );
+
+        
         
 
     }
