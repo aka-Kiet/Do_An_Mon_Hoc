@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\DashboardController; //Sử dụng DashboardContr
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BannerController;
-
+use App\Http\Controllers\ContactController;
 
 // HomeController
 // Định tuyến của trang chủ
@@ -24,6 +24,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('home.about');
 // Định tuyến của trang liên hệ
 Route::get('/lien-he', [HomeController::class, 'contact'])->name('home.contact');
+// Gửi form liên hệ
+Route::post('/lien-he', [ContactController::class, 'store'])->name('contact.store');
 // Định tuyến của trang chính sách
 Route::get('/chinh-sach', [HomeController::class, 'policy'])->name('home.policy');
 

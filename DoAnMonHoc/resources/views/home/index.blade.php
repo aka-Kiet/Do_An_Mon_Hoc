@@ -9,6 +9,8 @@
     <!-- Phần Mở Đầu & Hero Slider (Banner trượt) -->
     @include('partials.home._banner')
 
+    @include('partials.home._services')
+
     <!-- Phần Danh Mục Sách (Categories) -->
     @include('partials.home._category')
 
