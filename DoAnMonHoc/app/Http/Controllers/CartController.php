@@ -88,14 +88,14 @@ class CartController extends Controller
             ]);
         }
 
-        // --- QUAN TRỌNG: TRẢ VỀ JSON THAY VÌ REDIRECT ---
-        return response()->json([
-            'success' => true,
-            'message' => 'Đã thêm ' . $book->name . ' vào giỏ hàng thành công!'
-        ]);
+        // // --- QUAN TRỌNG: TRẢ VỀ JSON THAY VÌ REDIRECT ---
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Đã thêm ' . $book->name . ' vào giỏ hàng thành công!'
+        // ]);
 
         // ✅ THAY BẰNG DÒNG NÀY (Để quay lại trang cũ và hiện thông báo):
-        //return redirect()->back()->with('success', 'Đã thêm "' . $book->name . '" vào giỏ hàng thành công!');
+        return redirect()->back()->with('success', 'Đã thêm "' . $book->name . '" vào giỏ hàng thành công!');
     }
 
     public function update(Request $request)
