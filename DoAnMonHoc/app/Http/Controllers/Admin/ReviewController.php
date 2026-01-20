@@ -11,6 +11,10 @@ class ReviewController extends Controller
 {
     public function index(Request $request)
     {
+
+        $viewData = [];
+        $viewData["title"] = "Quản lý Đánh giá";
+
         $keyword = $request->input('keyword');
 
         // Eager load 'user' và 'book' (Model Review của bạn khai báo relation là function book())
@@ -22,7 +26,7 @@ class ReviewController extends Controller
             ->latest()
             ->paginate(10);
 
-        return view('admin.reviews.index', compact('reviews', 'keyword'));
+        return view('admin.reviews.index', compact('reviews', 'keyword', 'viewData'));
     }
 
     public function destroy($id)

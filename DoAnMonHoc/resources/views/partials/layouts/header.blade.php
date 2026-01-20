@@ -77,7 +77,7 @@
                     </div>
 
                     {{-- Không hiển thị tiền, chỉ giữ DOM cho JS --}}
-                    <span class="cart-total hidden font-bold text-sm transition text-inherit">
+                    <span class="cart-total font-bold text-sm transition text-inherit">
                         {{ number_format($headerCartTotal) }}đ
                     </span>
                 </a>

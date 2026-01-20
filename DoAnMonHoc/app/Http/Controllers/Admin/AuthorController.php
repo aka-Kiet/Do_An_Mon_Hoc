@@ -11,9 +11,11 @@ class AuthorController extends Controller
     // 1. Danh sách
     public function index()
     {
+        $viewData = [];
+        $viewData["title"] = "Quản lý Tác giả";
         // Lấy danh sách + Đếm số sách của mỗi tác giả (withCount)
         $authors = Author::withCount('books')->orderBy('id', 'asc')->paginate(10);
-        return view('admin.authors.index', compact('authors'));
+        return view('admin.authors.index', compact('authors','viewData'));
     }
 
     // 2. Form thêm

@@ -10,8 +10,10 @@ class ContactController extends Controller
     // Danh sách liên hệ
     public function index()
     {
+        $viewData = [];
+        $viewData["title"] = "Quản lý Liên hệ";
         $contacts = Contact::latest()->paginate(10);
-        return view('admin.contacts.index', compact('contacts'));
+        return view('admin.contacts.index', compact('contacts', 'viewData'));
     }
 
     // Xem chi tiết
