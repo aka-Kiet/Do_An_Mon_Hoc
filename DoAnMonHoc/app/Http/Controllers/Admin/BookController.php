@@ -11,38 +11,43 @@ use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
-    public function index(Request $request)
+   public function index(Request $request)
     {
-        
+        $tab = $request->get('tab', 'all'); // all | trash
+
         $query = Book::with('category');
-        // --- TÌM KIẾM ---
+
+        // 👉 TAB THÙNG RÁC
+        if ($tab === 'trash') {
+            $query->onlyTrashed();
+        }
+
+        // 🔍 SEARCH
         if ($request->filled('search')) {
             $search = trim($request->search);
 
             $query->where(function ($q) use ($search) {
-
-                // TÌM THEO ID (ÉP KIỂU INT)
                 if (ctype_digit($search)) {
-                    $q->orWhere('id', (int) $search);
+                    $q->orWhere('id', (int)$search);
                 }
 
-                //TÌM THEO TÊN
-                $q->orWhere('name', 'like', "%{$search}%");
-
-                // TÌM THEO SLUG
-                $q->orWhere('slug', 'like', "%{$search}%");
+                $q->orWhere('name', 'like', "%{$search}%")
+                ->orWhere('slug', 'like', "%{$search}%");
             });
         }
 
+        $books = $query
+            ->latest()
+            ->paginate(15)
+            ->appends($request->all());
 
-        // 📄 Phân trang
-        $books = $query->latest()
-                    ->paginate(15)
-                    ->appends($request->all()); // giữ search khi chuyển trang
+        $trashCount = Book::onlyTrashed()->count();
 
-        $trashedBooks = Book::onlyTrashed()->get();
-
-        return view('admin.books.index', compact('books', 'trashedBooks'));
+        return view('admin.books.index', compact(
+            'books',
+            'tab',
+            'trashCount'
+        ));
     }
 
     public function create()
