@@ -7,28 +7,29 @@ use App\Models\Book;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
     public function index(Request $request)
     {
-
-         $query = Book::with('category');
+        
+        $query = Book::with('category');
         // --- TÌM KIẾM ---
         if ($request->filled('search')) {
             $search = trim($request->search);
 
             $query->where(function ($q) use ($search) {
 
-                // ✅ TÌM THEO ID (ÉP KIỂU INT)
+                // TÌM THEO ID (ÉP KIỂU INT)
                 if (ctype_digit($search)) {
                     $q->orWhere('id', (int) $search);
                 }
 
-                // ✅ TÌM THEO TÊN
+                //TÌM THEO TÊN
                 $q->orWhere('name', 'like', "%{$search}%");
 
-                // ✅ TÌM THEO SLUG
+                // TÌM THEO SLUG
                 $q->orWhere('slug', 'like', "%{$search}%");
             });
         }
@@ -39,7 +40,9 @@ class BookController extends Controller
                     ->paginate(15)
                     ->appends($request->all()); // giữ search khi chuyển trang
 
-        return view('admin.books.index', compact('books'));
+        $trashedBooks = Book::onlyTrashed()->get();
+
+        return view('admin.books.index', compact('books', 'trashedBooks'));
     }
 
     public function create()
@@ -149,4 +152,80 @@ class BookController extends Controller
             ->route('admin.books.index')
             ->with('success', 'Đã xóa sản phẩm');
     }
+
+    public function softDelete(Request $request)
+    {
+        $ids = $request->ids;
+
+        if (!$ids || count($ids) === 0) {
+            return back()->with('error', 'Bạn chưa chọn sản phẩm nào');
+        }
+
+        Book::whereIn('id', $ids)->delete(); // soft delete
+
+        return back()->with('success', 'Đã xóa mềm sản phẩm');
+    }
+
+    public function restore($id)
+    {
+        Book::withTrashed()->where('id', $id)->restore();
+
+        return back()->with('success', 'Đã khôi phục sản phẩm');
+    }
+
+    public function restoreAll()
+    {
+        $count = Book::onlyTrashed()->count();
+
+        if ($count === 0) {
+            return back()->with('error', 'Không có sản phẩm nào để khôi phục');
+        }
+
+        Book::onlyTrashed()->restore();
+
+        return back()->with('success', "Đã khôi phục {$count} sản phẩm");
+    }
+
+    public function forceDelete($id)
+    {
+        $book = Book::onlyTrashed()->findOrFail($id);
+
+        // Xóa ảnh đại diện nếu có
+        if ($book->image) {
+            \Storage::disk('public')->delete($book->image);
+        }
+
+        // Xóa gallery (nếu có)
+        foreach ($book->images as $img) {
+            \Storage::disk('public')->delete($img->image_path);
+        }
+
+        $book->forceDelete();
+
+        return back()->with('success', 'Đã xóa vĩnh viễn sản phẩm');
+    }
+
+    public function forceDeleteAll()
+    {
+        $books = Book::onlyTrashed()->with('images')->get();
+
+        if ($books->isEmpty()) {
+            return back()->with('error', 'Không có sản phẩm nào để xóa');
+        }
+
+        foreach ($books as $book) {
+            if ($book->image) {
+                \Storage::disk('public')->delete($book->image);
+            }
+
+            foreach ($book->images as $img) {
+                \Storage::disk('public')->delete($img->image_path);
+            }
+
+            $book->forceDelete();
+        }
+
+        return back()->with('success', 'Đã xóa vĩnh viễn toàn bộ sản phẩm trong thùng rác');
+    }
+
 }
