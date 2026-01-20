@@ -75,4 +75,31 @@ class OrderController extends Controller
 
         return view('admin.orders.trash', compact('orders'));
     }
+    // 2. Khôi phục đơn hàng
+    public function restore($id)
+    {
+        // Tìm trong danh sách đã xóa
+        $order = Order::onlyTrashed()->findOrFail($id);
+        
+        $order->restore();
+
+        return redirect()->route('admin.orders.trash')
+            ->with('success', 'Đã khôi phục đơn hàng #' . $id . ' thành công.');
+    }
+
+    // 3. Xóa vĩnh viễn
+    public function forceDelete($id)
+    {
+        // Tìm trong danh sách đã xóa
+        $order = Order::onlyTrashed()->findOrFail($id);
+
+        // Xóa các order_items liên quan trước (để sạch data)
+        $order->items()->delete(); 
+        
+        // Xóa cứng đơn hàng
+        $order->forceDelete();
+
+        return redirect()->route('admin.orders.trash')
+            ->with('success', 'Đã xóa vĩnh viễn đơn hàng #' . $id . '.');
+    }
 }

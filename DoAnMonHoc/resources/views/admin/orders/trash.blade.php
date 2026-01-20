@@ -5,22 +5,21 @@
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-bold text-stone-800 dark:text-white">Danh sách đơn hàng</h2>
         
-        {{-- Nút quay lại danh sách chính --}}
-        <a href="{{ route('admin.orders.index') }}" class="inline-flex items-center px-4 py-2 bg-brown-primary text-white border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-brown-dark transition ease-in-out duration-150">
+        <a href="{{ route('admin.orders.index') }}" class="text-stone-600 hover:text-brown-primary flex items-center transition-colors font-medium">
             <i class="fas fa-arrow-left mr-2"></i> Quay lại
         </a>
     </div>
 
     @if(session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg">
-            {{ session('success') }}
+        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg flex items-center">
+            <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
         </div>
     @endif
 
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
             <thead>
-                <tr class="bg-red-50 dark:bg-red-900/20 text-stone-600 dark:text-slate-300 text-sm uppercase">
+                <tr class="bg-stone-100 dark:bg-slate-800 text-stone-600 dark:text-slate-300 text-sm uppercase">
                     <th class="px-4 py-3 font-semibold rounded-tl-lg">Mã ĐH</th>
                     <th class="px-4 py-3 font-semibold">Khách hàng</th>
                     <th class="px-4 py-3 font-semibold">Tổng tiền</th>
@@ -43,12 +42,39 @@
                     <td class="px-4 py-3 text-stone-500 dark:text-slate-400 text-sm">
                         {{ $order->deleted_at->format('d/m/Y H:i') }}
                     </td>
-<!---->
+                    
+                    <td class="px-4 py-3">
+                        <div class="flex items-center gap-2">
+                            {{-- Nút Khôi phục --}}
+                            <form action="{{ route('admin.orders.restore', $order->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" 
+                                        class="inline-flex items-center px-3 py-1.5 bg-white border border-green-200 rounded-md text-sm font-medium text-green-600 hover:bg-green-50 transition-colors shadow-sm"
+                                        title="Khôi phục">
+                                    <i class="fas fa-trash-restore"></i>
+                                </button>
+                            </form>
+
+                            {{-- Nút Xóa vĩnh viễn --}}
+                            <form action="{{ route('admin.orders.force-delete', $order->id) }}" method="POST" onsubmit="return confirm('CẢNH BÁO: Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa vĩnh viễn đơn hàng #{{ $order->id }}?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" 
+                                        class="inline-flex items-center px-3 py-1.5 bg-white border border-red-200 rounded-md text-sm font-medium text-red-600 hover:bg-red-50 transition-colors shadow-sm"
+                                        title="Xóa vĩnh viễn"> 
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="px-4 py-8 text-center text-stone-500 dark:text-slate-400">
-                        Danh sách trống.
+                    <td colspan="5" class="px-4 py-10 text-center text-stone-500 dark:text-slate-400">
+                        <div class="flex flex-col items-center justify-center">
+                            <i class="far fa-trash-alt text-4xl mb-3 text-stone-300"></i>
+                            <p>Danh sách trống.</p>
+                        </div>
                     </td>
                 </tr>
                 @endforelse

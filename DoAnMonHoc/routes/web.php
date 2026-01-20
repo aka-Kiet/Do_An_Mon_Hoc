@@ -126,6 +126,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
 
         // Quản lý Đơn hàng
         Route::get('/orders/trash', [App\Http\Controllers\Admin\OrderController::class, 'trash'])->name('orders.trash');// hiển thị danh sách xóa mềm
+        Route::post('/orders/{id}/restore', [App\Http\Controllers\Admin\OrderController::class, 'restore'])->name('orders.restore');//khôi phục
+        Route::delete('/orders/{id}/force-delete', [App\Http\Controllers\Admin\OrderController::class, 'forceDelete'])->name('orders.force-delete');//xóa vĩnh viễn
         Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
 
         
