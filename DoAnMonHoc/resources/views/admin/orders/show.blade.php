@@ -1,114 +1,107 @@
 @extends('layouts.admin')
 
-@section('title','Chi tiết đơn hàng')
-
 @section('content')
-    <div class="glass p-8 rounded-3xl shadow-xl space-y-10">
-
-        {{-- HEADER --}}
-        <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Đơn hàng #{{ $order->id }}</h1>
-
-            <a href="{{ route('admin.orders.index') }}"
-            class="px-4 py-2 rounded-lg bg-stone-200 hover:bg-stone-300 text-sm">
-                ← Quay lại
-            </a>
+<div class="container mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+        <div>
+            <h2 class="text-2xl font-bold text-stone-800 dark:text-white">Chi tiết đơn hàng #{{ $order->id }}</h2>
+            <p class="text-stone-500 text-sm mt-1">Ngày đặt: {{ $order->created_at->format('d/m/Y H:i:s') }}</p>
         </div>
+        <a href="{{ route('admin.orders.index') }}" class="text-stone-600 hover:text-brown-primary flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Quay lại
+        </a>
+    </div>
 
-
-        {{-- THÔNG TIN KHÁCH HÀNG --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t pt-6">
-            <div>
-                <h3 class="font-bold mb-2">Khách hàng</h3>
-                <p><b>Tên:</b> {{ $order->user?->name ?? 'N/A' }}</p>
-                <p><b>Email:</b> {{ $order->user?->email ?? 'N/A' }}</p>
-            </div>
-
-            <div>
-                <h3 class="font-bold mb-2">Đơn hàng</h3>
-                <p><b>Ngày tạo:</b> {{ $order->created_at->format('d/m/Y H:i') }}</p>
-                <p>
-                    <b>Trạng thái:</b>
-                    <span class="px-2 py-1 rounded text-xs font-bold
-                        {{ $order->status == 'completed' ? 'bg-green-100 text-green-700' : 
-                        ($order->status == 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                        ($order->status == 'processing' ? 'bg-blue-100 text-blue-700' :
-                        'bg-red-100 text-red-700')) }}">
-                        {{ $order->getStatusLabelAttribute() }}
-                    </span>
-                </p>
-            </div>
-        </div>
-
-        {{-- DANH SÁCH SẢN PHẨM --}}
-        <div class="border-t pt-6">
-            <h3 class="font-bold mb-4">Sản phẩm trong đơn</h3>
-
-            <table class="w-full text-sm border-collapse">
-                <thead class="border-b text-stone-500">
-                    <tr>
-                        <th class="text-left py-2">#</th>
-                        <th class="text-left">Tên sách</th>
-                        <th class="text-right">Giá</th>
-                        <th class="text-center">SL</th>
-                        <th class="text-right">Thành tiền</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($order->items as $i => $item)
-                    <tr class="border-b last:border-0">
-                        <td class="py-2">{{ $i+1 }}</td>
-                        <td>{{ $item->book->name }}</td>
-                        <td class="text-right">{{ number_format($item->price) }}đ</td>
-                        <td class="text-center">{{ $item->quantity }}</td>
-                        <td class="text-right font-bold">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <div class="lg:col-span-2 space-y-6">
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-stone-200 dark:border-slate-700 p-6">
+                <h3 class="text-lg font-semibold mb-4 text-stone-800 dark:text-white border-b pb-2">Danh sách sản phẩm</h3>
+                <div class="space-y-4">
+                    @foreach($order->items as $item)
+                    <div class="flex items-center justify-between py-2">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-20 bg-stone-200 rounded overflow-hidden flex-shrink-0">
+                                @if($item->book && $item->book->thumbnail)
+                                    <img src="{{ asset($item->book->thumbnail) }}" class="w-full h-full object-cover">
+                                @else
+                                    <div class="flex items-center justify-center h-full text-stone-400"><i class="fas fa-book"></i></div>
+                                @endif
+                            </div>
+                            <div>
+                                <h4 class="font-medium text-stone-800 dark:text-white">{{ $item->book->title ?? 'Sách đã bị xóa' }}</h4>
+                                <p class="text-sm text-stone-500">Đơn giá: {{ number_format($item->price) }}đ</p>
+                                <p class="text-sm text-stone-500">Số lượng: x{{ $item->quantity }}</p>
+                            </div>
+                        </div>
+                        <div class="font-bold text-stone-800 dark:text-white">
                             {{ number_format($item->price * $item->quantity) }}đ
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                     @endforeach
-                </tbody>
-            </table>
+                </div>
+                
+                <div class="border-t border-stone-200 dark:border-slate-700 mt-4 pt-4 flex justify-end">
+                    <div class="text-right">
+                        <p class="text-stone-600 dark:text-slate-400">Tổng tiền hàng:</p>
+                        <p class="text-2xl font-bold text-brown-primary dark:text-red-500">{{ number_format($order->total_price) }}đ</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-       
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t pt-6">
-            {{-- CẬP NHẬT TRẠNG THÁI
-                <form method="POST"
-                    action="{{ route('admin.orders.updateStatus', $order) }}"
-                    class="flex items-center gap-3">
+        <div class="space-y-6">
+            
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-stone-200 dark:border-slate-700 p-6">
+                <h3 class="text-lg font-semibold mb-4 text-stone-800 dark:text-white">Cập nhật trạng thái</h3>
+                <form action="{{ route('admin.orders.update', $order->id) }}" method="POST">
                     @csrf
                     @method('PUT')
-
-                    <select name="status" class="border rounded px-3 py-2">
-                        @foreach(\App\Models\Order::STATUS_LABELS as $key => $label)
-                            <option value="{{ $key }}" {{ $order->status === $key ? 'selected' : '' }}>
-                                {{ $label }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <button type="submit"
-                            class="px-4 py-2 bg-brown-primary text-white rounded font-bold hover:opacity-90">
-                        Lưu
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-stone-700 dark:text-slate-300 mb-2">Trạng thái hiện tại</label>
+                        <select name="status" class="w-full rounded-md border-stone-300 dark:border-slate-600 bg-stone-50 dark:bg-slate-800 focus:ring-brown-primary focus:border-brown-primary">
+                            @foreach(\App\Models\Order::STATUS_LABELS as $key => $label)
+                                <option value="{{ $key }}" {{ $order->status == $key ? 'selected' : '' }}>
+                                    {{ $label }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-brown-primary hover:bg-brown-600 text-white font-medium py-2 px-4 rounded transition-colors">
+                        Cập nhật
                     </button>
-                </form> --}}
-             {{-- TỔNG TIỀN --}}
-            <div class="md:text-right">
-                <p>Tạm tính: {{ number_format($order->total_price) }}đ</p>
-                <p class="text-lg font-extrabold">
-                    Tổng cộng: {{ number_format($order->total_price) }}đ
-                </p>
+                </form>
             </div>
-            @if(session('success'))
-                    <div class="mb-4 px-4 py-2 bg-green-100 text-green-700 rounded">
-                        {{ session('success') }}
-                    </div>
-                @endif
 
-                @if(session('error'))
-                    <div class="mb-4 px-4 py-2 bg-red-100 text-red-700 rounded">
-                        {{ session('error') }}
+            <div class="bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-stone-200 dark:border-slate-700 p-6">
+                <h3 class="text-lg font-semibold mb-4 text-stone-800 dark:text-white">Thông tin người nhận</h3>
+                <div class="space-y-3 text-sm">
+                    <div>
+                        <span class="text-stone-500 block">Người nhận:</span>
+                        <span class="font-medium text-stone-800 dark:text-white">{{ $order->name }}</span>
                     </div>
-                @endif
+                    <div>
+                        <span class="text-stone-500 block">Số điện thoại:</span>
+                        <span class="font-medium text-stone-800 dark:text-white">{{ $order->phone }}</span>
+                    </div>
+                    <div>
+                        <span class="text-stone-500 block">Email (Tài khoản):</span>
+                        <span class="font-medium text-stone-800 dark:text-white">{{ $order->user->email ?? 'N/A' }}</span>
+                    </div>
+                    <div>
+                        <span class="text-stone-500 block">Địa chỉ:</span>
+                        <span class="font-medium text-stone-800 dark:text-white">{{ $order->address }}</span>
+                    </div>
+                    <div>
+                        <span class="text-stone-500 block">Phương thức thanh toán:</span>
+                        <span class="font-medium text-stone-800 dark:text-white uppercase">{{ $order->payment_method }}</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
+    </div>
+</div>
 @endsection
