@@ -118,65 +118,8 @@ class AuthorSeeder extends Seeder
             'bio'  => 'Ông vua của thể loại kinh dị và giả tưởng, tác giả của "IT" (Gã Hề Ma Quái), "The Shining".',
         ]);
 
-           Author::create([
-            'name' => 'Dale Carnegie',
-            'slug' => 'dale-carnegie',
-            'bio'  => 'Tác giả và diễn giả nổi tiếng với các sách phát triển bản thân và giao tiếp.',
-        ]);
 
-        Author::create([
-            'name' => 'James Clear',
-            'slug' => 'james-clear',
-            'bio'  => 'Tác giả cuốn Atomic Habits, chuyên gia về thói quen và hiệu suất cá nhân.',
-        ]);
-
-        Author::create([
-            'name' => 'Napoleon Hill',
-            'slug' => 'napoleon-hill',
-            'bio'  => 'Tác giả kinh điển của dòng sách tư duy thành công như Nghĩ Giàu Làm Giàu.',
-        ]);
-
-        Author::create([
-            'name' => 'Yuval Noah Harari',
-            'slug' => 'yuval-noah-harari',
-            'bio'  => 'Nhà sử học người Israel, tác giả Sapiens – Lược Sử Loài Người.',
-        ]);
-
-        Author::create([
-            'name' => 'Haruki Murakami',
-            'slug' => 'haruki-murakami',
-            'bio'  => 'Nhà văn Nhật Bản nổi tiếng với phong cách hiện thực huyền ảo.',
-        ]);
-
-        Author::create([
-            'name' => 'Stephen R. Covey',
-            'slug' => 'stephen-r-covey',
-            'bio'  => 'Tác giả 7 Thói Quen Của Người Thành Đạt, chuyên gia lãnh đạo cá nhân.',
-        ]);
-
-        Author::create([
-            'name' => 'Tony Robbins',
-            'slug' => 'tony-robbins',
-            'bio'  => 'Diễn giả truyền cảm hứng và tác giả sách phát triển bản thân nổi tiếng thế giới.',
-        ]);
-
-        Author::create([
-            'name' => 'Dan Brown',
-            'slug' => 'dan-brown',
-            'bio'  => 'Tiểu thuyết gia Mỹ, tác giả Mật Mã Da Vinci và các tiểu thuyết trinh thám.',
-        ]);
-
-        Author::create([
-            'name' => 'Osho',
-            'slug' => 'osho',
-            'bio'  => 'Triết gia và diễn giả tâm linh với nhiều tác phẩm về cuộc sống và thiền định.',
-        ]);
-
-        Author::create([
-            'name' => 'Thích Nhất Hạnh',
-            'slug' => 'thich-nhat-hanh',
-            'bio'  => 'Thiền sư, học giả Phật giáo, tác giả nhiều sách về chánh niệm và an lạc.',
-        ]);
+        
     }
 }
 
