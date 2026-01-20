@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\OrderController; // Sử dụng OrderController
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 
 
 // HomeController
@@ -119,6 +120,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         Route::put('/orders/{id}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
         Route::resource('orders', OrderController::class);
         
+        // Quản lý Liên hệ
+        Route::get('/contacts', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('contacts.index');
+        Route::get('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'show'])->name('contacts.show');
+        Route::delete('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('contacts.destroy');
+
 });
 
 // Nhóm route yêu cầu đăng nhập
