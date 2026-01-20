@@ -15,7 +15,9 @@ use App\Http\Controllers\Admin\DashboardController; //Sử dụng DashboardContr
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\OrderController; // Sử dụng OrderController
+use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\BookController; // Sử dụng BookController
 
 
@@ -26,6 +28,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/gioi-thieu', [HomeController::class, 'about'])->name('home.about');
 // Định tuyến của trang liên hệ
 Route::get('/lien-he', [HomeController::class, 'contact'])->name('home.contact');
+// Gửi form liên hệ
+Route::post('/lien-he', [ContactController::class, 'store'])->name('contact.store');
 // Định tuyến của trang chính sách
 Route::get('/chinh-sach', [HomeController::class, 'policy'])->name('home.policy');
 
@@ -124,6 +128,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
 
         Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
         
+        // Quản lý Liên hệ
+        Route::get('/contacts', [App\Http\Controllers\Admin\ContactController::class, 'index'])->name('contacts.index');
+        Route::get('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'show'])->name('contacts.show');
+        Route::delete('/contacts/{contact}', [App\Http\Controllers\Admin\ContactController::class, 'destroy'])->name('contacts.destroy');
+
 });
 
 // Nhóm route yêu cầu đăng nhập
