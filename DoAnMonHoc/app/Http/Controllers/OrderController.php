@@ -59,7 +59,8 @@ class OrderController extends Controller
         // 3. Chuẩn bị dữ liệu Header
         $viewData = [
             'title' => 'Chi tiết đơn hàng #' . $id,
-            'categories' => \App\Models\Category::all(),
+            'categories' => Category::all(),
+            'status_labels' => Order::STATUS_LABELS
         ];
 
         return view('profile.order_detail', compact('order', 'user', 'viewData'));

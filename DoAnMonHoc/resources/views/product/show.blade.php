@@ -263,7 +263,7 @@
                                             @endfor
                                         </div>
                                     </div>
-<!-- chưa có ngày đăng bình luận--><p class="text-sm text-stone-600 dark:text-slate-400 mb-2">12/01/2026</p>
+<!-- chưa có ngày đăng bình luận--><p class="text-sm text-stone-600 dark:text-slate-400 mb-2">{{ $review->created_at->format('H:i d/m/Y') }}</p>
                                     <p class="text-stone-700 dark:text-slate-300">{{$review->comment}}</p>
                                 </div>
                             </div>

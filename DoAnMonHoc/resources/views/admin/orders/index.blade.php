@@ -4,6 +4,14 @@
 <div class="p-6 bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-stone-200 dark:border-slate-700">
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-xl font-bold text-stone-800 dark:text-white">Danh sách đơn hàng</h2>
+        {{-- Thêm nút Thùng rác --}}
+        <a href="{{ route('admin.orders.trash') }}" class="inline-flex items-center px-4 py-2 bg-stone-200 border border-transparent rounded-md font-semibold text-xs text-stone-700 uppercase tracking-widest hover:bg-stone-300 active:bg-stone-400 focus:outline-none focus:border-stone-500 focus:ring ring-stone-300 disabled:opacity-25 transition ease-in-out duration-150">
+            <i class="fas fa-trash-alt mr-2"></i> Thùng rác 
+            {{-- Hiển thị số lượng đơn đã xóa  --}}
+            <span class="ml-1 bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">
+                {{ \App\Models\Order::onlyTrashed()->count() }}
+            </span>
+        </a>
     </div>
 
     <div class="overflow-x-auto">
@@ -59,15 +67,16 @@
                         </span>
                     </td>
 
-                    {{-- 6. Hành Động (gồm xem chi tiết và xóa mềm) --}}
+                    {{-- 6. Hành Động --}}
                     <td class="px-4 py-3">
                         <div class="flex items-center gap-2">
+                            <!--Xem chi tiết-->
                             <a href="{{ route('admin.orders.show', $order->id) }}" 
                                class="inline-flex items-center px-3 py-1.5 bg-white border border-stone-300 rounded-md text-sm font-medium text-stone-700 hover:bg-stone-50 hover:text-brown-primary transition-colors shadow-sm"
                                title="Xem chi tiết">
                                 <i class="fas fa-eye"></i>
                             </a>
-
+                            <!--Xóa mềm-->
                             <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn hàng #{{ $order->id }} này không?');">
                                 @csrf
                                 @method('DELETE')
