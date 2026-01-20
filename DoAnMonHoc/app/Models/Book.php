@@ -11,21 +11,41 @@ class Book extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 
-        'slug', 
-        'image', 
+        'name',
+        'slug',
+        'image',
         'description',
         'short_description',
-        'price', 
+        'price',
         'quantity',
-        'sold_quantity', 
-        'avg_rating', 
+        'sold_quantity',
+        'avg_rating',
         'total_reviews',
-        'is_active', 
+        'is_active',
         'is_featured',
-        'category_id', 
+        'category_id',
         'author_id'
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($book) {
+
+            // CHỈ tạo slug nếu chưa có
+            if (empty($book->slug)) {
+
+                $baseSlug = Str::slug($book->name);
+                $slug = $baseSlug;
+                $count = 1;
+
+                while (self::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $count++;
+                }
+
+                $book->slug = $slug;
+            }
+        });
+    }
 
     // Quan hệ: Sách thuộc về 1 Danh mục
     public function category()
