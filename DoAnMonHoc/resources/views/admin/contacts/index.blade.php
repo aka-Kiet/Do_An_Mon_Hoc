@@ -28,7 +28,7 @@
                 <form action="{{ route('admin.contacts.destroy', $contact->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button onclick="return confirm('Xóa liên hệ này?')">Xóa</button>
+                    <button class="btn btn-danger btn-sm ms-1">Xóa</button>
                 </form>
             </td>
         </tr>
