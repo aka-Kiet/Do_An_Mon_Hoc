@@ -123,7 +123,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
         // Quản lý Đơn hàng
 
         Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
-
         
 });
 
