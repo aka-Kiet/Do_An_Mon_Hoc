@@ -195,7 +195,7 @@
                     
                     {{-- ẢNH BÌA SÁCH --}}
                     <div class="relative overflow-hidden rounded-xl mb-4 aspect-[3/4] shadow-md group-hover:shadow-lg transition-all">
-                        <img src="{{ $book->image_url }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="{{ $book->name }}">
+                        <img src="{{ asset($book->image) }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="{{ $book->name }}">
                         
                         {{-- Overlay khi hover --}}
                         <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
