@@ -37,6 +37,10 @@ class DashboardController extends Controller
 //     }
         public function index()
         {
+
+            $viewData = [];
+            $viewData["title"] = "Quản lý Dashboard";
+
             $monthlyRevenue = Order::select(
                 DB::raw('MONTH(created_at) as month'),
                 DB::raw('SUM(total_price) as total')
@@ -46,7 +50,8 @@ class DashboardController extends Controller
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->pluck('total', 'month');
 
-            return view('admin.dashboard', [
+            return view('admin.dashboard',  [
+                'viewData'        => $viewData,
                 'totalBooks'      => Book::count(),
                 'totalCategories' => Category::count(),
                 'totalOrders'     => Order::count(),

@@ -11,11 +11,14 @@ class OrderController extends Controller
     // Danh sách đơn hàng
     public function index(Request $request)
     {
+        $viewData = [];
+        $viewData["title"] = "Quản lý Đơn hàng";
+
         $orders = Order::with('user')
             ->latest()
             ->paginate(10);
 
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.index', compact('orders', 'viewData'));
     }
     
     // Chi tiết đơn hàng
