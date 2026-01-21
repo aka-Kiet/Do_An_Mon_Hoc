@@ -97,12 +97,12 @@
                     </td>
                     {{-- HÌNH ẢNH --}}
                     <td class="px-6 py-4">
-                        @if($book->image)
-                            <img src="{{ $book->image_url }}"
-                            class="w-16 h-16 object-cover rounded border">
-                        @else
-                            <span class="text-stone-400 italic text-sm">Chưa có hình</span>
-                        @endif
+{{-- Kiểm tra nếu có ảnh thì hiện, không có thì hiện ảnh mặc định --}}
+@if($book->image)
+    <img src="{{ asset($book->image) }}" alt="{{ $book->name }}" class="w-16 h-auto">
+@else
+    <img src="https://via.placeholder.com/150" alt="No Image">
+@endif
                     </td>
                     {{-- DANH MỤC --}}
                     <td class="px-6 py-4">
