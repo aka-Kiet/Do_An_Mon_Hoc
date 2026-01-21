@@ -103,7 +103,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
 
     // Route khôi phục cài đặt gốc
-    Route::post('/admin/settings/reset', [App\Http\Controllers\Admin\SettingController::class, 'reset'])->name('admin.settings.reset');
+    Route::post('/settings/reset', [SettingController::class, 'reset'])->name('settings.reset');
 
     // 👇👇👇 ĐÃ SỬA CHỖ NÀY 👇👇👇
     // Sử dụng AdminContactController thay vì ContactController thường
