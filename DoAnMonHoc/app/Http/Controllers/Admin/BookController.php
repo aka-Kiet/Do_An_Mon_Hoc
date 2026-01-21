@@ -8,6 +8,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Models\BookImage;
+use App\Models\Author;
 
 class BookController extends Controller
 {
@@ -20,12 +22,12 @@ class BookController extends Controller
 
         $query = Book::with('category');
 
-        // 👉 TAB THÙNG RÁC
+        // TAB THÙNG RÁC
         if ($tab === 'trash') {
             $query->onlyTrashed();
         }
 
-        // 🔍 SEARCH
+        // SEARCH
         if ($request->filled('search')) {
             $search = trim($request->search);
 
@@ -57,13 +59,15 @@ class BookController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.books.create', compact('categories'));
+        $authors = Author::all();
+        return view('admin.books.create', compact('categories', 'authors'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'name'        => 'required|string|max:255',
+            'author_id'   => 'required|exists:authors,id',
             'category_id' => 'required|exists:categories,id',
             'price'       => 'required|numeric|min:0',
             'quantity'    => 'required|integer|min:0',
@@ -102,14 +106,17 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
+        $book->load('images');
         $categories = Category::all();
-        return view('admin.books.edit', compact('book', 'categories'));
+        $authors = Author::all();
+        return view('admin.books.edit', compact('book', 'categories', 'authors'));
     }
 
     public function update(Request $request, Book $book)
     {
         $data = $request->validate([
             'name'        => 'required|string|max:255',
+            'author_id'   => 'required|exists:authors,id',
             'category_id' => 'required|exists:categories,id',
             'price'       => 'required|numeric|min:0',
             'quantity'    => 'required|integer|min:0',
