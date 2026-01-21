@@ -263,7 +263,7 @@
                                             @endfor
                                         </div>
                                     </div>
-<!-- chưa có ngày đăng bình luận--><p class="text-sm text-stone-600 dark:text-slate-400 mb-2">12/01/2026</p>
+<!-- chưa có ngày đăng bình luận--><p class="text-sm text-stone-600 dark:text-slate-400 mb-2">{{ $review->created_at->format('H:i d/m/Y') }}</p>
                                     <p class="text-stone-700 dark:text-slate-300">{{$review->comment}}</p>
                                 </div>
                             </div>
@@ -315,10 +315,11 @@
                         <div class="flex items-center gap-2 mt-1">
                             @if($item->sale_price < $item->price)
                                 <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">
-                                    {{ number_format($item->sale_price, 0, ',', '.') }}đ
+                                    {{ number_format($item->price, 0, ',', '.') }}đ
                                 </span>
                                 <span class="text-sm line-through text-gray-400">
-                                    {{ number_format($item->price, 0, ',', '.') }}đ
+                                    
+                                    {{ number_format($item->sale_price, 0, ',', '.') }}đ
                                 </span>
                             @else
                                 <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">

@@ -26,7 +26,11 @@ class OrderController extends Controller
     {
         $order->load(['user', 'items.book']);
 
-        return view('admin.orders.show', compact('order'));
+        // Lấy danh sách trạng thái để truyền sang View ---
+        $statusLabels = Order::STATUS_LABELS;
+
+        // Truyền thêm biến 'statusLabels' vào compact
+        return view('admin.orders.show', compact('order', 'statusLabels'));
     }
 
     // Cập nhật trạng thái
@@ -56,8 +60,6 @@ class OrderController extends Controller
     // Xóa mềm đơn hàng
     public function destroy(Order $order)
     {
-        // 2. Xóa 'processing' khỏi điều kiện chặn xóa
-        // Chỉ chặn xóa khi đang giao hàng (shipping)
         if ($order->status === 'shipping') {
             return back()->with('error', 'Không thể xóa đơn hàng đang được giao.');
         }
@@ -68,5 +70,43 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
         }
+    }
+    //danh sách đơn hàng xóa mềm
+    public function trash()
+    {
+        // Sử dụng onlyTrashed() để chỉ lấy các đơn đã xóa
+        $orders = Order::onlyTrashed()
+            ->with('user')
+            ->latest()
+            ->paginate(10);
+
+        return view('admin.orders.trash', compact('orders'));
+    }
+    // 2. Khôi phục đơn hàng
+    public function restore($id)
+    {
+        // Tìm trong danh sách đã xóa
+        $order = Order::onlyTrashed()->findOrFail($id);
+        
+        $order->restore();
+
+        return redirect()->route('admin.orders.trash')
+            ->with('success', 'Đã khôi phục đơn hàng #' . $id . ' thành công.');
+    }
+
+    // 3. Xóa vĩnh viễn
+    public function forceDelete($id)
+    {
+        // Tìm trong danh sách đã xóa
+        $order = Order::onlyTrashed()->findOrFail($id);
+
+        // Xóa các order_items liên quan trước (để sạch data)
+        $order->items()->delete(); 
+        
+        // Xóa cứng đơn hàng
+        $order->forceDelete();
+
+        return redirect()->route('admin.orders.trash')
+            ->with('success', 'Đã xóa vĩnh viễn đơn hàng #' . $id . '.');
     }
 }

@@ -37,6 +37,9 @@ class CartController extends Controller
     // }
     public function index()
     {
+        $viewData = [];
+        $viewData["title"] = "Giỏ hàng";
+
         $cart = $this->getCart();
 
         // phân trang cart items (5 sản phẩm / trang)
@@ -51,6 +54,7 @@ class CartController extends Controller
             'subtotal' => $cart->subtotal(),
             'shipping' => 0,
             'total'    => $cart->subtotal(),
+            'viewData' => $viewData
         ]);
     }
 
