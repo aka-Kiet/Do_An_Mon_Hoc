@@ -11,8 +11,10 @@ class BannerController extends Controller
 {
     public function index()
     {
+        $viewData = [];
+        $viewData["title"] = "Quản lý Quảng cáo"; 
         $banners = Banner::orderBy('sort_order', 'asc')->paginate(10);
-        return view('admin.banners.index', compact('banners'));
+        return view('admin.banners.index', compact('banners', 'viewData'));
     }
 
     public function create()
@@ -24,7 +26,7 @@ class BannerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:10240',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:20240',
             'sort_order' => 'integer',
         ]);
 

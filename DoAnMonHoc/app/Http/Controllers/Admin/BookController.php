@@ -13,6 +13,9 @@ class BookController extends Controller
 {
    public function index(Request $request)
     {
+        $viewData = [];
+        $viewData["title"] = "Quản lý Sản phẩm";
+
         $tab = $request->get('tab', 'all'); // all | trash
 
         $query = Book::with('category');
@@ -46,7 +49,8 @@ class BookController extends Controller
         return view('admin.books.index', compact(
             'books',
             'tab',
-            'trashCount'
+            'trashCount',
+            'viewData'
         ));
     }
 

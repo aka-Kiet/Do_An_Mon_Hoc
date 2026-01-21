@@ -32,6 +32,7 @@ class CheckoutController extends Controller
         });
 
         $viewData = [
+            'title'    => 'Thanh toán',
             'cart' => $cart,
             'subtotal' => $subtotal,
             'total' => $subtotal, // Cộng thêm phí ship
