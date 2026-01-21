@@ -24,7 +24,7 @@
         <div class="lg:col-span-5 space-y-4">
             <!--ảnh chính-->
             <div class="glass p-4 rounded-3xl bg-white/40 dark:bg-slate-900/40 relative overflow-hidden group">
-                <img id="mainImage" src="{{ asset($book->image) }}" 
+                <img id="mainImage" src="{{ $book->image_url }}" 
                      alt="{{ $book->name }}" class="w-full h-auto rounded-xl object-cover transition-transform duration-500 group-hover:scale-110 cursor-zoom-in">
                 @auth
                     <form action="{{ route('profile.favorites.toggle', $book->id) }}" method="POST" class="absolute top-6 right-6 z-20">
@@ -45,14 +45,14 @@
             </div>
             <!--ảnh thumbnail-->
             <div class="flex space-x-4 overflow-x-auto pb-2">
-                <button onclick="changeImage('{{ asset($book->image) }}')" class="w-20 h-20 rounded-xl glass p-1 cursor-pointer border-2 border-brown-primary dark:border-neon-red">
-                    <img src="{{ asset($book->image) }}" class="w-full h-full object-cover rounded-lg">
+                <button onclick="changeImage('{{ $book->image_url }}')" class="w-20 h-20 rounded-xl glass p-1 cursor-pointer border-2 border-brown-primary dark:border-neon-red">
+                    <img src="{{ $book->image_url }}" class="w-full h-full object-cover rounded-lg">
                 </button>
                 <!--ảnh khác-->
                 @if($book->images && $book->images->count() > 0)
                     @foreach($book->images as $img)
-                        <button onclick="changeImage('{{ asset($img->image_path) }}')" class="w-20 h-20 rounded-xl glass p-1 cursor-pointer border-2 border-transparent hover:border-brown-primary dark:hover:border-neon-red">
-                            <img src="{{ asset($img->image_path) }}" class="w-full h-full object-cover rounded-lg">
+                        <button onclick="changeImage('{{ $img->url }}')" class="w-20 h-20 rounded-xl glass p-1 cursor-pointer border-2 border-transparent hover:border-brown-primary dark:hover:border-neon-red">
+                            <img src="{{ $img->url }}" class="w-full h-full object-cover rounded-lg">
                         </button>
                     @endforeach
                 @endif
@@ -308,7 +308,7 @@
                                 </button>
                             </form>
                         @endauth
-                        <img src="{{asset($item->image)}}" alt="{{$item->name}}" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110">
+                        <img src="{{$item->image_url}}" alt="{{$item->name}}" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110">
                     </div>
                     <div class="px-5 pb-5 pt-2">
                         <h3 class="font-bold text-stone-800 dark:text-white truncate" title="{{ $item->name }}" >{{$item->name}}</h3>

@@ -6,10 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes; // Xóa mềm
+use Illuminate\Support\Facades\Storage;
 
 class Book extends Model
 {
     use HasFactory,SoftDeletes;
+
+    protected $appends = ['image_url'];
+    
+    public function getImageUrlAttribute()
+    {
+        return $this->image
+            ? Storage::url($this->image)
+            : asset('images/no-image.png');
+    }
+
     protected $fillable = [
         'name',
         'slug',
@@ -54,9 +65,11 @@ class Book extends Model
     }
 
     // Quan hệ: Sách thuộc về 1 Tác giả
-    public function author()
+   public function author()
     {
-        return $this->belongsTo(Author::class);
+        return $this->belongsTo(Author::class)->withDefault([
+            'name' => 'Đang cập nhật',
+        ]);
     }
 
     public function images()
@@ -68,5 +81,5 @@ class Book extends Model
     {
         return $this->hasMany(Review::class)->where('is_active', true)->orderBy('created_at', 'desc');
     }
-
+    
 }

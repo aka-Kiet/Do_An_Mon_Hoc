@@ -35,7 +35,7 @@
                 @endauth
         
                 <a href="{{ route('product.show', $book->slug) }}" class="block w-full h-full">
-                    <img src="{{ asset($book->image) }}" 
+                    <img src="{{ $book->image_url }}" 
                          alt="{{ $book->name }}" class="w-full h-full object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
                 </a>
                 

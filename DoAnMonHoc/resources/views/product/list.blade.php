@@ -30,7 +30,7 @@
 
             {{-- 1. GẮN LINK VÀO ẢNH --}}
             <a href="{{ route('product.show', $product->slug) }}" class="block w-full h-full">
-                <img src="{{ asset($product->image) }}" class="w-full h-full object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
+                <img src="{{ $product->image_url }}" class="w-full h-full object-contain rounded-xl shadow-md transition-transform duration-500 group-hover:scale-105">
             </a>
 
             {{-- 2. OVERLAY VỚI 2 NÚT TRÒN (MẮT + GIỎ) --}}
