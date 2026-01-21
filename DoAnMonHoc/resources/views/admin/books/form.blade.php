@@ -69,42 +69,45 @@
         {{-- CỘT PHẢI: HÌNH ẢNH --}}
         <div class="space-y-6">
 
-            {{-- ẢNH ĐẠI DIỆN --}}
+            {{-- 1. ẢNH ĐẠI DIỆN --}}
             <div>
-                <label class="font-semibold text-sm block mb-2">
-                    Ảnh đại diện
-                </label>
+                <label class="font-semibold text-sm block mb-2">Ảnh đại diện</label>
 
-                <input type="file" name="image"
-                    class="w-full px-3 py-2 border rounded-lg">
+                <input type="file" name="image" id="avatar_input"
+                    class="w-full px-3 py-2 border rounded-lg"
+                    onchange="previewMainImage(this)">
 
-                @if(isset($book) && $book->image)
-                    <img src="{{ asset('storage/'.$book->image) }}"
-                        class="mt-3 w-full h-48 object-contain rounded-lg border bg-white">
-                @endif
+                <div class="mt-3">
+                    <img id="avatar_preview" src="#" alt="Ảnh chọn"
+                        class="w-full h-48 object-contain rounded-lg border bg-white hidden">
+
+                    @if(isset($book) && $book->image)
+                        <img id="avatar_old" src="{{ asset($book->image) }}"
+                            class="w-full h-48 object-contain rounded-lg border bg-white">
+                    @endif
+                </div>
             </div>
 
-
-            {{-- ẢNH CHI TIẾT --}}
+            {{-- 2. ẢNH CHI TIẾT (GALLERY) --}}
             <div>
-                <label class="font-semibold text-sm block mb-2">
-                    Ảnh chi tiết (có thể chọn nhiều)
-                </label>
+                <label class="font-semibold text-sm block mb-2">Ảnh chi tiết (có thể chọn nhiều)</label>
 
-                <input type="file" name="images[]"
-                    multiple
-                    class="w-full px-3 py-2 border rounded-lg">
+                <input type="file" name="images[]" multiple id="gallery_input"
+                    class="w-full px-3 py-2 border rounded-lg"
+                    onchange="previewGalleryImages(this)">
+
+                <div class="grid grid-cols-3 gap-2 mt-3" id="gallery_preview_container"></div>
 
                 @if(isset($book) && $book->images->count())
-                    <div class="grid grid-cols-3 gap-2 mt-3">
+                    <p class="text-sm text-gray-500 mt-2">Ảnh hiện có:</p>
+                    <div class="grid grid-cols-3 gap-2 mt-1">
                         @foreach($book->images as $img)
-                            <img src="{{ asset('storage/'.$img->image_path) }}"
+                            <img src="{{ asset($img->image_path) }}"
                                 class="h-24 w-full object-cover rounded border">
                         @endforeach
                     </div>
                 @endif
             </div>
-
 
         </div>
     </div>
@@ -123,3 +126,4 @@
 
 </form>
 </div>
+<script src="{{ asset('js/script_product.js') }}"></script>
