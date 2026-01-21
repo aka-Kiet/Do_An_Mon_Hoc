@@ -2,169 +2,180 @@
 @section('title','Quản lý sản phẩm')
 
 @section('content')
-<div class="glass p-6 rounded-3xl bg-white/50 dark:bg-slate-800/50">
-    <div class="flex justify-between mb-6">
-        <h1 class="text-2xl font-bold">Quản lý sản phẩm</h1>
-        <a href="{{ route('admin.books.create') }}"
-           class="px-5 py-2 rounded-full bg-brown-primary text-white font-bold">
-            <i class="fas fa-plus mr-2"></i>Thêm sản phẩm
+{{-- HEADER --}}
+<div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-bold flex items-center gap-2 text-stone-800">
+        <i class="fas fa-box"></i>
+        Quản lý sản phẩm
+    </h1>
+
+    {{-- NÚT THÊM --}}
+    <a href="{{ route('admin.books.create') }}"
+       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg
+              bg-green-600 text-white font-semibold
+              hover:bg-green-700 transition shadow">
+        <i class="fas fa-plus"></i>
+        Thêm sản phẩm
+    </a>
+</div>
+
+<div class="flex items-center justify-between mb-4 bg-white rounded-xl p-3 border">
+
+    <div class="flex gap-3">
+        {{-- TAB TẤT CẢ --}}
+        <a href="{{ route('admin.books.index') }}"
+           class="px-4 py-2 rounded-lg flex items-center gap-2 font-semibold
+           {{ $tab === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600' }}">
+            <i class="fas fa-book"></i>
+            Tất cả
+        </a>
+
+        {{-- TAB THÙNG RÁC --}}
+        <a href="{{ route('admin.books.index',['tab'=>'trash']) }}"
+           class="px-4 py-2 rounded-lg flex items-center gap-2 font-semibold
+           {{ $tab === 'trash' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-600' }}">
+            <i class="fas fa-trash"></i>
+            Thùng rác
+            @if($trashCount)
+                <span class="ml-1 bg-white text-red-600 px-2 py-0.5 text-xs rounded-full">
+                    {{ $trashCount }}
+                </span>
+            @endif
         </a>
     </div>
-    <form method="GET" class="flex justify-end gap-2 mb-6">
-        <input 
-            type="text" 
-            name="search"
-            value="{{ request('search') }}"
-            placeholder="Tìm theo tên sản phẩm..."
-            class="w-64 px-4 py-2 rounded border focus:outline-none"
-        >
 
-        <button class="px-4 py-2 bg-brown-primary text-white rounded font-bold">
-            Tìm
-        </button>
+    {{-- SEARCH --}}
+   <form method="GET" class="flex gap-2">
+        <input type="hidden" name="tab" value="{{ $tab }}">
+        <div class="relative">
+            <span class="absolute inset-y-0 left-3 flex items-center text-stone-400">
+                <i class="fas fa-search"></i>
+            </span>
+            <input type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Tìm sản phẩm..."
+                class="pl-10 pr-4 py-2 rounded-lg border border-stone-300
+                        focus:ring-2 focus:ring-brown-primary
+                        focus:border-brown-primary outline-none text-sm">
+        </div>
     </form>
+   
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm overflow-hidden border border-stone-200 dark:border-slate-700">
+    <table class="w-full text-left">
+        <thead class="bg-stone-50 dark:bg-slate-800 text-xs uppercase text-stone-500 dark:text-slate-400">
+            <tr>
+                <th class="px-6 py-4">ID</th>
+                <th class="px-6 py-4">Tên sản phẩm</th>
+                <th class="px-6 py-4">Slug</th>
+                <th>hình ảnh</th>
+                <th class="px-6 py-4">Danh mục</th>
+                <th class="px-6 py-4">Giá</th>
+                <th class="px-6 py-4">Tồn kho</th>
+                <th class="px-6 py-4 text-right">Hành động</th>
+            </tr>
+        </thead>
 
-    @if(session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">
-            {{ session('success') }}
-        </div>
-    @endif
+        <tbody class="divide-y divide-stone-200 dark:divide-slate-700">
+            @forelse($books as $book)
+                <tr class="hover:bg-stone-50 dark:hover:bg-slate-800 transition">
+                    <td class="px-6 py-4 text-sm text-stone-500">
+                        #{{ $books->firstItem() + $loop->index }}
+                    </td>
 
-    @if($trashedBooks->count())
-        <div class="mb-4 p-4 rounded bg-yellow-100 text-yellow-900">
-            
-            <div class="flex items-center justify-between mb-3">
-            <p class="font-semibold">
-                <i class="fas fa-trash-restore mr-1"></i>
-                Sản phẩm đã xóa ({{ $trashedBooks->count() }})
-            </p>
-            <div class="flex items-center gap-3">
-                {{-- KHÔI PHỤC TẤT CẢ --}}
-                <form method="POST" action="{{ route('admin.books.restoreAll') }}">
-                    @csrf
-                    @method('PATCH')
-                    <button
-                        class="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">
-                        <i class="fas fa-rotate-left mr-1"></i>
-                        Khôi phục tất cả
-                    </button>
-                </form>
+                    {{-- TÊN --}}
+                    <td class="px-6 py-4">
+                        <p class="font-semibold text-stone-800 dark:text-white">
+                            {{ $book->name }}
+                        </p>
+                    </td>
 
-                {{-- XÓA VĨNH VIỄN --}}
-                <form method="POST"
-                    action="{{ route('admin.books.forceDeleteAll') }}"
-                    onsubmit="return confirm('XÓA VĨNH VIỄN TOÀN BỘ SẢN PHẨM? KHÔNG THỂ HOÀN TÁC!')">
-                    @csrf
-                    @method('DELETE')
-                    <button
-                        class="px-4 py-2 bg-red-800 text-white rounded text-sm hover:bg-red-900">
-                        <i class="fas fa-fire mr-1"></i>
-                        Xóa vĩnh viễn tất cả
-                    </button>
-                </form>
-            </div>
-        </div>
-            <div class="flex flex-wrap gap-2">
-                @foreach($trashedBooks as $trash)
-                    <form method="POST"
-                        action="{{ route('admin.books.restore', $trash->id) }}">
-                        @csrf
-                        @method('PATCH')
+                    {{-- SLUG --}}
+                    <td class="px-6 py-4 text-sm text-stone-500">
+                        {{ $book->slug }}
+                    </td>
+                    {{-- HÌNH ẢNH --}}
+                    <td class="px-6 py-4">
+                    {{-- Kiểm tra nếu có ảnh thì hiện, không có thì hiện ảnh mặc định --}}
+                    @if($book->image)
+                        <img src="{{ asset($book->image) }}" alt="{{ $book->name }}" class="w-16 h-auto">
+                    @else
+                        <img src="https://via.placeholder.com/150" alt="No Image">
+                    @endif
+                    </td>
+                    {{-- DANH MỤC --}}
+                    <td class="px-6 py-4">
+                        <span class="inline-block px-2 py-1 text-xs rounded bg-stone-100 dark:bg-slate-700 text-stone-700 dark:text-slate-200">
+                            {{ $book->category->name ?? '-' }}
+                        </span>
+                    </td>
 
-                        <button class="px-3 py-1 bg-green-600 text-white rounded text-sm">
-                            <i class="fas fa-undo"></i>
-                            {{ $trash->name }}
-                        </button>
-                    </form>
-                    <form method="POST"
-                        action="{{ route('admin.books.forceDelete', $trash->id) }}"
-                        onsubmit="return confirm('XÓA VĨNH VIỄN? Hành động này không thể khôi phục!')">
-                        @csrf
-                        @method('DELETE')
+                    {{-- GIÁ --}}
+                    <td class="px-6 py-4 font-medium text-stone-700 dark:text-slate-300">
+                        {{ number_format($book->price) }}đ
+                    </td>
 
-                        <button class="px-3 py-1 bg-red-700 text-white rounded text-sm">
-                            <i class="fas fa-skull-crossbones"></i>
-                            Xóa vĩnh viễn
-                        </button>
-                    </form>
-                @endforeach
-            </div>
-        </div>
-    @endif
-    <!-- Bảng danh sách sản phẩm -->
-    <form method="POST"
-        action="{{ route('admin.books.softDelete') }}"
-        onsubmit="return confirm('Bạn chắc chắn muốn xóa các sản phẩm đã chọn?')">
-        @csrf
-        @method('DELETE')
-        <table class="w-full border-collapse text-left">
-            <thead>
-                <tr class="border-b text-stone-500 text-sm">
-                    <th class="w-8">
-                        <input type="checkbox" id="checkAll">
-                    </th>
-                    <th>ID</th>
-                    <th>Tên</th>
-                    <th>Slug</th>
-                    <th>Hình ảnh</th>
-                    <th>Danh mục</th>
-                    <th>Giá</th>
-                    <th>Tồn kho</th>
-                    <th class="text-right">Chức năng</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($books as $book)
-                    <tr class="border-b {{ $book->trashed() ? 'bg-red-50 opacity-70' : '' }}">
-                        <td>
-                            @if(!$book->trashed())
-                                <input type="checkbox" name="ids[]" value="{{ $book->id }}" class="checkItem">
-                            @endif
-                        </td>
-                        <td>{{ $books->firstItem() + $loop->index }}</td>
-                        <td class="font-semibold max-w-56 line-clamp-2">{{ $book->name }}</td>
-                        <td class="font-semibold max-w-56 line-clamp">{{ $book->slug }}</td>
-                        <td>
-                            @if($book->image)
-                                <img src="{{ asset($book->image) }}"
-                                    alt="{{ $book->name }}"
-                                    class="w-12 h-16 object-contain bg-white rounded border">
-                            @else
-                                <span class="text-stone-400 text-sm">Chưa có ảnh</span>
-                            @endif
-                        </td>
-                        <td>{{ $book->category->name ?? '-' }}</td>
-                        <td>{{ number_format($book->price) }}đ</td>
-                        <td>{{ $book->quantity }}</td>
-                        <td class="text-right space-x-2">
-                             <a href="{{ route('admin.books.edit', $book) }}"
-                            class="px-3 py-1 bg-blue-500 text-white rounded text-sm">
+                    {{-- TỒN --}}
+                    <td class="px-6 py-4">
+                        <span class="text-sm {{ $book->quantity > 0 ? 'text-green-600' : 'text-red-600' }}">
+                            {{ $book->quantity }}
+                        </span>
+                    </td>
+
+                    {{-- HÀNH ĐỘNG --}}
+                    <td class="px-6 py-4 text-right space-x-3 text-sm">
+                        @if($tab === 'all')
+                            <a href="{{ route('admin.books.edit',$book) }}"
+                               class="text-blue-600 hover:underline font-medium">
                                 Sửa
                             </a>
+
                             <form method="POST"
-                                action="{{ route('admin.books.softDelete') }}"
-                                class="inline">
-                                @csrf
-                                @method('DELETE')
+                                  action="{{ route('admin.books.softDelete') }}"
+                                  class="inline">
+                                @csrf @method('DELETE')
                                 <input type="hidden" name="ids[]" value="{{ $book->id }}">
-                                <button class="px-3 py-1 bg-red-500 text-white rounded text-sm">
-                                    <i class="fas fa-trash-alt"></i>
+                                <button class="text-red-600 hover:underline font-medium">
+                                    Xóa
                                 </button>
                             </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <button type="submit"
-            class="mt-4 bg-red-600 text-white px-4 py-2 rounded">
-            <i class="fas fa-trash-alt"></i> Xóa đã chọn
-        </button>
-    </form>
-    <div id="pagination" class="mt-4 flex justify-end">
-                {{ $books->links() }}
-    </div>
+                        @else
+                            <form method="POST"
+                                  action="{{ route('admin.books.restore',$book->id) }}"
+                                  class="inline">
+                                @csrf @method('PATCH')
+                                <button class="text-green-600 hover:underline font-medium">
+                                    Khôi phục
+                                </button>
+                            </form>
+
+                            <form method="POST"
+                                  action="{{ route('admin.books.forceDelete',$book->id) }}"
+                                  class="inline"
+                                  onsubmit="return confirm('Xóa vĩnh viễn?')">
+                                @csrf @method('DELETE')
+                                <button class="text-red-700 hover:underline font-medium">
+                                    Xóa vĩnh viễn
+                                </button>
+                            </form>
+                        @endif
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7" class="text-center py-10 text-stone-400">
+                        Không có dữ liệu
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 </div>
+<div class="mt-4 flex justify-end">
+    {{ $books->links() }}
+</div>
+
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('#pagination a').forEach(link => {

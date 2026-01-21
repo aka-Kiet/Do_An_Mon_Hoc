@@ -45,14 +45,14 @@
             </div>
             <!--ảnh thumbnail-->
             <div class="flex space-x-4 overflow-x-auto pb-2">
-                <button onclick="changeImage('{{ asset($book->image) }}')" class="w-20 h-20 rounded-xl glass p-1 cursor-pointer border-2 border-brown-primary dark:border-neon-red">
+                <button onclick="changeImage('{{ $book->image_url }}')" class="w-20 h-20 rounded-xl glass p-1 cursor-pointer border-2 border-brown-primary dark:border-neon-red">
                     <img src="{{ asset($book->image) }}" class="w-full h-full object-cover rounded-lg">
                 </button>
                 <!--ảnh khác-->
                 @if($book->images && $book->images->count() > 0)
                     @foreach($book->images as $img)
-                        <button onclick="changeImage('{{ asset($img->image_path) }}')" class="w-20 h-20 rounded-xl glass p-1 cursor-pointer border-2 border-transparent hover:border-brown-primary dark:hover:border-neon-red">
-                            <img src="{{ asset($img->image_path) }}" class="w-full h-full object-cover rounded-lg">
+                        <button onclick="changeImage('{{ $img->url }}')" class="w-20 h-20 rounded-xl glass p-1 cursor-pointer border-2 border-transparent hover:border-brown-primary dark:hover:border-neon-red">
+                            <img src="{{ $img->url }}" class="w-full h-full object-cover rounded-lg">
                         </button>
                     @endforeach
                 @endif
@@ -263,7 +263,7 @@
                                             @endfor
                                         </div>
                                     </div>
-<!-- chưa có ngày đăng bình luận--><p class="text-sm text-stone-600 dark:text-slate-400 mb-2">12/01/2026</p>
+<!-- chưa có ngày đăng bình luận--><p class="text-sm text-stone-600 dark:text-slate-400 mb-2">{{ $review->created_at->format('H:i d/m/Y') }}</p>
                                     <p class="text-stone-700 dark:text-slate-300">{{$review->comment}}</p>
                                 </div>
                             </div>
@@ -308,17 +308,18 @@
                                 </button>
                             </form>
                         @endauth
-                        <img src="{{asset($item->image)}}" alt="{{$item->name}}" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110">
+                        <img src="{{ asset($item->image) }}" alt="{{$item->name}}" class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-110">
                     </div>
                     <div class="px-5 pb-5 pt-2">
                         <h3 class="font-bold text-stone-800 dark:text-white truncate" title="{{ $item->name }}" >{{$item->name}}</h3>
                         <div class="flex items-center gap-2 mt-1">
                             @if($item->sale_price < $item->price)
                                 <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">
-                                    {{ number_format($item->sale_price, 0, ',', '.') }}đ
+                                    {{ number_format($item->price, 0, ',', '.') }}đ
                                 </span>
                                 <span class="text-sm line-through text-gray-400">
-                                    {{ number_format($item->price, 0, ',', '.') }}đ
+                                    
+                                    {{ number_format($item->sale_price, 0, ',', '.') }}đ
                                 </span>
                             @else
                                 <span class="text-lg font-extrabold text-brown-primary dark:text-neon-red">

@@ -14,13 +14,20 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        $viewData = [];
+        $viewData["title"] = "Quản lý Danh mục";
         $query = Category::query();
+
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'LIKE', "%{$search}%");
+        }
 
         $categories = $query->latest()
                     ->paginate(5)
                     ->appends($request->all()); // giữ search khi chuyển trang
 
-        return view('admin.categories.index', compact('categories'));
+        return view('admin.categories.index', compact('categories', 'viewData'));
     }
 
     /**

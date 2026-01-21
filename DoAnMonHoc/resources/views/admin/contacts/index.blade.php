@@ -1,40 +1,61 @@
 @extends('layouts.admin')
 
 @section('content')
-<h1>Danh sách liên hệ</h1>
+<div class="glass p-6 rounded-3xl bg-white/50 dark:bg-slate-800/50">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-brown-dark dark:text-white">
+            Quản lý Liên hệ
+        </h1>
+    </div>
 
-@if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-@endif
+    {{-- Table --}}
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="text-sm text-stone-500 dark:text-slate-400 border-b border-stone-200 dark:border-slate-700">
+                    <th class="py-3 px-2">Tên người gửi</th>
+                    <th class="py-3 px-2">Email</th>
+                    <th class="py-3 px-2">Tiêu đề</th>
+                    <th class="py-3 px-2">Ngày gửi</th>
+                    <th class="py-3 px-2 text-right">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($contacts as $contact)
+                <tr class="border-b border-stone-200 dark:border-slate-700 hover:bg-stone-50 dark:hover:bg-slate-700/50 transition">
+                    <td class="py-3 px-2 font-bold text-stone-800 dark:text-white">{{ $contact->name }}</td>
+                    <td class="py-3 px-2 text-stone-600 dark:text-slate-300">{{ $contact->email }}</td>
+                    <td class="py-3 px-2 text-stone-600 dark:text-slate-300">
+                        {{ Str::limit($contact->subject, 30) }}
+                    </td>
+                    <td class="py-3 px-2 text-sm text-stone-500">{{ $contact->created_at->format('d/m/Y') }}</td>
+                    
+                    <td class="py-3 px-2 text-right space-x-2">
+                        {{-- Nút Sửa (Mới thêm) --}}
+                        <a href="{{ route('admin.contacts.edit', $contact->id) }}"
+                           class="inline-block px-3 py-1 rounded bg-blue-500 hover:bg-blue-600 text-white text-sm transition"
+                           title="Sửa">
+                           <i class="fas fa-edit"></i>
+                        </a>
 
-<table border="1" cellpadding="10" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Tên</th>
-            <th>Email</th>
-            <th>Tiêu đề</th>
-            <th>Ngày gửi</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($contacts as $contact)
-        <tr>
-            <td>{{ $contact->name }}</td>
-            <td>{{ $contact->email }}</td>
-            <td>{{ $contact->subject }}</td>
-            <td>{{ $contact->created_at->format('d/m/Y') }}</td>
-            <td>
-                <form action="{{ route('admin.contacts.destroy', $contact->id) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger btn-sm ms-1">Xóa</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+                        {{-- Nút Xóa --}}
+                        <form class="inline-block" method="POST"
+                              action="{{ route('admin.contacts.destroy', $contact->id) }}"
+                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa liên hệ này?')">
+                            @csrf @method('DELETE')
+                            <button class="px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white text-sm transition" title="Xóa">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
-{{ $contacts->links() }}
+    <div class="mt-4 flex justify-end">
+        {{ $contacts->links() }}
+    </div>
+</div>
 @endsection

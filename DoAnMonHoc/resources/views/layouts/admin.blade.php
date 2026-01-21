@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - BookStore</title>
+    <title>BookAdmin - {{ $viewData['title'] ?? 'Trang quản trị' }}</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -145,7 +145,7 @@
                     <i class="fas fa-envelope w-6 text-center"></i>
                     <span class="ml-2">Liên hệ</span>
                 </a>
-
+            
                 <p class="text-xs font-bold text-stone-400 dark:text-slate-500 uppercase px-4 mb-2 mt-6 tracking-wider">Hệ thống</p>
                 
                 {{-- CÀI ĐẶT --}}
