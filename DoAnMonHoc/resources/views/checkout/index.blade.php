@@ -7,6 +7,32 @@
         <i class="fas fa-money-check-alt mr-3"></i> Thanh Toán
     </h1>
 
+    {{-- 👇 PHẦN 1: THÔNG BÁO LỖI CHUNG (Global Alert) --}}
+    {{-- Hiển thị khi Redirect từ Controller về (ví dụ: Hết hàng, Lỗi Transaction) --}}
+    @if (session('error'))
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded shadow-sm" role="alert">
+            <div class="flex items-center">
+                <i class="fas fa-exclamation-circle text-xl mr-3"></i>
+                <div>
+                    <p class="font-bold">Có lỗi xảy ra!</p>
+                    <p>{{ session('error') }}</p>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    {{-- Hiển thị tổng hợp lỗi validate (nếu muốn xem danh sách lỗi) --}}
+    @if ($errors->any())
+        <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded mb-6">
+            <ul class="list-disc list-inside text-sm">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    {{-- 👆 KẾT THÚC PHẦN THÔNG BÁO --}}
+
     <form action="{{ route('checkout.process') }}" method="POST">
         @csrf
         
@@ -23,29 +49,53 @@
                         {{-- Họ tên --}}
                         <div class="space-y-2">
                             <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Họ và tên người nhận <span class="text-red-500">*</span></label>
+                            
+                            {{-- 👇 Thêm class check lỗi @error --}}
                             <input type="text" name="name" value="{{ old('name', $user->name) }}" required
-                                class="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-brown-primary focus:outline-none transition">
+                                class="w-full px-4 py-3 rounded-xl border dark:bg-slate-700 dark:text-white focus:ring-2 focus:outline-none transition
+                                {{ $errors->has('name') ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 dark:border-slate-600 focus:ring-brown-primary' }}">
+                            
+                            {{-- 👇 Hiển thị lỗi chi tiết --}}
+                            @error('name')
+                                <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         {{-- Số điện thoại --}}
                         <div class="space-y-2">
                             <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Số điện thoại <span class="text-red-500">*</span></label>
+                            
+                            {{-- 👇 Thêm class check lỗi @error --}}
                             <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" required
-                                class="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-brown-primary focus:outline-none transition">
+                                class="w-full px-4 py-3 rounded-xl border dark:bg-slate-700 dark:text-white focus:ring-2 focus:outline-none transition
+                                {{ $errors->has('phone') ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 dark:border-slate-600 focus:ring-brown-primary' }}">
+                            
+                            {{-- 👇 Hiển thị lỗi chi tiết (VD: Phải là 10 số) --}}
+                            @error('phone')
+                                <p class="text-red-500 text-xs italic mt-1"><i class="fas fa-exclamation-triangle mr-1"></i>{{ $message }}</p>
+                            @enderror
                         </div>
 
                         {{-- Địa chỉ (Full width) --}}
                         <div class="col-span-1 md:col-span-2 space-y-2">
                             <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Địa chỉ nhận hàng <span class="text-red-500">*</span></label>
+                            
+                            {{-- 👇 Thêm class check lỗi @error --}}
                             <input type="text" name="address" value="{{ old('address', $user->address) }}" required placeholder="Số nhà, tên đường, phường/xã, quận/huyện..."
-                                class="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-brown-primary focus:outline-none transition">
+                                class="w-full px-4 py-3 rounded-xl border dark:bg-slate-700 dark:text-white focus:ring-2 focus:outline-none transition
+                                {{ $errors->has('address') ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 dark:border-slate-600 focus:ring-brown-primary' }}">
+                            
+                            {{-- 👇 Hiển thị lỗi chi tiết --}}
+                            @error('address')
+                                <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         {{-- Ghi chú --}}
                         <div class="col-span-1 md:col-span-2 space-y-2">
                             <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Ghi chú đơn hàng (Tùy chọn)</label>
                             <textarea name="note" rows="2" placeholder="Ví dụ: Giao hàng vào giờ hành chính..."
-                                class="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-brown-primary focus:outline-none transition"></textarea>
+                                class="w-full px-4 py-3 rounded-xl border border-stone-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-brown-primary focus:outline-none transition">{{ old('note') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -62,9 +112,8 @@
                         <i class="fas fa-money-bill-wave ml-auto text-2xl text-brown-primary dark:text-neon-red"></i>
                     </label>
                 
-                    {{-- Lựa chọn 2: Chuyển khoản (Đã MỞ KHÓA) --}}
+                    {{-- Lựa chọn 2: Chuyển khoản --}}
                     <label class="flex items-center p-4 border border-stone-200 dark:border-slate-600 rounded-xl cursor-pointer transition-all hover:border-blue-500 hover:bg-blue-50 dark:hover:border-blue-400 dark:hover:bg-slate-700 has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 dark:has-[:checked]:border-blue-400 dark:has-[:checked]:bg-slate-700">
-                        {{-- 👇 Quan trọng: value="banking" --}}
                         <input type="radio" name="payment_method" value="banking" class="w-5 h-5 text-blue-600 focus:ring-blue-500">
                         <div class="ml-4">
                             <span class="block font-bold text-stone-800 dark:text-white">Chuyển khoản ngân hàng (QR)</span>
