@@ -40,4 +40,35 @@ class SettingController extends Controller
 
         return redirect()->back()->with('success', 'Cập nhật cấu hình thành công!');
     }
+
+    //Reset dữ liệu cũ
+    public function reset()
+    {
+        // 1. Định nghĩa dữ liệu gốc (Code của Leader)
+        $defaults = [
+            'website_name'     => 'BookStore',
+            'site_description' => 'BookStore là thiên đường cho những người yêu sách. Chúng tôi cam kết mang đến những cuốn sách chất lượng nhất cùng trải nghiệm mua sắm tuyệt vời.',
+            'address'          => '123 Đường Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh',
+            'hotline'          => '0909 123 456',
+            'email'            => 'support@bookstore.vn',
+            // Mạng xã hội để rỗng hoặc link mẫu
+            'facebook'         => '', 
+            'instagram'        => '',
+            'youtube'          => '',
+            'tiktok'           => '',
+            // Logo reset về null để hiện tên chữ
+            'logo'             => null, 
+        ];
+
+        // 2. Cập nhật vào Database
+        foreach ($defaults as $key => $value) {
+            \App\Models\Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+
+        // 3. Quay lại trang trước và thông báo
+        return redirect()->back()->with('success', 'Đã khôi phục thông tin về mặc định ban đầu!');
+    }
 }
