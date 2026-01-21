@@ -98,8 +98,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::delete('/orders/{id}/force-delete', [AdminOrderController::class, 'forceDelete'])->name('orders.force-delete');
     Route::resource('orders', AdminOrderController::class);
 
+    //Web setting
     Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+
+    // Route khôi phục cài đặt gốc
+    Route::post('/admin/settings/reset', [App\Http\Controllers\Admin\SettingController::class, 'reset'])->name('admin.settings.reset');
 
     // 👇👇👇 ĐÃ SỬA CHỖ NÀY 👇👇👇
     // Sử dụng AdminContactController thay vì ContactController thường
