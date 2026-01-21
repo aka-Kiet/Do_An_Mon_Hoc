@@ -18,6 +18,11 @@ class CategoryController extends Controller
         $viewData["title"] = "Quản lý Danh mục";
         $query = Category::query();
 
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'LIKE', "%{$search}%");
+        }
+
         $categories = $query->latest()
                     ->paginate(5)
                     ->appends($request->all()); // giữ search khi chuyển trang
