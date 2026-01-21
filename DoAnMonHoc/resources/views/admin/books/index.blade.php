@@ -2,9 +2,26 @@
 @section('title','Quản lý sản phẩm')
 
 @section('content')
+{{-- HEADER --}}
+<div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-bold flex items-center gap-2 text-stone-800">
+        <i class="fas fa-box"></i>
+        Quản lý sản phẩm
+    </h1>
+
+    {{-- NÚT THÊM --}}
+    <a href="{{ route('admin.books.create') }}"
+       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg
+              bg-green-600 text-white font-semibold
+              hover:bg-green-700 transition shadow">
+        <i class="fas fa-plus"></i>
+        Thêm sản phẩm
+    </a>
+</div>
+
 <div class="flex items-center justify-between mb-4 bg-white rounded-xl p-3 border">
 
-    <div class="flex gap-2">
+    <div class="flex gap-3">
         {{-- TAB TẤT CẢ --}}
         <a href="{{ route('admin.books.index') }}"
            class="px-4 py-2 rounded-lg flex items-center gap-2 font-semibold
@@ -43,7 +60,7 @@
                         focus:border-brown-primary outline-none text-sm">
         </div>
     </form>
-
+   
 </div>
 <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm overflow-hidden border border-stone-200 dark:border-slate-700">
     <table class="w-full text-left">
@@ -52,6 +69,7 @@
                 <th class="px-6 py-4">ID</th>
                 <th class="px-6 py-4">Tên sản phẩm</th>
                 <th class="px-6 py-4">Slug</th>
+                <th>hình ảnh</th>
                 <th class="px-6 py-4">Danh mục</th>
                 <th class="px-6 py-4">Giá</th>
                 <th class="px-6 py-4">Tồn kho</th>
@@ -77,7 +95,15 @@
                     <td class="px-6 py-4 text-sm text-stone-500">
                         {{ $book->slug }}
                     </td>
-
+                    {{-- HÌNH ẢNH --}}
+                    <td class="px-6 py-4">
+                        @if($book->image)
+                            <img src="{{ $book->image_url }}"
+                            class="w-16 h-16 object-cover rounded border">
+                        @else
+                            <span class="text-stone-400 italic text-sm">Chưa có hình</span>
+                        @endif
+                    </td>
                     {{-- DANH MỤC --}}
                     <td class="px-6 py-4">
                         <span class="inline-block px-2 py-1 text-xs rounded bg-stone-100 dark:bg-slate-700 text-stone-700 dark:text-slate-200">

@@ -17,7 +17,7 @@ class BookSeeder extends Seeder
             ['slug' => 'nha-gia-kim'],
             [
                 'name' => 'Nhà Giả Kim',
-                'image' => 'images/books/nha-gia-kim-back.jpg',
+                'image' => 'books/nha-gia-kim-back.jpg',
                 'short_description' => 'Cuốn sách bán chạy chỉ sau Kinh Thánh.',
                 'description' => 'Hành trình đi tìm kho báu của chàng chăn cừu Santiago, dạy chúng ta về ước mơ và định mệnh.',
                 'price' => 79000,
@@ -37,7 +37,7 @@ class BookSeeder extends Seeder
             ['slug' => 'marketing-5-0'],
             [
                 'name' => 'Marketing 5.0: Công nghệ vị nhân sinh',
-                'image' => 'images/books/marketing-back.jpg',
+                'image' => 'books/marketing-back.jpg',
                 'short_description' => 'Cập nhật xu hướng Marketing trong kỷ nguyên AI.',
                 'description' => 'Philip Kotler mang đến góc nhìn mới về sự kết hợp giữa công nghệ và yếu tố con người.',
                 'price' => 199000,
@@ -57,7 +57,7 @@ class BookSeeder extends Seeder
             ['slug' => 'harry-potter-1'],
             [
                 'name' => 'Harry Potter và Hòn Đá Phù Thủy',
-                'image' => 'images/books/harry-potter-back.jpg',
+                'image' => 'books/harry-potter-back.jpg',
                 'short_description' => 'Khởi đầu huyền thoại cậu bé phù thủy.',
                 'description' => 'Cuốn sách đưa người đọc vào thế giới phép thuật đầy màu sắc tại Hogwarts.',
                 'price' => 150000,
@@ -77,7 +77,7 @@ class BookSeeder extends Seeder
             ['slug' => 'tuoi-tre-dang-gia-bao-nhieu'],
             [
                 'name' => 'Tuổi Trẻ Đáng Giá Bao Nhiêu',
-                'image' => 'images/books/tuoi-tre-back.jpg',
+                'image' => 'books/tuoi-tre-back.jpg',
                 'short_description' => 'Cuốn sách gối đầu giường của người trẻ Việt.',
                 'description' => 'Bạn hối tiếc vì không nắm bắt lấy một cơ hội nào đó...',
                 'price' => 89000,
@@ -97,7 +97,7 @@ class BookSeeder extends Seeder
             ['slug' => 'dac-nhan-tam'],
             [
                 'name' => 'Đắc Nhân Tâm',
-                'image' => 'images/books/dac-nhan-tam-back.jpg',
+                'image' => 'books/dac-nhan-tam-back.jpg',
                 'short_description' => 'Nghệ thuật thu phục lòng người.',
                 'description' => 'Cuốn sách nổi tiếng nhất mọi thời đại về nghệ thuật giao tiếp.',
                 'price' => 86000,
@@ -117,7 +117,7 @@ class BookSeeder extends Seeder
             ['slug' => 'canh-dong-bat-tan'],
             [
                 'name' => 'Cánh Đồng Bất Tận',
-                'image' => 'images/books/canh-dong-bat-tan-back.jpg',
+                'image' => 'books/canh-dong-bat-tan-back.jpg',
                 'short_description' => 'Tác phẩm gây tiếng vang lớn của văn học Việt.',
                 'description' => 'Câu chuyện day dứt về phận người trôi nổi miền Tây.',
                 'price' => 75000,
@@ -137,7 +137,7 @@ class BookSeeder extends Seeder
             ['slug' => 'kafka-ben-bo-bien'],
             [
                 'name' => 'Kafka Bên Bờ Biển',
-                'image' => 'images/books/kafka-back.jpg',
+                'image' => 'books/kafka-back.jpg',
                 'short_description' => 'Một tiểu thuyết li kỳ và đầy rẫy những ẩn dụ.',
                 'description' => 'Câu chuyện đan xen giữa Kafka và ông lão Nakata.',
                 'price' => 145000,
@@ -158,7 +158,7 @@ class BookSeeder extends Seeder
             ['slug' => 'quang-ganh-lo-di'],
             [
                 'name' => 'Quẳng Gánh Lo Đi Và Vui Sống',
-                'image' => 'images/books/quang-ganh-lo-di-back.jpg',
+                'image' => 'books/quang-ganh-lo-di-back.jpg',
                 'short_description' => 'Liều thuốc tinh thần cho cuộc sống hiện đại.',
                 'description' => 'Những lời khuyên thiết thực giúp bạn giảm căng thẳng, lo âu và tìm thấy niềm vui trong cuộc sống hàng ngày.',
                 'price' => 76000,
@@ -179,7 +179,7 @@ class BookSeeder extends Seeder
             ['slug' => 'marketing-4-0'],
             [
                 'name' => 'Marketing 4.0: Dịch chuyển từ truyền thống sang công nghệ số',
-                'image' => 'images/books/marketing-4-0-back.jpg',
+                'image' => 'books/marketing-4-0-back.jpg',
                 'short_description' => 'Nền tảng trước khi bước vào Marketing 5.0.',
                 'description' => 'Hướng dẫn các doanh nghiệp chuyển đổi số và tiếp cận khách hàng trong kỷ nguyên kết nối.',
                 'price' => 115000,
@@ -200,7 +200,7 @@ class BookSeeder extends Seeder
             ['slug' => 'harry-potter-2'],
             [
                 'name' => 'Harry Potter và Phòng Chứa Bí Mật',
-                'image' => 'images/books/harry-potter-2-back.jpg',
+                'image' => 'books/harry-potter-2-back.jpg',
                 'short_description' => 'Năm học thứ hai đầy nguy hiểm tại Hogwarts.',
                 'description' => 'Harry trở lại trường và đối mặt với thế lực hắc ám đang tấn công các học sinh gốc Muggle.',
                 'price' => 160000,
@@ -221,7 +221,7 @@ class BookSeeder extends Seeder
             ['slug' => 'day-con-lam-giau-2'],
             [
                 'name' => 'Dạy Con Làm Giàu - Tập 2: Sử Dụng Đồng Vốn',
-                'image' => 'images/books/day-con-lam-giau-2-back.jpg',
+                'image' => 'books/day-con-lam-giau-2-back.jpg',
                 'short_description' => 'Làm thế nào để tiền đẻ ra tiền?',
                 'description' => 'Tập tiếp theo đi sâu vào việc quản lý dòng tiền và phân biệt rõ ràng 4 nhóm người làm ra tiền (Kim tứ đồ).',
                 'price' => 110000,
@@ -242,7 +242,7 @@ class BookSeeder extends Seeder
             ['slug' => 'cho-toi-xin-mot-ve-di-tuoi-tho'],
             [
                 'name' => 'Cho Tôi Xin Một Vé Đi Tuổi Thơ',
-                'image' => 'images/books/ve-di-tuoi-tho-back.jpg',
+                'image' => 'books/ve-di-tuoi-tho-back.jpg',
                 'short_description' => 'Cuốn sách bán chạy nhất năm của Nguyễn Nhật Ánh.',
                 'description' => 'Truyện dài mời người lớn quay lại thế giới trẻ thơ 8 tuổi.',
                 'price' => 85000,
@@ -264,7 +264,7 @@ class BookSeeder extends Seeder
             ['slug' => 'harry-potter-3'],
             [
                 'name' => 'Harry Potter và Tên Tù Nhân Ngục Azkaban',
-                'image' => 'images/books/harry-potter-3-back.jpg',
+                'image' => 'books/harry-potter-3-back.jpg',
                 'short_description' => 'Tập 3 đen tối và hấp dẫn hơn.',
                 'description' => 'Harry đối mặt với Sirius Black - tên tù nhân vượt ngục nguy hiểm, và khám phá ra những bí mật về cha mẹ mình.',
                 'price' => 180000,
@@ -285,7 +285,7 @@ class BookSeeder extends Seeder
             ['slug' => 'ta-ba-lo-tren-dat-a'],
             [
                 'name' => 'Ta Ba Lô Trên Đất Á',
-                'image' => 'images/books/ta-ba-lo-back.jpg',
+                'image' => 'books/ta-ba-lo-back.jpg',
                 'short_description' => 'Hành trình bụi bặm của một cô gái trẻ.',
                 'description' => 'Cuốn sách kể về những trải nghiệm du lịch bụi thú vị và đầy cảm hứng của Rosie Nguyễn.',
                 'price' => 70000,
@@ -306,7 +306,7 @@ class BookSeeder extends Seeder
             ['slug' => 'veronica-quyet-chet'],
             [
                 'name' => 'Verónica Quyết Chết',
-                'image' => 'images/books/veronica-quyet-chet-back.jpg',
+                'image' => 'books/veronica-quyet-chet-back.jpg',
                 'short_description' => 'Hành trình tìm lại ý nghĩa cuộc sống từ cái chết.',
                 'description' => 'Câu chuyện về cô gái trẻ Verónica muốn tự tử nhưng thất bại, và trong những ngày cuối đời tại bệnh viện tâm thần.',
                 'price' => 88000,
@@ -327,7 +327,7 @@ class BookSeeder extends Seeder
             ['slug' => 'co-gai-den-tu-hom-qua'],
             [
                 'name' => 'Cô Gái Đến Từ Hôm Qua',
-                'image' => 'images/books/co-gai-den-tu-hom-qua-back.jpg',
+                'image' => 'books/co-gai-den-tu-hom-qua-back.jpg',
                 'short_description' => 'Mối tình học trò đầy thơ mộng và tiếc nuối.',
                 'description' => 'Câu chuyện đan xen giữa quá khứ và hiện tại của anh chàng Thư và cô bạn Tiểu Li.',
                 'price' => 115000,
@@ -348,7 +348,7 @@ class BookSeeder extends Seeder
             ['slug' => 'harry-potter-4'],
             [
                 'name' => 'Harry Potter và Chiếc Cốc Lửa',
-                'image' => 'images/books/harry-potter-4-back.jpg',
+                'image' => 'books/harry-potter-4-back.jpg',
                 'short_description' => 'Cuộc thi đấu Tam Pháp Thuật đầy kịch tính.',
                 'description' => 'Harry bất ngờ trở thành quán quân thứ tư của cuộc thi Tam Pháp Thuật.',
                 'price' => 250000,
@@ -369,7 +369,7 @@ class BookSeeder extends Seeder
             ['slug' => 'doanh-nghiep-cua-the-ky-21'],
             [
                 'name' => 'Doanh Nghiệp Của Thế Kỷ 21',
-                'image' => 'images/books/doanh-nghiep-21-back.jpg',
+                'image' => 'books/doanh-nghiep-21-back.jpg',
                 'short_description' => 'Mô hình kinh doanh mạng lưới.',
                 'description' => 'Robert Kiyosaki giải thích vì sao Network Marketing là mô hình kinh doanh hiệu quả.',
                 'price' => 95000,
@@ -390,7 +390,7 @@ class BookSeeder extends Seeder
             ['slug' => '1q84-tap-1'],
             [
                 'name' => '1Q84 - Tập 1',
-                'image' => 'images/books/1q84-1-back.jpg',
+                'image' => 'books/1q84-1-back.jpg',
                 'short_description' => 'Thế giới song song đầy bí ẩn năm 1984.',
                 'description' => 'Một câu chuyện tình yêu dị biệt, một thế giới với hai mặt trăng.',
                 'price' => 180000,
@@ -411,7 +411,7 @@ class BookSeeder extends Seeder
             ['slug' => 'minh-noi-gi-khi-noi-ve-hanh-phuc'],
             [
                 'name' => 'Mình Nói Gì Khi Nói Về Hạnh Phúc',
-                'image' => 'images/books/noi-ve-hanh-phuc-back.jpg',
+                'image' => 'books/noi-ve-hanh-phuc-back.jpg',
                 'short_description' => 'Góc nhìn mới mẻ về hạnh phúc của người trẻ.',
                 'description' => 'Không phải là những giáo điều sáo rỗng, cuốn sách là những trải nghiệm chân thật của Rosie Nguyễn về cách tìm kiếm niềm vui tự thân.',
                 'price' => 82000,
@@ -432,7 +432,7 @@ class BookSeeder extends Seeder
             ['slug' => 'giong-to'],
             [
                 'name' => 'Giông Tố',
-                'image' => 'images/books/giong-to-back.jpg',
+                'image' => 'books/giong-to-back.jpg',
                 'short_description' => 'Bức tranh xã hội Việt Nam thời Pháp thuộc.',
                 'description' => 'Một trong những tác phẩm hiện thực phê phán xuất sắc nhất của Vũ Trọng Phụng.',
                 'price' => 68000,
@@ -453,7 +453,7 @@ class BookSeeder extends Seeder
             ['slug' => 'thau-hieu-tiep-thi-tu-a-den-z'],
             [
                 'name' => 'Thấu Hiểu Tiếp Thị Từ A Đến Z',
-                'image' => 'images/books/thau-hieu-tiep-thi-back.jpg',
+                'image' => 'books/thau-hieu-tiep-thi-back.jpg',
                 'short_description' => '80 khái niệm cốt lõi của Marketing.',
                 'description' => 'Philip Kotler giải thích ngắn gọn và súc tích các khái niệm quan trọng nhất trong Marketing.',
                 'price' => 135000,
@@ -474,7 +474,7 @@ class BookSeeder extends Seeder
             ['slug' => 'harry-potter-5'],
             [
                 'name' => 'Harry Potter và Hội Phượng Hoàng',
-                'image' => 'images/books/harry-potter-5-back.jpg',
+                'image' => 'books/harry-potter-5-back.jpg',
                 'short_description' => 'Tập dài nhất trong series Harry Potter.',
                 'description' => 'Harry chịu đựng sự cô lập và thành lập Quân đoàn Dumbledore.',
                 'price' => 280000,
@@ -495,7 +495,7 @@ class BookSeeder extends Seeder
             ['slug' => 'toi-thay-hoa-vang-tren-co-xanh'],
             [
                 'name' => 'Tôi Thấy Hoa Vàng Trên Cỏ Xanh',
-                'image' => 'images/books/hoa-vang-co-xanh-back.jpg',
+                'image' => 'books/hoa-vang-co-xanh-back.jpg',
                 'short_description' => 'Vé về tuổi thơ qua lăng kính trong trẻo.',
                 'description' => 'Câu chuyện về tình anh em và tuổi thơ miền quê nghèo.',
                 'price' => 125000,
@@ -516,7 +516,7 @@ class BookSeeder extends Seeder
             ['slug' => 'khoi-troi-long-lay'],
             [
                 'name' => 'Khói Trời Lộng Lẫy',
-                'image' => 'images/books/khoi-troi-long-lay-back.jpg',
+                'image' => 'books/khoi-troi-long-lay-back.jpg',
                 'short_description' => 'Tập truyện ngắn đầy ám ảnh.',
                 'description' => 'Những phận người nhỏ bé và nỗi buồn đặc trưng miền sông nước.',
                 'price' => 80000,
@@ -537,7 +537,7 @@ class BookSeeder extends Seeder
             ['slug' => 'nghi-giau-lam-giau'],
             [
                 'name' => 'Nghĩ Giàu Làm Giàu',
-                'image' => 'images/books/nghi-giau-lam-giau-back.jpg',
+                'image' => 'books/nghi-giau-lam-giau-back.jpg',
                 'short_description' => 'Cuốn sách chỉ dẫn làm giàu chạy nhất mọi thời đại.',
                 'description' => 'Napoleon Hill đúc kết 13 nguyên tắc thành công.',
                 'price' => 110000,
@@ -559,7 +559,7 @@ class BookSeeder extends Seeder
             ['slug' => 'de-men-phieu-luu-ky'],
             [
                 'name' => 'Dế Mèn Phiêu Lưu Ký',
-                'image' => 'images/books/de-men-back.jpg',
+                'image' => 'books/de-men-back.jpg',
                 'short_description' => 'Kiệt tác văn học thiếu nhi Việt Nam.',
                 'description' => 'Hành trình phiêu lưu của chú Dế Mèn, bài học về tình bạn và lòng nhân ái.',
                 'price' => 50000,
@@ -580,7 +580,7 @@ class BookSeeder extends Seeder
             ['slug' => 'sherlock-holmes-1'],
             [
                 'name' => 'Sherlock Holmes Toàn Tập - Tập 1',
-                'image' => 'images/books/sherlock-holmes-1-back.jpg',
+                'image' => 'books/sherlock-holmes-1-back.jpg',
                 'short_description' => 'Tượng đài của dòng văn học trinh thám.',
                 'description' => 'Những vụ án hóc búa của Sherlock Holmes và bác sĩ Watson.',
                 'price' => 165000,
@@ -601,7 +601,7 @@ class BookSeeder extends Seeder
             ['slug' => 'chi-pheo-nam-cao'],
             [
                 'name' => 'Tuyển Tập Nam Cao: Chí Phèo',
-                'image' => 'images/books/chi-pheo-back.jpg',
+                'image' => 'books/chi-pheo-back.jpg',
                 'short_description' => 'Đỉnh cao văn học hiện thực phê phán.',
                 'description' => 'Tập hợp các truyện ngắn tiêu biểu của Nam Cao.',
                 'price' => 95000,
@@ -622,7 +622,7 @@ class BookSeeder extends Seeder
             ['slug' => 'it-ga-he-ma-quai'],
             [
                 'name' => 'IT - Gã Hề Ma Quái',
-                'image' => 'images/books/it-stephen-king-back.jpg',
+                'image' => 'books/it-stephen-king-back.jpg',
                 'short_description' => 'Nỗi ám ảnh kinh hoàng.',
                 'description' => 'The Losers Club đối mặt với Pennywise.',
                 'price' => 220000,
@@ -643,7 +643,7 @@ class BookSeeder extends Seeder
             ['slug' => 'dong-song-mat-tri-nho'],
             [
                 'name' => 'Dòng Sông Mất Trí Nhớ',
-                'image' => 'images/books/dong-song.jpg',
+                'image' => 'books/dong-song.jpg',
                 'short_description' => 'Tiểu thuyết cảm xúc.',
                 'description' => 'Câu chuyện ký ức và con người.',
                 'price' => 88000,
@@ -664,7 +664,7 @@ class BookSeeder extends Seeder
             ['slug' => 'thanh-pho-khong-ngu'],
             [
                 'name' => 'Thành Phố Không Ngủ',
-                'image' => 'images/books/thanh-pho.jpg',
+                'image' => 'books/thanh-pho.jpg',
                 'short_description' => 'Tiểu thuyết đô thị.',
                 'description' => 'Nhịp sống và số phận con người.',
                 'price' => 99000,
@@ -685,7 +685,7 @@ class BookSeeder extends Seeder
             ['slug' => 'nhung-la-thu-khong-gui'],
             [
                 'name' => 'Những Lá Thư Không Gửi',
-                'image' => 'images/books/thu.jpg',
+                'image' => 'books/thu.jpg',
                 'short_description' => 'Văn học lãng mạn.',
                 'description' => 'Những lá thư của ký ức.',
                 'price' => 75000,
@@ -706,7 +706,7 @@ class BookSeeder extends Seeder
             ['slug' => 'dem-dai-cua-gio'],
             [
                 'name' => 'Đêm Dài Của Gió',
-                'image' => 'images/books/gio.jpg',
+                'image' => 'books/gio.jpg',
                 'short_description' => 'Tiểu thuyết tâm lý.',
                 'description' => 'Hành trình vượt qua bóng tối.',
                 'price' => 105000,
@@ -727,7 +727,7 @@ class BookSeeder extends Seeder
             ['slug' => 'nguoi-ve-tu-hu-vo'],
             [
                 'name' => 'Người Về Từ Hư Vô',
-                'image' => 'images/books/hu-vo.jpg',
+                'image' => 'books/hu-vo.jpg',
                 'short_description' => 'Văn học hiện đại.',
                 'description' => 'Cuộc tìm kiếm bản thân.',
                 'price' => 120000,
@@ -748,7 +748,7 @@ class BookSeeder extends Seeder
             ['slug' => 'mua-thu-tren-pho-nho'],
             [
                 'name' => 'Mùa Thu Trên Phố Nhỏ',
-                'image' => 'images/books/mua-thu.jpg',
+                'image' => 'books/mua-thu.jpg',
                 'short_description' => 'Truyện nhẹ nhàng.',
                 'description' => 'Những cảm xúc bình dị.',
                 'price' => 69000,
@@ -769,7 +769,7 @@ class BookSeeder extends Seeder
             ['slug' => 'ky-uc-mau-tro'],
             [
                 'name' => 'Ký Ức Màu Tro',
-                'image' => 'images/books/tro.jpg',
+                'image' => 'books/tro.jpg',
                 'short_description' => 'Tiểu thuyết nội tâm.',
                 'description' => 'Hồi ức và mất mát.',
                 'price' => 87000,
@@ -790,7 +790,7 @@ class BookSeeder extends Seeder
             ['slug' => 'can-phong-so-13'],
             [
                 'name' => 'Căn Phòng Số 13',
-                'image' => 'images/books/phong-13.jpg',
+                'image' => 'books/phong-13.jpg',
                 'short_description' => 'Truyện trinh thám',
                 'description' => 'Bí ẩn căn phòng khép kín',
                 'price' => 110000,
@@ -811,7 +811,7 @@ class BookSeeder extends Seeder
             ['slug' => 'lang-tham-yeu'],
             [
                 'name' => 'Lặng Thầm Yêu',
-                'image' => 'images/books/yeu.jpg',
+                'image' => 'books/yeu.jpg',
                 'short_description' => 'Văn học tình cảm',
                 'description' => 'Một tình yêu thầm lặng',
                 'price' => 65000,
@@ -832,7 +832,7 @@ class BookSeeder extends Seeder
             ['slug' => 'hoi-uc-sau-mua'],
             [
                 'name' => 'Hồi Ức Sau Mưa',
-                'image' => 'images/books/mua-ky-uc.jpg',
+                'image' => 'books/mua-ky-uc.jpg',
                 'short_description' => 'Tiểu thuyết đời sống',
                 'description' => 'Những ký ức sau cơn mưa',
                 'price' => 90000,
@@ -855,7 +855,7 @@ class BookSeeder extends Seeder
             ['slug' => 'marketing-4-thuc-chien'],
             [
                 'name' => 'Marketing 4.0 Thực Chiến',
-                'image' => 'images/books/marketing-4.jpg',
+                'image' => 'books/marketing-4.jpg',
                 'short_description' => 'Marketing hiện đại',
                 'description' => 'Ứng dụng marketing thời số',
                 'price' => 189000,
@@ -876,7 +876,7 @@ class BookSeeder extends Seeder
             ['slug' => 'tu-duy-ban-hang-dot-pha'],
             [
                 'name' => 'Tư Duy Bán Hàng Đột Phá',
-                'image' => 'images/books/ban-hang.jpg',
+                'image' => 'books/ban-hang.jpg',
                 'short_description' => 'Kinh doanh',
                 'description' => 'Chiến lược bán hàng hiệu quả',
                 'price' => 159000,
@@ -897,7 +897,7 @@ class BookSeeder extends Seeder
             ['slug' => 'khoi-nghiep-tinh-gon'],
             [
                 'name' => 'Khởi Nghiệp Tinh Gọn',
-                'image' => 'images/books/startup.jpg',
+                'image' => 'books/startup.jpg',
                 'short_description' => 'Startup',
                 'description' => 'Tư duy lean startup',
                 'price' => 199000,
@@ -918,7 +918,7 @@ class BookSeeder extends Seeder
             ['slug' => 'nghe-thuat-dam-phan'],
             [
                 'name' => 'Nghệ Thuật Đàm Phán',
-                'image' => 'images/books/dam-phan.jpg',
+                'image' => 'books/dam-phan.jpg',
                 'short_description' => 'Kỹ năng',
                 'description' => 'Đàm phán trong kinh doanh',
                 'price' => 149000,
@@ -939,7 +939,7 @@ class BookSeeder extends Seeder
             ['slug' => 'chien-luoc-gia'],
             [
                 'name' => 'Chiến Lược Giá Thông Minh',
-                'image' => 'images/books/gia.jpg',
+                'image' => 'books/gia.jpg',
                 'short_description' => 'Quản trị',
                 'description' => 'Chiến lược định giá',
                 'price' => 175000,
@@ -962,7 +962,7 @@ class BookSeeder extends Seeder
             ['slug' => 'tu-duy-tich-cuc'],
             [
                 'name' => 'Tư Duy Tích Cực',
-                'image' => 'images/books/tich-cuc.jpg',
+                'image' => 'books/tich-cuc.jpg',
                 'short_description' => 'Phát triển bản thân',
                 'description' => 'Suy nghĩ tích cực mỗi ngày',
                 'price' => 89000,
@@ -983,7 +983,7 @@ class BookSeeder extends Seeder
             ['slug' => 'quan-ly-cam-xuc'],
             [
                 'name' => 'Quản Lý Cảm Xúc',
-                'image' => 'images/books/cam-xuc.jpg',
+                'image' => 'books/cam-xuc.jpg',
                 'short_description' => 'Tâm lý',
                 'description' => 'Kiểm soát cảm xúc hiệu quả',
                 'price' => 115000,
@@ -1004,7 +1004,7 @@ class BookSeeder extends Seeder
             ['slug' => 'suc-manh-thoi-quen'],
             [
                 'name' => 'Sức Mạnh Của Thói Quen',
-                'image' => 'images/books/thoi-quen.jpg',
+                'image' => 'books/thoi-quen.jpg',
                 'short_description' => 'Kỹ năng sống',
                 'description' => 'Thay đổi thói quen để thành công',
                 'price' => 135000,
@@ -1025,7 +1025,7 @@ class BookSeeder extends Seeder
             ['slug' => 'giao-tiep-thong-minh'],
             [
                 'name' => 'Giao Tiếp Thông Minh',
-                'image' => 'images/books/giao-tiep.jpg',
+                'image' => 'books/giao-tiep.jpg',
                 'short_description' => 'Kỹ năng mềm',
                 'description' => 'Nâng cao giao tiếp',
                 'price' => 125000,
@@ -1044,7 +1044,7 @@ class BookSeeder extends Seeder
             ['slug' => 'binh-tinh-trong-hon-loan'],
             [
                 'name' => 'Bình Tĩnh Trong Hỗn Loạn',
-                'image' => 'images/books/binh-tinh.jpg',
+                'image' => 'books/binh-tinh.jpg',
                 'short_description' => 'Tâm lý học',
                 'description' => 'Giữ bình tĩnh mọi hoàn cảnh',
                 'price' => 125000,
@@ -1063,7 +1063,7 @@ class BookSeeder extends Seeder
             ['slug' => '100-cau-chuyen-dao-duc'],
             [
                 'name' => '100 Câu Chuyện Đạo Đức',
-                'image' => 'images/books/dao-duc.jpg',
+                'image' => 'books/dao-duc.jpg',
                 'short_description' => 'Thiếu nhi',
                 'description' => 'Bài học đạo đức cho bé',
                 'price' => 69000,
