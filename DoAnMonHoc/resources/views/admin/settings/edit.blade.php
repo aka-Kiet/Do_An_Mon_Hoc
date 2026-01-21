@@ -158,5 +158,21 @@
 
         </div>
     </form>
-</div>
+
+    <div class="mt-10 bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-red-200 dark:border-red-900">
+        <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-2 flex items-center">
+            <i class="fas fa-exclamation-triangle mr-2"></i> Vùng nguy hiểm
+        </h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Hành động này sẽ xóa toàn bộ cài đặt hiện tại (bao gồm Logo, Liên hệ, Mạng xã hội) và đưa về nội dung mặc định ban đầu.
+        </p>
+        
+        <form action="{{ route('admin.settings.reset') }}" method="POST" onsubmit="return confirm('CẢNH BÁO QUAN TRỌNG:\n\nBạn có chắc chắn muốn khôi phục lại dữ liệu gốc không?\n\nMọi thay đổi bạn đã nhập sẽ bị mất vĩnh viễn!');">
+            @csrf
+            <button type="submit" class="px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition flex items-center text-sm font-medium dark:bg-red-900/20 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-900/40">
+                <i class="fas fa-history mr-2"></i> Khôi phục mặc định
+            </button>
+        </form>
+    </div>
+    </div>
 @endsection
