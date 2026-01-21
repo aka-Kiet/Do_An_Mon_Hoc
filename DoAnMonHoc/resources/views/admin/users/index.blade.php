@@ -2,6 +2,45 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
+
+
+    {{-- PHẦN THÔNG BÁO GLOBAL (Success/Error) --}}
+    <div class="container mx-auto px-4 pt-4 relative z-50">
+        
+        {{-- ✅ THÔNG BÁO THÀNH CÔNG (Màu Xanh Biển) --}}
+        @if (session('success'))
+            <div id="alert-success" class="flex items-center bg-blue-100 border-l-4 border-blue-500 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300 p-4 rounded shadow-lg mb-4 transition-all duration-500">
+                <div class="text-2xl mr-3">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div>
+                    <p class="font-bold">Thành công!</p>
+                    <p class="text-sm">{{ session('success') }}</p>
+                </div>
+                {{-- Nút tắt nhanh --}}
+                <button onclick="document.getElementById('alert-success').style.display='none'" class="ml-auto text-blue-700 dark:text-blue-300 hover:text-blue-900">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        @endif
+
+        {{-- ❌ THÔNG BÁO LỖI (Giữ màu Đỏ để cảnh báo) --}}
+        @if (session('error'))
+            <div id="alert-error" class="flex items-center bg-red-100 border-l-4 border-red-500 text-red-700 dark:bg-red-900/30 dark:text-red-300 p-4 rounded shadow-lg mb-4 transition-all duration-500">
+                <div class="text-2xl mr-3">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div>
+                    <p class="font-bold">Có lỗi xảy ra!</p>
+                    <p class="text-sm">{{ session('error') }}</p>
+                </div>
+                <button onclick="document.getElementById('alert-error').style.display='none'" class="ml-auto text-red-700 dark:text-red-300 hover:text-red-900">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        @endif
+
+    </div>
     
     {{-- HEADER: TIÊU ĐỀ & NÚT THÊM --}}
     <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">

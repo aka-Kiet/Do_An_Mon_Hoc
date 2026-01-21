@@ -17,7 +17,7 @@
                 <!-- loading item -->
                 @foreach($latestBooks as $book)
                 <a href="{{ route('product.show', $book->slug) }}" class="flex items-start gap-4 p-3 rounded-2xl glass hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all duration-300 group hover:translate-x-2 min-h-[120px]">
-                    <img src="{{ $book->image_url }}" alt="Book" class="w-24 h-36 object-contain bg-white dark:bg-slate-800 p-1 rounded-lg shadow-md">
+                    <img src="{{ asset($book->image) }}" alt="Book" class="w-24 h-36 object-contain bg-white dark:bg-slate-800 p-1 rounded-lg shadow-md">
                     <div class="flex-1 min-w-0">
                         <span class="text-[10px] font-bold text-white bg-green-500 px-2 py-0.5 rounded-full mb-1 inline-block">NEW</span>
                         <h4 class="font-bold text-stone-800 dark:text-slate-100 line-clamp-2 min-h-[2.5rem] group-hover:text-brown-primary dark:group-hover:text-neon-red transition-colors">{{ $book->name }}</h4>
@@ -51,7 +51,7 @@
                 <!-- loading item -->
                 @foreach ($bestSellerBooks as $book)
                     <a href="{{ route('product.show', $book->slug) }}" class="flex items-start gap-4 p-3 rounded-2xl glass hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all duration-300 group hover:translate-x-2 min-h-[120px]">
-                        <img src="{{ $book->image_url }}" alt="Book" class="w-24 h-36 object-contain bg-white dark:bg-slate-800 p-1 rounded-lg shadow-md">
+                        <img src="{{ asset($book->image) }}" alt="Book" class="w-24 h-36 object-contain bg-white dark:bg-slate-800 p-1 rounded-lg shadow-md">
                         <div class="flex-1 min-w-0">
                             <span class="text-[10px] font-bold text-white bg-red-500 px-2 py-0.5 rounded-full mb-1 inline-block">HOT 🔥</span>
                             <h4 class="font-bold text-stone-800 dark:text-slate-100 line-clamp-2 min-h-[2.5rem] group-hover:text-brown-primary dark:group-hover:text-neon-red transition-colors">{{ $book->name }}</h4>
@@ -92,7 +92,7 @@
                 <!-- loading item -->
                 @foreach ($topRatedBooks as $book)
                 <a href="{{ route('product.show', $book->slug) }}" class="flex items-start gap-4 p-3 rounded-2xl glass hover:bg-white/80 dark:hover:bg-slate-800/80 transition-all duration-300 group hover:translate-x-2 min-h-[120px]">
-                    <img src="{{ $book->image_url }}" alt="Book" class="w-24 h-36 object-contain bg-white dark:bg-slate-800 p-1 rounded-lg shadow-md">
+                    <img src="{{ asset($book->image) }}" alt="Book" class="w-24 h-36 object-contain bg-white dark:bg-slate-800 p-1 rounded-lg shadow-md">
                     <div class="flex-1 min-w-0">
                         {{-- Đánh giá sách --}}
                         <div class="flex items-center text-yellow-400 text-[10px] mb-1">
