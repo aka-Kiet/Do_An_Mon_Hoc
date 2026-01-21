@@ -135,7 +135,17 @@
                     <i class="fas fa-images w-6 text-center"></i>
                     <span class="ml-2">Banner</span>
                 </a>
-            
+
+                {{-- LIÊN HỆ --}}
+                <a href="{{ route('admin.contacts.index') }}" 
+                    class="flex items-center px-4 py-3 rounded-lg font-medium transition-all
+                    {{ request()->routeIs('admin.contacts.*') 
+                      ? 'bg-brown-primary text-white shadow-lg shadow-brown-primary/30 dark:bg-red-600 dark:shadow-red-600/30' 
+                      : 'text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-brown-primary dark:hover:text-red-500' }}">
+                    <i class="fas fa-envelope w-6 text-center"></i>
+                    <span class="ml-2">Liên hệ</span>
+                </a>
+
                 <p class="text-xs font-bold text-stone-400 dark:text-slate-500 uppercase px-4 mb-2 mt-6 tracking-wider">Hệ thống</p>
                 
                 {{-- CÀI ĐẶT --}}
