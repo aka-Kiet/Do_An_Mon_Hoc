@@ -36,7 +36,8 @@ class BookController extends Controller
             });
         }
 
-        $books = $query->latest()->paginate(15)->appends($request->all());
+        // $books = $query->latest()->paginate(15)->appends($request->all());
+        $books = $query->orderBy('id', 'asc')->paginate(15)->appends($request->all());
         $trashCount = Book::onlyTrashed()->count();
 
         return view('admin.books.index', compact('books', 'tab', 'trashCount', 'viewData'));

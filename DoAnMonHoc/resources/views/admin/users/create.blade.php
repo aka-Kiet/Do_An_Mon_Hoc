@@ -15,6 +15,8 @@
             Thêm người dùng mới
         </h2>
 
+        
+
         {{-- Hiển thị lỗi --}}
         @if ($errors->any())
             <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 text-red-600 dark:text-red-400 rounded-r-xl text-sm">

@@ -81,7 +81,7 @@
             @forelse($books as $book)
                 <tr class="hover:bg-stone-50 dark:hover:bg-slate-800 transition">
                     <td class="px-6 py-4 text-sm text-stone-500">
-                        #{{ $book->id }}
+                        #{{ $books->firstItem() + $loop->index }}
                     </td>
 
                     {{-- TÊN --}}
@@ -97,12 +97,12 @@
                     </td>
                     {{-- HÌNH ẢNH --}}
                     <td class="px-6 py-4">
-{{-- Kiểm tra nếu có ảnh thì hiện, không có thì hiện ảnh mặc định --}}
-@if($book->image)
-    <img src="{{ asset($book->image) }}" alt="{{ $book->name }}" class="w-16 h-auto">
-@else
-    <img src="https://via.placeholder.com/150" alt="No Image">
-@endif
+                    {{-- Kiểm tra nếu có ảnh thì hiện, không có thì hiện ảnh mặc định --}}
+                    @if($book->image)
+                        <img src="{{ asset($book->image) }}" alt="{{ $book->name }}" class="w-16 h-auto">
+                    @else
+                        <img src="https://via.placeholder.com/150" alt="No Image">
+                    @endif
                     </td>
                     {{-- DANH MỤC --}}
                     <td class="px-6 py-4">
