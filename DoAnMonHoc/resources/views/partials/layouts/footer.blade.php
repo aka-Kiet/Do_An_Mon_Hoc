@@ -1,117 +1,132 @@
-<footer class="glass bg-white/50 border-t border-white/20 dark:bg-slate-900/80 dark:border-slate-800 pt-16 pb-8 transition-colors mt-auto">
-    <div class="container mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-            
-            <div class="space-y-6">
-                <a href="/" class="inline-block text-3xl font-extrabold tracking-tighter">
+<footer class="mt-auto bg-stone-50 dark:bg-slate-900 border-t border-stone-200 dark:border-slate-800 transition-colors duration-300">
+    
+    {{-- PHẦN CHÍNH --}}
+    <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
+
+            {{-- CỘT 1: THƯƠNG HIỆU & MẠNG XÃ HỘI (Chiếm 4 phần) --}}
+            <div class="lg:col-span-4 space-y-6">
+                {{-- Logo / Tên Website --}}
+                <a href="/" class="inline-block">
                     @if(isset($settings['logo']) && !empty($settings['logo']))
-                        <img src="{{ asset('storage/' . $settings['logo']) }}" alt="Logo" class="h-12 object-contain">
+                        <img src="{{ asset($settings['logo']) }}" alt="Logo" class="h-12 w-auto object-contain">
                     @else
-                        <span class="text-brown-dark dark:text-white">
-                            <i class="fas fa-book-open mr-2"></i>
+                        <span class="text-3xl font-extrabold text-brown-dark dark:text-white tracking-tighter flex items-center gap-2">
+                            <i class="fas fa-book-open text-brown-primary dark:text-neon-red"></i>
                             {{ $settings['website_name'] ?? 'BookStore' }}
                         </span>
                     @endif
                 </a>
-                
-                <p class="text-sm text-stone-600 dark:text-slate-400 leading-relaxed text-justify">
-                    {{ $settings['site_description'] ?? 'BookStore là thiên đường cho những người yêu sách. Chúng tôi cam kết mang đến trải nghiệm tuyệt vời.' }}
+
+                {{-- Mô tả ngắn --}}
+                <p class="text-stone-500 dark:text-slate-400 text-sm leading-relaxed text-justify">
+                    {{ $settings['site_description'] ?? 'Nơi lan tỏa văn hóa đọc với hàng ngàn đầu sách chọn lọc. Chất lượng - Uy tín - Tận tâm.' }}
                 </p>
 
-                <div class="space-y-3 text-sm text-stone-600 dark:text-slate-400">
-                    <div class="flex items-start space-x-3">
-                        <i class="fas fa-map-marker-alt mt-1 text-brown-primary dark:text-neon-red"></i>
-                        <span>{{ $settings['address'] ?? 'Đang cập nhật địa chỉ...' }}</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <i class="fas fa-phone-alt text-brown-primary dark:text-neon-red"></i>
-                        <a href="tel:{{ $settings['hotline'] ?? '' }}" class="hover:text-brown-primary dark:hover:text-neon-red transition">
-                            {{ $settings['hotline'] ?? '0909 xxx xxx' }}
-                        </a>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <i class="fas fa-envelope text-brown-primary dark:text-neon-red"></i>
-                        <a href="mailto:{{ $settings['email'] ?? '' }}" class="hover:text-brown-primary dark:hover:text-neon-red transition">
-                            {{ $settings['email'] ?? 'support@bookstore.vn' }}
-                        </a>
-                    </div>
+                {{-- Social Media (Đưa về đây cho gọn) --}}
+                <div class="flex flex-wrap gap-3">
+                    @php
+                        $socials = [
+                            ['key' => 'facebook',  'icon' => 'fab fa-facebook-f', 'color' => 'hover:bg-[#1877F2]'],
+                            ['key' => 'instagram', 'icon' => 'fab fa-instagram',  'color' => 'hover:bg-[#E4405F]'],
+                            ['key' => 'youtube',   'icon' => 'fab fa-youtube',    'color' => 'hover:bg-[#FF0000]'],
+                            ['key' => 'tiktok',    'icon' => 'fab fa-tiktok',     'color' => 'hover:bg-black dark:hover:bg-white dark:hover:text-black'],
+                        ];
+                    @endphp
+
+                    @foreach($socials as $social)
+                        @if(!empty($settings[$social['key']]))
+                            <a href="{{ $settings[$social['key']] }}" target="_blank" 
+                               class="w-9 h-9 rounded-full bg-white dark:bg-slate-800 border border-stone-200 dark:border-slate-700 flex items-center justify-center text-stone-500 dark:text-slate-400 hover:text-white {{ $social['color'] }} transition-all duration-300 shadow-sm hover:-translate-y-1">
+                                <i class="{{ $social['icon'] }}"></i>
+                            </a>
+                        @endif
+                    @endforeach
                 </div>
             </div>
 
-            <div class="lg:pl-8">
-                <h4 class="font-bold text-lg mb-6 text-brown-dark dark:text-white relative inline-block">
-                    Về Chúng Tôi
-                    <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-brown-primary dark:bg-neon-red rounded-full"></span>
+            {{-- CỘT 2: LIÊN KẾT NHANH (Chiếm 2 phần) --}}
+            <div class="lg:col-span-2">
+                <h4 class="font-bold text-stone-800 dark:text-white mb-6 relative inline-block">
+                    Khám Phá
+                    <span class="absolute -bottom-2 left-0 w-8 h-1 bg-brown-primary dark:bg-neon-red rounded-full"></span>
                 </h4>
                 <ul class="space-y-3 text-sm text-stone-600 dark:text-slate-400">
-                    <li><a href="/" class="hover:text-brown-primary dark:hover:text-neon-red hover:pl-2 transition-all duration-300 block"><i class="fas fa-angle-right mr-2 text-xs"></i>Trang Chủ</a></li>
-                    <li><a href="#" class="hover:text-brown-primary dark:hover:text-neon-red hover:pl-2 transition-all duration-300 block"><i class="fas fa-angle-right mr-2 text-xs"></i>Sản Phẩm</a></li>
-                    <li><a href="#" class="hover:text-brown-primary dark:hover:text-neon-red hover:pl-2 transition-all duration-300 block"><i class="fas fa-angle-right mr-2 text-xs"></i>Giới Thiệu</a></li>
-                    <li><a href="#" class="hover:text-brown-primary dark:hover:text-neon-red hover:pl-2 transition-all duration-300 block"><i class="fas fa-angle-right mr-2 text-xs"></i>Tin Tức & Blog</a></li>
+                    <li><a href="{{ route('home.index') }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors duration-200"><i class="fas fa-chevron-right text-[10px] mr-2 opacity-50"></i>Trang chủ</a></li>
+                    <li><a href="{{ route('product.index') }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors duration-200"><i class="fas fa-chevron-right text-[10px] mr-2 opacity-50"></i>Sách mới</a></li>
+                    <li><a href="{{ route('home.about') }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors duration-200"><i class="fas fa-chevron-right text-[10px] mr-2 opacity-50"></i>Giới thiệu</a></li>
+                    <li><a href="#" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors duration-200"><i class="fas fa-chevron-right text-[10px] mr-2 opacity-50"></i>Blog & Tin tức</a></li>
                 </ul>
             </div>
 
-            <div>
-                <h4 class="font-bold text-lg mb-6 text-brown-dark dark:text-white relative inline-block">
-                    Hỗ Trợ & Chính Sách
-                    <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-brown-primary dark:bg-neon-red rounded-full"></span>
+            {{-- CỘT 3: HỖ TRỢ (Chiếm 3 phần) --}}
+            <div class="lg:col-span-3">
+                <h4 class="font-bold text-stone-800 dark:text-white mb-6 relative inline-block">
+                    Hỗ Trợ Khách Hàng
+                    <span class="absolute -bottom-2 left-0 w-8 h-1 bg-brown-primary dark:bg-neon-red rounded-full"></span>
                 </h4>
                 <ul class="space-y-3 text-sm text-stone-600 dark:text-slate-400">
-                    <li><a href="#" class="hover:text-brown-primary dark:hover:text-neon-red hover:pl-2 transition-all duration-300 block"><i class="fas fa-angle-right mr-2 text-xs"></i>Chính sách đổi trả</a></li>
-                    <li><a href="#" class="hover:text-brown-primary dark:hover:text-neon-red hover:pl-2 transition-all duration-300 block"><i class="fas fa-angle-right mr-2 text-xs"></i>Chính sách bảo mật</a></li>
-                    <li><a href="#" class="hover:text-brown-primary dark:hover:text-neon-red hover:pl-2 transition-all duration-300 block"><i class="fas fa-angle-right mr-2 text-xs"></i>Điều khoản dịch vụ</a></li>
-                    <li><a href="#" class="hover:text-brown-primary dark:hover:text-neon-red hover:pl-2 transition-all duration-300 block"><i class="fas fa-angle-right mr-2 text-xs"></i>Câu hỏi thường gặp</a></li>
+                    <li><a href="{{ route('home.policy') }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors duration-200"><i class="fas fa-chevron-right text-[10px] mr-2 opacity-50"></i>Chính sách bảo mật</a></li>
+                    <li><a href="{{ route('home.policy') }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors duration-200"><i class="fas fa-chevron-right text-[10px] mr-2 opacity-50"></i>Điều khoản dịch vụ</a></li>
+                    <li><a href="{{ route('home.policy') }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors duration-200"><i class="fas fa-chevron-right text-[10px] mr-2 opacity-50"></i>Chính sách đổi trả</a></li>
+                    <li><a href="{{ route('home.contact') }}" class="hover:text-brown-primary dark:hover:text-neon-red transition-colors duration-200"><i class="fas fa-chevron-right text-[10px] mr-2 opacity-50"></i>Liên hệ góp ý</a></li>
                 </ul>
             </div>
 
-            <div>
-                <h4 class="font-bold text-lg mb-6 text-brown-dark dark:text-white relative inline-block">
-                    Kết Nối Với Chúng Tôi
-                    <span class="absolute -bottom-2 left-0 w-1/2 h-1 bg-brown-primary dark:bg-neon-red rounded-full"></span>
+            {{-- CỘT 4: THÔNG TIN LIÊN HỆ (Chiếm 3 phần) --}}
+            <div class="lg:col-span-3">
+                <h4 class="font-bold text-stone-800 dark:text-white mb-6 relative inline-block">
+                    Liên Hệ
+                    <span class="absolute -bottom-2 left-0 w-8 h-1 bg-brown-primary dark:bg-neon-red rounded-full"></span>
                 </h4>
                 
-                <div class="flex space-x-4 mb-8">
-                    @if(!empty($settings['facebook']))
-                        <a href="{{ $settings['facebook'] }}" target="_blank" class="w-10 h-10 rounded-full glass bg-white dark:bg-slate-800 flex items-center justify-center text-stone-500 hover:text-white hover:bg-[#1877F2] dark:text-slate-400 dark:hover:bg-[#1877F2] transition-all duration-300 shadow-sm hover:-translate-y-1">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                    @endif
+                <ul class="space-y-4 text-sm text-stone-600 dark:text-slate-400">
+                    <li class="flex items-start gap-3">
+                        <div class="mt-1 w-8 h-8 rounded bg-brown-primary/10 dark:bg-slate-800 flex items-center justify-center text-brown-primary dark:text-neon-red shrink-0">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <span class="leading-relaxed">{{ $settings['address'] ?? 'Đang cập nhật địa chỉ...' }}</span>
+                    </li>
 
-                    @if(!empty($settings['instagram']))
-                        <a href="{{ $settings['instagram'] }}" target="_blank" class="w-10 h-10 rounded-full glass bg-white dark:bg-slate-800 flex items-center justify-center text-stone-500 hover:text-white hover:bg-[#E4405F] dark:text-slate-400 dark:hover:bg-[#E4405F] transition-all duration-300 shadow-sm hover:-translate-y-1">
-                            <i class="fab fa-instagram"></i>
+                    <li class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded bg-brown-primary/10 dark:bg-slate-800 flex items-center justify-center text-brown-primary dark:text-neon-red shrink-0">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <a href="tel:{{ $settings['hotline'] ?? '' }}" class="hover:text-brown-primary dark:hover:text-white font-bold transition">
+                            {{ $settings['hotline'] ?? 'Đang cập nhật...' }}
                         </a>
-                    @endif
+                    </li>
 
-                    @if(!empty($settings['youtube']))
-                        <a href="{{ $settings['youtube'] }}" target="_blank" class="w-10 h-10 rounded-full glass bg-white dark:bg-slate-800 flex items-center justify-center text-stone-500 hover:text-white hover:bg-[#FF0000] dark:text-slate-400 dark:hover:bg-[#FF0000] transition-all duration-300 shadow-sm hover:-translate-y-1">
-                            <i class="fab fa-youtube"></i>
+                    <li class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded bg-brown-primary/10 dark:bg-slate-800 flex items-center justify-center text-brown-primary dark:text-neon-red shrink-0">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <a href="mailto:{{ $settings['email'] ?? '' }}" class="hover:text-brown-primary dark:hover:text-white transition break-all">
+                            {{ $settings['email'] ?? 'support@bookstore.vn' }}
                         </a>
-                    @endif
-
-                    @if(!empty($settings['tiktok']))
-                        <a href="{{ $settings['tiktok'] }}" target="_blank" class="w-10 h-10 rounded-full glass bg-white dark:bg-slate-800 flex items-center justify-center text-stone-500 hover:text-white hover:bg-[#000000] dark:text-slate-400 dark:hover:bg-white dark:hover:text-black transition-all duration-300 shadow-sm hover:-translate-y-1">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
-                    @endif
-                </div>
-
-                <h5 class="text-sm font-bold text-brown-dark dark:text-white mb-3">Đăng ký nhận tin</h5>
-                <div class="relative">
-                    <input type="email" placeholder="Email của bạn..." class="w-full bg-white/50 dark:bg-slate-800 border border-stone-200 dark:border-slate-700 rounded-full pl-4 pr-12 py-2.5 text-sm focus:outline-none focus:border-brown-primary dark:focus:border-neon-red dark:text-white transition-colors">
-                    <button class="absolute right-1 top-1 bottom-1 w-10 h-8 rounded-full bg-brown-primary text-white hover:bg-brown-dark dark:bg-neon-red dark:hover:bg-red-700 transition flex items-center justify-center">
-                        <i class="fas fa-paper-plane text-xs"></i>
-                    </button>
-                </div>
+                    </li>
+                </ul>
             </div>
+
         </div>
 
-        <div class="border-t border-stone-200 dark:border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-stone-500 dark:text-slate-600">
-            <p>&copy; {{ date('Y') }} {{ $settings['website_name'] ?? 'BookStore Project' }}. All rights reserved.</p>
-            <div class="flex space-x-4 mt-2 md:mt-0">
-                <img src="https://cdn-icons-png.flaticon.com/512/349/349221.png" alt="Visa" class="h-6 opacity-50 grayscale hover:grayscale-0 transition">
-                <img src="https://cdn-icons-png.flaticon.com/512/349/349228.png" alt="Mastercard" class="h-6 opacity-50 grayscale hover:grayscale-0 transition">
-                <img src="https://cdn-icons-png.flaticon.com/512/196/196566.png" alt="PayPal" class="h-6 opacity-50 grayscale hover:grayscale-0 transition">
+        {{-- NEWSLETTER & COPYRIGHT --}}
+        <div class="mt-12 pt-8 border-t border-stone-200 dark:border-slate-800">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                
+                {{-- Copyright --}}
+                <div class="text-xs text-stone-500 dark:text-slate-500 text-center md:text-left">
+                    <p>&copy; {{ date('Y') }} <strong>{{ $settings['website_name'] ?? 'BookStore' }}</strong>. All rights reserved.</p>
+                    <p class="mt-1">Thiết kế và phát triển bởi Team BookStore.</p>
+                </div>
+
+                {{-- Payment Methods --}}
+                <div class="flex items-center gap-4 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" class="h-4 object-contain" alt="Visa">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" class="h-6 object-contain" alt="Mastercard">
+                    <img src="https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png" class="h-6 object-contain" alt="Momo">
+                    <div class="h-6 px-2 bg-stone-200 dark:bg-slate-700 rounded text-[10px] flex items-center font-bold text-stone-600 dark:text-slate-300">COD</div>
+                </div>
             </div>
         </div>
     </div>
