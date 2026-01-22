@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\BookImage;
 use App\Models\Author;
-use Illuminate\Support\Facades\File; // 👈 Quan trọng: Để xóa file trong public
+use Illuminate\Support\Facades\File; // Quan trọng: Để xóa file trong public
 
 class BookController extends Controller
 {
@@ -49,7 +49,7 @@ class BookController extends Controller
         return view('admin.books.create', compact('categories', 'authors'));
     }
 
-    // 🟢 HÀM STORE ĐÃ SỬA
+    // HÀM STORE ĐÃ SỬA
     public function store(Request $request)
     {
         $data = $request->validate([

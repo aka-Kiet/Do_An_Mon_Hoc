@@ -118,7 +118,7 @@
                                         @if($item->book)
                                             {{-- Sách tồn tại --}}
                                             <div class="w-16 h-20 shrink-0 overflow-hidden rounded-md border border-stone-200 dark:border-slate-600">
-                                                <img src="{{ asset($item->book->image) }}" class="w-full h-full object-cover">
+                                                <img src="{{ $item->book->image_url }}" class="w-full h-full object-cover">
                                             </div>
                                             
                                             <div class="flex-1">
@@ -161,7 +161,7 @@
                                     {{ number_format($order->total_price, 0, ',', '.') }}đ
                                 </span>
                                 
-                                {{-- 👇 NÚT HỦY ĐƠN (Chỉ hiện khi trạng thái là pending) --}}
+                                {{-- NÚT HỦY ĐƠN (Chỉ hiện khi trạng thái là pending) --}}
                                 @if($order->status == 'pending')
                                     <form action="{{ route('profile.orders.cancel', $order->id) }}" method="POST" 
                                         onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">

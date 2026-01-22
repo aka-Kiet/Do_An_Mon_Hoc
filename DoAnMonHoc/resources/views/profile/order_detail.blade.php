@@ -114,7 +114,7 @@
                             <div class="flex items-center gap-4 py-4 border-b border-stone-100 dark:border-slate-700 last:border-0 hover:bg-stone-50 dark:hover:bg-slate-700/50 rounded-lg px-2 transition">
                                 {{-- Ảnh sách --}}
                                 @if($item->book)
-                                    <img src="{{ asset($item->book->image) }}" class="w-16 h-20 object-cover rounded border border-stone-200 dark:border-slate-600 shadow-sm">
+                                    <img src="{{ $item->book->image_url }}" class="w-16 h-20 object-cover rounded border border-stone-200 dark:border-slate-600 shadow-sm">
                                 @else
                                     <div class="w-16 h-20 bg-stone-200 dark:bg-slate-700 rounded flex items-center justify-center border border-stone-200 dark:border-slate-600">
                                         <i class="fas fa-ban text-stone-400"></i>

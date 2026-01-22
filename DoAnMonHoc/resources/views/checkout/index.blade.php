@@ -50,12 +50,12 @@
                         <div class="space-y-2">
                             <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Họ và tên người nhận <span class="text-red-500">*</span></label>
                             
-                            {{-- 👇 Thêm class check lỗi @error --}}
+                            {{-- Thêm class check lỗi @error --}}
                             <input type="text" name="name" value="{{ old('name', $user->name) }}" required
                                 class="w-full px-4 py-3 rounded-xl border dark:bg-slate-700 dark:text-white focus:ring-2 focus:outline-none transition
                                 {{ $errors->has('name') ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 dark:border-slate-600 focus:ring-brown-primary' }}">
                             
-                            {{-- 👇 Hiển thị lỗi chi tiết --}}
+                            {{-- Hiển thị lỗi chi tiết --}}
                             @error('name')
                                 <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
                             @enderror
@@ -65,12 +65,12 @@
                         <div class="space-y-2">
                             <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Số điện thoại <span class="text-red-500">*</span></label>
                             
-                            {{-- 👇 Thêm class check lỗi @error --}}
+                            {{-- Thêm class check lỗi @error --}}
                             <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" required
                                 class="w-full px-4 py-3 rounded-xl border dark:bg-slate-700 dark:text-white focus:ring-2 focus:outline-none transition
                                 {{ $errors->has('phone') ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 dark:border-slate-600 focus:ring-brown-primary' }}">
                             
-                            {{-- 👇 Hiển thị lỗi chi tiết (VD: Phải là 10 số) --}}
+                            {{-- Hiển thị lỗi chi tiết (VD: Phải là 10 số) --}}
                             @error('phone')
                                 <p class="text-red-500 text-xs italic mt-1"><i class="fas fa-exclamation-triangle mr-1"></i>{{ $message }}</p>
                             @enderror
@@ -80,12 +80,12 @@
                         <div class="col-span-1 md:col-span-2 space-y-2">
                             <label class="text-sm font-bold text-stone-600 dark:text-slate-300">Địa chỉ nhận hàng <span class="text-red-500">*</span></label>
                             
-                            {{-- 👇 Thêm class check lỗi @error --}}
+                            {{-- Thêm class check lỗi @error --}}
                             <input type="text" name="address" value="{{ old('address', $user->address) }}" required placeholder="Số nhà, tên đường, phường/xã, quận/huyện..."
                                 class="w-full px-4 py-3 rounded-xl border dark:bg-slate-700 dark:text-white focus:ring-2 focus:outline-none transition
                                 {{ $errors->has('address') ? 'border-red-500 focus:ring-red-500' : 'border-stone-200 dark:border-slate-600 focus:ring-brown-primary' }}">
                             
-                            {{-- 👇 Hiển thị lỗi chi tiết --}}
+                            {{-- Hiển thị lỗi chi tiết --}}
                             @error('address')
                                 <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
                             @enderror
@@ -136,7 +136,7 @@
                         @foreach($viewData['cart']->items as $item)
                             <div class="flex gap-3">
                                 <div class="w-16 h-20 rounded border border-stone-200 overflow-hidden shrink-0">
-                                    <img src="{{ asset($item->book->image) }}" class="w-full h-full object-cover">
+                                    <img src="{{ $item->book->image_url }}" class="w-full h-full object-cover">
                                 </div>
                                 <div class="flex-1">
                                     <h4 class="text-sm font-bold text-stone-800 dark:text-white line-clamp-2">{{ $item->book->name }}</h4>

@@ -44,7 +44,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
                         <div class="col-span-6 flex items-center gap-4">
                             <div class="w-20 h-24 rounded-lg overflow-hidden shrink-0 border">
-                                <img src="{{ asset($item->book->image) }}" class="w-full h-full object-cover">
+                                <img src="{{ $item->book->image_url }}" class="w-full h-full object-cover">
                             </div>
                             <div>
                                 <h3 class="font-bold text-lg text-brown-dark dark:text-white">

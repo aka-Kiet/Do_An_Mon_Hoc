@@ -69,7 +69,7 @@
                 <th class="px-6 py-4">ID</th>
                 <th class="px-6 py-4">Tên sản phẩm</th>
                 <th class="px-6 py-4">Slug</th>
-                <th>hình ảnh</th>
+                <th class="px-6 py-4">hình ảnh</th>
                 <th class="px-6 py-4">Danh mục</th>
                 <th class="px-6 py-4">Giá</th>
                 <th class="px-6 py-4">Tồn kho</th>
@@ -97,13 +97,13 @@
                     </td>
                     {{-- HÌNH ẢNH --}}
                     <td class="px-6 py-4">
-{{-- Kiểm tra nếu có ảnh thì hiện, không có thì hiện ảnh mặc định --}}
-@if($book->image)
-    <img src="{{ asset($book->image) }}" alt="{{ $book->name }}" class="w-16 h-auto">
-@else
-    <img src="https://via.placeholder.com/150" alt="No Image">
-@endif
-                    </td>
+                    {{-- Kiểm tra nếu có ảnh thì hiện, không có thì hiện ảnh mặc định --}}
+                    @if($book->image)
+                        <img src="{{ $book->image_url }}" alt="{{ $book->name }}" class="w-16 h-auto">
+                    @else
+                        <img src="https://via.placeholder.com/150" alt="No Image">
+                    @endif
+                    </td>   
                     {{-- DANH MỤC --}}
                     <td class="px-6 py-4">
                         <span class="inline-block px-2 py-1 text-xs rounded bg-stone-100 dark:bg-slate-700 text-stone-700 dark:text-slate-200">
