@@ -20,7 +20,7 @@ use App\Http\Controllers\ContactController; // 1. Của Khách (Trang chủ)
 use App\Http\Controllers\Admin\ContactController as AdminContactController; // 2. Của Admin (Đặt tên khác để không trùng)
 
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
-
+use App\Http\Controllers\Admin\SettingController;
 
 // --- CÁC ROUTE TRANG CHỦ (GIỮ NGUYÊN) ---
 
@@ -98,7 +98,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(fun
     Route::delete('/orders/{id}/force-delete', [AdminOrderController::class, 'forceDelete'])->name('orders.force-delete');
     Route::resource('orders', AdminOrderController::class);
 
-    
+    //Web setting
+    Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
+    Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
+
+    // Route khôi phục cài đặt gốc
+    Route::post('/settings/reset', [SettingController::class, 'reset'])->name('settings.reset');
+
     // 👇👇👇 ĐÃ SỬA CHỖ NÀY 👇👇👇
     // Sử dụng AdminContactController thay vì ContactController thường
     Route::resource('contacts', AdminContactController::class); 

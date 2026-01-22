@@ -6,6 +6,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
+use App\Models\Setting;
+use Illuminate\Support\Facades\Schema;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,9 +34,16 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
 
+            $settings = [];
+            if (Schema::hasTable('settings')) {
+                // Lấy tất cả và chuyển thành mảng: ['email' => 'abc@gmail.com', 'logo' => 'img.jpg']
+                $settings = Setting::all()->pluck('value', 'key')->toArray();
+            }
+
             $view->with([
                 'headerCartCount' => $cartCount,
                 'headerCartTotal' => $cartTotal,
+                'settings' => $settings,
             ]);
         });
     }
