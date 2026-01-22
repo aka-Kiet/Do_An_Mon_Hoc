@@ -16,7 +16,7 @@ class SettingController extends Controller
         $settings = Setting::all()->pluck('value', 'key')->toArray();
         return view('admin.settings.edit', compact('settings'));
     }
-
+ 
     // Xử lý Lưu
     public function update(Request $request)
     {

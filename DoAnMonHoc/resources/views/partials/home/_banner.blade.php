@@ -44,7 +44,7 @@
                             {{-- Nút bấm --}}
                             {{-- Kiểm tra: Nếu có link thì mới hiện thẻ a, không thì hiện thẻ div hoặc button chết --}}
                             @if($banner->link)
-                                <a href="{{ route('product.index') }}" 
+                                <a href="{{ $banner->link }}" 
                                 class="inline-block px-8 py-3 rounded-full bg-brown-primary text-white font-bold hover:bg-brown-dark transition-all shadow-lg hover:translate-x-2">
                                     Khám Phá Ngay <i class="fas fa-arrow-right ml-2"></i>
                                 </a>
