@@ -10,26 +10,25 @@
         <div class="w-full md:w-1/4">
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 sticky top-24 transition-colors duration-300">
                 <div class="flex items-center gap-4 mb-6 pb-6 border-b border-stone-100 dark:border-slate-700">
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random" 
-                         class="w-14 h-14 rounded-full shadow-md">
+                    <x-user-avatar :name="Auth::user()->name" />
                     <div>
                         <p class="font-bold text-stone-800 dark:text-white">{{ $user->name }}</p>
-                        <p class="text-xs text-stone-500 dark:text-slate-400">Thành viên</p>
+                        <p class="text-xs text-stone-500 dark:text-slate-400">Thành viên thân thiết</p>
                     </div>
                 </div>
 
                 <nav class="space-y-2">
-                    
-                    <a href="{{ route('profile.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-brown-primary dark:bg-red-600 text-white font-bold transition shadow-lg shadow-brown-primary/30 dark:shadow-red-600/30">
+                    <a href="{{ route('profile.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
                         <i class="fas fa-user w-5 text-center"></i> Thông tin tài khoản
                     </a>
                     
-                    <a href="{{ route('profile.orders') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
+                    <a href="{{ route('profile.orders') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-brown-primary dark:bg-red-600 text-white font-bold transition shadow-lg shadow-brown-primary/30 dark:shadow-red-600/30">
                         <i class="fas fa-shopping-bag w-5 text-center"></i> Lịch sử đơn hàng
                     </a>
-
+                    
                     <a href="{{ route('profile.favorites') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
-                        <i class="fas fa-heart w-5 text-center"></i> Sản phẩm yêu thích</a>
+                        <i class="fas fa-heart w-5 text-center"></i> Sản phẩm yêu thích
+                    </a>
 
                     <a href="{{ route('profile.password') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-stone-600 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-700 transition">
                         <i class="fas fa-key w-5 text-center"></i> Đổi mật khẩu
@@ -65,7 +64,6 @@
                     </div>
                     
                     @php
-                        // Cấu hình màu sắc Badge tối ưu cho cả Light và Dark mode
                         $statusConfig = [
                             'pending'   => ['label' => 'Chờ xác nhận',    'class' => 'text-yellow-700 bg-yellow-100 border-yellow-200 dark:text-yellow-400 dark:bg-yellow-900/30 dark:border-yellow-700'],
                             'shipping'  => ['label' => 'Đang vận chuyển', 'class' => 'text-blue-700 bg-blue-100 border-blue-200 dark:text-blue-400 dark:bg-blue-900/30 dark:border-blue-700'],
@@ -128,6 +126,15 @@
                                     <p class="text-xs text-stone-500 dark:text-slate-400 mt-1">
                                         Đơn giá: {{ number_format($item->price, 0, ',', '.') }}đ
                                     </p>
+
+                                    {{-- 👇👇👇 NÚT ĐÁNH GIÁ (THÊM MỚI Ở ĐÂY) 👇👇👇 --}}
+                                    @if($order->status == 'completed' && $item->book)
+                                        <a href="{{ route('product.show', $item->book->slug) }}#reviews" 
+                                           class="inline-flex items-center gap-1 mt-2 px-3 py-1.5 rounded-lg border border-yellow-300 bg-yellow-50 text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-600 text-xs font-bold hover:bg-yellow-100 dark:hover:bg-yellow-900/40 transition">
+                                            <i class="fas fa-star text-yellow-500"></i> Viết đánh giá
+                                        </a>
+                                    @endif
+                                    {{-- 👆👆👆 KẾT THÚC NÚT ĐÁNH GIÁ 👆👆👆 --}}
                                 </div>
                                 
                                 <div class="text-right">
