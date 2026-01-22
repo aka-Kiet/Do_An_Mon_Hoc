@@ -6,14 +6,10 @@
     
     <div class="flex flex-col md:flex-row gap-8">
         
-        {{-- ================= SIDEBAR ================= --}}
+        {{-- ================= SIDEBAR (Giữ nguyên) ================= --}}
         <div class="w-full md:w-1/4">
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 sticky top-24 transition-colors duration-300">
                 <div class="flex items-center gap-4 mb-6 pb-6 border-b border-stone-100 dark:border-slate-700">
-                    {{-- <div class="w-9 h-9 rounded-full bg-brown-primary text-white dark:bg-neon-red flex items-center justify-center font-bold text-lg shadow-md">
-                        {{ substr(Auth::user()->name, 0, 1) }}
-                    </div> --}}
-                    {{-- Không cần truyền class vì mặc định đã là w-10 h-10 --}}
                     <x-user-avatar :name="Auth::user()->name" />
                     <div>
                         <p class="font-bold text-stone-800 dark:text-white">{{ $user->name }}</p>
@@ -26,7 +22,6 @@
                         <i class="fas fa-user w-5 text-center"></i> Thông tin tài khoản
                     </a>
                     
-                    {{-- ACTIVE TAB: Đơn mua (Màu Nâu -> Đỏ khi Dark mode) --}}
                     <a href="{{ route('profile.orders') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-brown-primary dark:bg-red-600 text-white font-bold transition shadow-lg shadow-brown-primary/30 dark:shadow-red-600/30">
                         <i class="fas fa-shopping-bag w-5 text-center"></i> Đơn mua
                     </a>
@@ -55,7 +50,6 @@
             {{-- 1. TABS TRẠNG THÁI --}}
             <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-lg mb-6 overflow-x-auto transition-colors duration-300">
                 <div class="flex min-w-max border-b border-stone-100 dark:border-slate-700">
-                    
                     @php
                         $tabs = [
                             'all' => 'Tất cả',
@@ -96,7 +90,7 @@
                                     </span>
                                 </div>
 
-                                {{-- Badge Trạng thái (Đã tối ưu cho Dark mode) --}}
+                                {{-- Badge Trạng thái --}}
                                 @php
                                     $statusConfig = [
                                         'pending'   => ['label' => 'Chờ xác nhận',    'class' => 'text-yellow-700 bg-yellow-100 border-yellow-200 dark:text-yellow-400 dark:bg-yellow-900/30 dark:border-yellow-700'],
@@ -128,6 +122,16 @@
                                                 <p class="text-xs text-stone-500 dark:text-slate-400 mt-1">
                                                     Số lượng: <span class="font-bold">{{ $item->quantity }}</span>
                                                 </p>
+
+                                                {{-- 👇👇👇 NÚT ĐÁNH GIÁ (Chỉ hiện khi đơn đã hoàn thành) --}}
+                                                @if($order->status == 'completed')
+                                                    <a href="{{ route('product.show', $item->book->slug) }}#reviews" 
+                                                       class="inline-flex items-center mt-2 px-3 py-1 rounded-lg border border-yellow-300 bg-yellow-50 text-yellow-700 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-600 text-xs font-bold hover:bg-yellow-100 dark:hover:bg-yellow-900/40 transition">
+                                                        <i class="fas fa-star mr-1"></i> Viết đánh giá
+                                                    </a>
+                                                @endif
+                                                {{-- 👆👆👆 KẾT THÚC NÚT ĐÁNH GIÁ --}}
+
                                             </div>
                                         @else
                                             {{-- Sách đã bị xóa --}}
@@ -153,7 +157,6 @@
                                 @endforeach
                             </div>
 
-                            {{-- Footer đơn hàng --}}
                             {{-- Footer đơn hàng: Tổng tiền & Nút bấm --}}
                             <div class="pt-4 border-t border-stone-100 dark:border-slate-700 flex justify-end items-center gap-4">
                                 <span class="text-sm text-stone-500 dark:text-slate-400">Tổng tiền:</span>
@@ -161,7 +164,7 @@
                                     {{ number_format($order->total_price, 0, ',', '.') }}đ
                                 </span>
                                 
-                                {{-- 👇 NÚT HỦY ĐƠN (Chỉ hiện khi trạng thái là pending) --}}
+                                {{-- Nút hủy đơn (Chỉ hiện khi pending) --}}
                                 @if($order->status == 'pending')
                                     <form action="{{ route('profile.orders.cancel', $order->id) }}" method="POST" 
                                         onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này không?');">
@@ -172,7 +175,7 @@
                                     </form>
                                 @endif
 
-                                {{-- Nút Xem chi tiết (Giữ nguyên) --}}
+                                {{-- Nút xem chi tiết --}}
                                 <a href="{{ route('profile.orders.show', $order->id) }}" 
                                     class="ml-4 px-6 py-2 rounded-lg bg-brown-primary text-white font-bold text-sm hover:bg-brown-dark transition">
                                      Xem chi tiết
@@ -183,7 +186,6 @@
                     @endforeach
                 </div>
                 
-                {{-- Phân trang (Nếu có) --}}
                 <div class="mt-6">
                     {{-- {{ $orders->links() }} --}}
                 </div>

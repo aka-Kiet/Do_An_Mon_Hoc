@@ -60,8 +60,39 @@
                         focus:border-brown-primary outline-none text-sm">
         </div>
     </form>
-   
 </div>
+
+{{-- 👇👇👇 CHÈN ĐOẠN THÔNG BÁO VÀO ĐÂY 👇👇👇 --}}
+@if(session('success'))
+    <div id="alert-message" class="mb-4 p-4 rounded-lg bg-green-100 border-l-4 border-green-500 text-green-700 flex items-center justify-between shadow-sm transition-all duration-500">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle text-xl mr-3"></i>
+            <div>
+                <span class="font-bold">Thành công!</span> {{ session('success') }}
+            </div>
+        </div>
+        <button onclick="document.getElementById('alert-message').remove()" class="text-green-700 hover:text-green-900">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+@endif
+
+@if(session('error'))
+    <div id="alert-error" class="mb-4 p-4 rounded-lg bg-red-100 border-l-4 border-red-500 text-red-700 flex items-center justify-between shadow-sm transition-all duration-500">
+        <div class="flex items-center">
+            <i class="fas fa-exclamation-triangle text-xl mr-3"></i>
+            <div>
+                <span class="font-bold">Lỗi!</span> {{ session('error') }}
+            </div>
+        </div>
+        <button onclick="document.getElementById('alert-error').remove()" class="text-red-700 hover:text-red-900">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+@endif
+{{-- 👆👆👆 KẾT THÚC ĐOẠN THÔNG BÁO 👆👆👆 --}}
+
+
 <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-sm overflow-hidden border border-stone-200 dark:border-slate-700">
     <table class="w-full text-left">
         <thead class="bg-stone-50 dark:bg-slate-800 text-xs uppercase text-stone-500 dark:text-slate-400">
