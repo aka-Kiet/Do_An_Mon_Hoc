@@ -47,20 +47,27 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed', // Cần input name="password_confirmation"
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+        ], [
+            // 👇 Tùy chỉnh thông báo lỗi tại đây
+            'password.min'       => 'Mật khẩu phải có ít nhất 6 ký tự.',
+            'password.confirmed' => 'Mật khẩu nhập lại không khớp.',
+            'email.unique'       => 'Email này đã được đăng ký.',
+            'email.required'     => 'Vui lòng nhập địa chỉ email.',
+            'name.required'      => 'Vui lòng nhập họ và tên.',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        Auth::login($user); // Đăng ký xong tự login luôn
+        Auth::login($user); 
 
-        return redirect()->route('home.index');
+        return redirect()->route('home.index')->with('success', 'Đăng ký tài khoản thành công!');
     }
 
     // --- ĐĂNG XUẤT ---
