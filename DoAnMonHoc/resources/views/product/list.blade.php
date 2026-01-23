@@ -86,7 +86,7 @@
                 <div class="flex items-center text-yellow-500 text-xs">
                     <i class="fas fa-star mr-1"></i>
                     <span class="font-medium">
-                        {{ number_format($product->avg_rating ?? 0, 1) }}
+                        {{ number_format($product->reviews_avg_rating ?? 0, 1) }}
                     </span>
                 </div>
             </div>
