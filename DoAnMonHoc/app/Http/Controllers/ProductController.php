@@ -17,7 +17,7 @@ class ProductController extends Controller
         $categories = Category::withCount('books')->get();
     
         // 2. Khởi tạo Query
-        $query = Book::where('is_active', true)->with('author');
+        $query = Book::where('is_active', true)->with('author')->withAvg('reviews', 'rating');;
     
         // --- LỌC TÌM KIẾM (Search) ---
         $keyword = $req->query('search'); 
